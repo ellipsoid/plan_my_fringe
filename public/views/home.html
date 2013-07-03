@@ -41,6 +41,10 @@
 
   <br />
 
+  <label>Allow each show to be selected only once:</label>
+  <input type="checkbox" data-ng-model="limit_one_showing_per_show" data-ng-change="refresh_relevant_showings_selectable()" />
+  <br />
+
   Relevant Showings:
   <ul>
     <li data-ng-repeat="showing in relevant_showings | orderBy:'time'">

@@ -63,6 +63,8 @@ selectorApp.controller('HomeController', function ($scope) {
 
   $scope.selected_showings = [];
 
+  $scope.limit_one_showing_per_show = true;
+
 
   // Methods
 
@@ -80,7 +82,20 @@ selectorApp.controller('HomeController', function ($scope) {
         // check for selected showings with same time
         selected_showings_with_same_time = $scope.selected_showings.filter(function(selected_showing) {
           return selected_showing.time === showing.time });
-        showing.selectable = selected_showings_with_same_time.length === 0;
+        showing_with_same_time_exists = selected_showings_with_same_time.length !== 0;
+
+        // check for show already selected if user wants to see shows only once
+        selected_showings_with_same_show = $scope.selected_showings.filter(function(selected_showing) {
+          return selected_showing.show === showing.show });
+        showing_with_same_show_exists = selected_showings_with_same_show.length !== 0;
+
+        if ($scope.limit_one_showing_per_show) {
+          forbidden = showing_with_same_time_exists || showing_with_same_show_exists
+        } else {
+          forbidden = showing_with_same_time_exists
+        };
+
+        showing.selectable = !forbidden
       };
     });
   };
