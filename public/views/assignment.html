@@ -1,0 +1,21 @@
+<div class="container">
+  <h3>Choose showings</h3>
+
+  Selected Shows:
+  <ul>
+    <li data-ng-repeat="show in selected_shows | orderBy:'title'">
+      {{ show.title }} - ({{ show.venue }})
+    </li>
+  </ul>
+
+  <br />
+
+  Selected Times:
+  <ul>
+    <li data-ng-repeat="time in selected_times | orderBy:'time'">
+      {{ time.time }}
+    </li>
+  </ul>
+
+</div>
+

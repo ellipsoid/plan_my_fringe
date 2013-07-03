@@ -1,0 +1,12 @@
+<div class="container">
+  <h3>Filter by City!</h3>
+  City:
+  <br />
+  <input type="text" data-ng-model="name"/>
+  <br />
+
+  <ul>
+    <li data-ng-repeat="person in people | filter:city | orderBy:'name'">{{ person.name | uppercase }} - {{ person.city | lowercase }}</li>
+  </ul>
+
+</div>
