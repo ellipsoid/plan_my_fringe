@@ -1,3 +1,52 @@
+angular.module('components', []).
+  directive('tabs', function() {
+    return {
+      restrict: 'E',
+      transclude: true,
+      scope: {},
+      controller: function($scope, $element) {
+        var panes = $scope.panes = [];
+
+        $scope.select = function(pane) {
+          angular.forEach(panes, function(pane) {
+            pane.selected = false;
+          });
+          pane.selected = true;
+        }
+
+        this.addPane = function(pane) {
+          if (panes.length == 0) $scope.select(pane);
+          panes.push(pane);
+        }
+      },
+      template:
+        '<div class="tabbable">' + 
+          '<ul class="nav nav-tabs">' + 
+            '<li data-ng-repeat="pane in panes" data-ng-class="{active:pane.selected}">' +
+              '<a href="" data-ng-click="select(pane)">{{pane.title}}</a>' +
+            '</li>' + 
+          '</ul>' + 
+          '<div class="tab-content" data-ng-transclude></div>' + 
+        '</div>',
+      replace: true
+    };
+  }).
+  directive('pane', function() {
+    return {
+      require: '^tabs',
+      restrict: 'E',
+      transclude: true,
+      scope: { title: '@' },
+      link: function(scope, element, atrs, tabsController) {
+        tabsController.addPane(scope);
+      },
+      template:
+        '<div class="tab-pane" ng-class="{active: selected}" ng-transclude>' +
+        '</div>',
+      replace: true
+    };
+  });
+
 var selectorApp = angular.module('selectorApp', []);
 
 selectorApp.config(function($routeProvider) {
@@ -15,55 +64,66 @@ selectorApp.config(function($routeProvider) {
     .otherwise({ redirectTo: '/home' });
 });
 
+var formatDateTime = function(datetime) {
+  var minutesAsString = datetime.date.getMinutes().toString();
+  // pad with zeroes to make 2-digit string
+  var minutesString = "00".slice(0, 2 - minutesAsString.length) + minutesAsString;
+  var timePart = datetime.date.getHours() + ":" + minutesString;
+  return datetime.date.toDateString() + " " + timePart
+};
 
-selectorApp.controller('HomeController', function ($scope) {
+
+selectorApp.controller('HomeController', function ($scope, $http) {
 
   // Properties
 
   // Show selection
-  $scope.shows = [
-    {id: 1, title:'Test Show 1', venue: 'Rarig Thrust', selected: false},
-    {id: 2, title:'Test Show 2', venue: 'Rarig Thrust', selected: false},
-    {id: 3, title:'Test Show 3', venue: 'Rarig Proscenium', selected: false},
-    {id: 4, title:'Test Show 4', venue: 'Rarig Proscenium', selected: false},
-  ];
+  $scope.shows = [];
+
+  $http.get('data/2012/shows.json').success(function(data) {
+    $scope.shows = data;
+    $scope.unselected_shows = $scope.shows.slice(0);
+  });
 
   $scope.selected_shows = [];
+  $scope.unselected_shows = [];
 
   // Time selection
-  $scope.times = [
-    {id: 101, time: "08/01/2013, 5:30PM", selected: true },
-    {id: 102, time: "08/01/2013, 7:00PM", selected: true },
-    {id: 103, time: "08/01/2013, 8:30PM", selected: true },
-    {id: 104, time: "08/01/2013, 10:00PM", selected: true },
-  ];
+  $scope.times = [];
+
+  $http.get('data/2012/timeslots.json').success(function(data) {
+    $scope.times = data;
+    $scope.times.forEach(function(time) {
+      time.selected = true;
+      time.date = new Date(time.datetime);
+      time.timeString = formatDateTime(time);
+    });
+    $scope.selected_times = $scope.times.slice(0);
+  });
 
   // use a copy of times array
-  $scope.selected_times = $scope.times.slice(0);
+  $scope.selected_times = [];
+  $scope.unselected_times = [];
 
   // Showing selection
-  $scope.showings_data = [
-    {id: 1001, show_id: 1, time_id: 101 },
-    {id: 1002, show_id: 1, time_id: 102 },
-    {id: 1003, show_id: 2, time_id: 103 },
-    {id: 1004, show_id: 2, time_id: 104 },
-    {id: 1005, show_id: 3, time_id: 101 },
-    {id: 1006, show_id: 4, time_id: 102 },
-    {id: 1007, show_id: 3, time_id: 103 },
-    {id: 1008, show_id: 4, time_id: 104 },
-  ];
 
-  $scope.showings = $scope.showings_data.map(function(data) {
-    time = $scope.times.filter(function(time) { return time.id === data.time_id } )[0]
-    show = $scope.shows.filter(function(show) { return show.id === data.show_id } )[0]
-    return {id: data.id, show: show, time: time, selected: false, selectable: true}
+  $scope.showings = [];
+
+  $http.get('data/2012/showings.json').success(function(data) {
+    $scope.showings = data.map(function(showing_data) {
+      time = $scope.times.filter(function(time) { return time.id === showing_data.timeslot } )[0]
+      show = $scope.shows.filter(function(show) { return show.id === showing_data.show_id } )[0]
+      return {show: show, time: time, selected: false, selectable: true}
+    });
   });
 
   $scope.relevant_showings = [];
 
   $scope.selected_showings = [];
+  $scope.selectable_showings = [];
 
   $scope.limit_one_showing_per_show = true;
+  $scope.show_unselectable_showings = false;
 
 
   // Methods
@@ -72,9 +132,11 @@ selectorApp.controller('HomeController', function ($scope) {
     $scope.relevant_showings = $scope.showings.filter(function(showing) {
       return showing.show.selected && showing.time.selected
     });
+    $scope.refresh_relevant_showings_selectable();
   };
 
   $scope.refresh_relevant_showings_selectable = function() {
+    $scope.selectable_showings = [];
     $scope.relevant_showings.forEach(function(showing) {
       if (showing.selected) {
         showing.selectable = false;
@@ -96,59 +158,55 @@ selectorApp.controller('HomeController', function ($scope) {
         };
 
         showing.selectable = !forbidden
+        if (showing.selectable) {
+          $scope.selectable_showings.push(showing);
+        };
+      };
+    });
+  };
+
+  // Selection
+  assign_selection = function(targetElement, list, value) {
+    list.forEach(function(element) {
+      if (element == targetElement) {
+        element.selected = value;
       };
     });
   };
 
   // Show selection
-  $scope.selectShow = function(show) {
-    var selectedIndex = $scope.selected_shows.indexOf(show);
-    // only add to selected list if not already included
-    if (selectedIndex === -1) {
-      show.selected = true;
-      $scope.selected_shows.push(show)
+  $scope.refresh_show_selections = function() {
+    $scope.selected_shows = $scope.shows.filter(function(show) { return show.selected } );
+    $scope.unselected_shows = $scope.shows.filter(function(show) { return !show.selected } );
+    $scope.refresh_relevant_showings()
+  };
 
-      // refresh relevant showings
-      $scope.refresh_relevant_showings()
-    };
+  $scope.selectShow = function(show) {
+    assign_selection(show, $scope.shows, true);
+    $scope.refresh_show_selections();
   };
 
   $scope.deselectShow = function(show) {
-    var selectedIndex = $scope.selected_shows.indexOf(show);
-    $scope.selected_shows.splice(selectedIndex,1);
-
-    // find show in original list and mark as unselected
-    var showsIndex = $scope.shows.indexOf(show);
-    $scope.shows[showsIndex].selected = false;
-
-    // refresh relevant showings
-    $scope.refresh_relevant_showings()
+    assign_selection(show, $scope.shows, false);
+    $scope.refresh_show_selections();
   };
 
 
   // Time selection
-  $scope.selectTime = function(time) {
-    var selectedIndex = $scope.selected_times.indexOf(time);
-    // only add to selected list if not already included
-    if (selectedIndex === -1) {
-      time.selected = true;
-      $scope.selected_times.push(time)
+  $scope.refresh_time_selections = function() {
+    $scope.selected_times = $scope.times.filter(function(time) { return time.selected } );
+    $scope.unselected_times = $scope.times.filter(function(time) { return !time.selected } );
+    $scope.refresh_relevant_showings();
+  };
 
-      // refresh relevant showings
-      $scope.refresh_relevant_showings()
-    };
+  $scope.selectTime = function(time) {
+    assign_selection(time, $scope.times, true);
+    $scope.refresh_time_selections();
   };
 
   $scope.deselectTime = function(time) {
-    var selectedIndex = $scope.selected_times.indexOf(time);
-    $scope.selected_times.splice(selectedIndex,1);
-
-    // find time in original list and mark as unselected
-    var timesIndex = $scope.times.indexOf(time);
-    $scope.times[timesIndex].selected = false;
-
-    // refresh relevant showings
-    $scope.refresh_relevant_showings()
+    assign_selection(time, $scope.times, false);
+    $scope.refresh_time_selections();
   };
 
 

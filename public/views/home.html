@@ -1,14 +1,26 @@
 <div class="container">
+
+  <tabs>
+    <pane title="Shows">
+      Test
+    </pane>
+    <pane title="Times">
+    </pane>
+    <pane title="Schedule">
+    </pane>
+  </tabs>
+
+
   <h3>Select shows</h3>
   Search by title:
   <br />
   <input type="text" data-ng-model="search_name"/>
   <br />
 
-  All Shows:
+  Unselected Shows:
   <ul>
-    <li data-ng-repeat="show in shows | filter:search_name | orderBy:'title'">
-      {{ show.title }} - ({{ show.venue }})
+    <li data-ng-repeat="show in unselected_shows | filter:search_name | orderBy:'title'">
+      {{ show.title }}
       <button data-ng-click="selectShow(show)" data-ng-disabled="show.selected">Select</button>
     </li>
   </ul>
@@ -16,7 +28,7 @@
   Selected Shows:
   <ul>
     <li data-ng-repeat="show in selected_shows | orderBy:'title'">
-      {{ show.title }} - ({{ show.venue }})
+      {{ show.title }}
       <button data-ng-click="deselectShow(show)">Deselect</button>
     </li>
   </ul>
@@ -25,16 +37,16 @@
 
   All Times:
   <ul>
-    <li data-ng-repeat="time in times | orderBy:'time'">
-      {{ time.time }}
+    <li data-ng-repeat="time in unselected_times | orderBy:'datetime'">
+      {{ time.timeString }}
       <button data-ng-click="selectTime(time)" data-ng-disabled="time.selected">Select</button>
     </li>
   </ul>
 
   Selected Times:
   <ul>
-    <li data-ng-repeat="time in selected_times | orderBy:'time'">
-      {{ time.time }}
+    <li data-ng-repeat="time in selected_times | orderBy:'datetime'">
+      {{ time.timeString }}
       <button data-ng-click="deselectTime(time)">Deselect</button>
     </li>
   </ul>
@@ -47,8 +59,8 @@
 
   Relevant Showings:
   <ul>
-    <li data-ng-repeat="showing in relevant_showings | orderBy:'time'">
-      {{ showing.show.title }} ({{ showing.time.time }})
+    <li data-ng-repeat="showing in selectable_showings | orderBy:'time'">
+      {{ showing.show.title }} ({{ showing.time.timeString }})
       <button data-ng-click="selectShowing(showing)" data-ng-disabled="!showing.selectable">Select</button>
     </li>
   </ul>
@@ -56,7 +68,7 @@
   Selected Showings:
   <ul>
     <li data-ng-repeat="showing in selected_showings | orderBy:'showing'">
-      {{ showing.show.title }} ({{ showing.time.time }})
+      {{ showing.show.title }} ({{ showing.time.timeString }})
       <button data-ng-click="deselectShowing(showing)">Deselect</button>
     </li>
   </ul>
