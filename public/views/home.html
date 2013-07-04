@@ -2,31 +2,26 @@
 
   <tabs>
     <pane title="Shows">
-      <div class="span6"> 
-        Search by title:
-        <br />
-        <input type="text" placeholder="Show title..." data-ng-model="search_name"/>
-        <br />
+      Search by title:
+      <br />
+      <input type="text" placeholder="Show title..." data-ng-model="search_name"/>
+      <br />
 
-        Unselected Shows:
-        <ul class="unstyled">
-          <li data-ng-repeat="show in unselected_shows | filter:search_name | orderBy:'title'">
-            <button class="btn" data-ng-click="selectShow(show)" data-ng-disabled="show.selected">{{ show.title }}</button>
-          </li>
-        </ul>
-      </div>
-    
-      <div class="span6">
-        Selected Shows:
-        <ul class="unstyled">
-          <li data-ng-repeat="show in selected_shows | orderBy:'title'">
-            <button class="btn" data-ng-click="deselectShow(show)">{{ show.title }}</button>
-          </li>
-        </ul>
-      </div>
+      Shows:
+      <ul class="thumbnails">
+        <li data-ng-repeat="show in shows | filter:search_name | orderBy: 'title'">
+          <button class="btn" data-ng-class="{selected:show.selected}" data-ng-click="toggleSelectShow(show)">{{ show.title }}</button>
+        </li>
+      </ul>
     </pane>
 
     <pane title="Times">
+      <table class="table table-bordered">
+        <tr data-ng-repeat="time in times | orderBy: 'datetime'">
+          <td data-ng-class="{selected:time.selected}" data-ng-click="toggleSelectTime(time)">{{ time.timeString }}</td>
+        </tr>
+      </table>
+
       <div class="span6"> 
         Unselected Times:
         <ul class="unstyled">

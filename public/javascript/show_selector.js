@@ -172,11 +172,24 @@ selectorApp.controller('HomeController', function ($scope, $http) {
     });
   };
 
+  toggleSelection = function(targetElement, list) {
+    list.forEach(function(element) {
+      if (element == targetElement) {
+        element.selected = !element.selected;
+      };
+    });
+  };
+
   // Show selection
   $scope.refresh_show_selections = function() {
     $scope.selected_shows = $scope.shows.filter(function(show) { return show.selected } );
     $scope.unselected_shows = $scope.shows.filter(function(show) { return !show.selected } );
     $scope.refresh_relevant_showings()
+  };
+
+  $scope.toggleSelectShow = function(show) {
+    toggleSelection(show, $scope.shows);
+    $scope.refresh_show_selections();
   };
 
   $scope.selectShow = function(show) {
@@ -207,8 +220,13 @@ selectorApp.controller('HomeController', function ($scope, $http) {
     $scope.refresh_time_selections();
   };
 
+  $scope.toggleSelectTime = function(time) {
+    toggleSelection(time, $scope.times);
+    $scope.refresh_time_selections();
+  };
 
-  // Showng selection
+
+  // Showing selection
   $scope.selectShowing = function(showing) {
     var selectedIndex = $scope.selected_showings.indexOf(showing);
     // only add to selected list if not already included
