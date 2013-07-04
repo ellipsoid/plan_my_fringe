@@ -1,69 +1,77 @@
-<div class="container">
+<div class="container-fluid">
 
   <tabs>
     <pane title="Shows">
-      <div class="primary"> 
+      <div class="span6"> 
         Search by title:
         <br />
-        <input type="text" data-ng-model="search_name"/>
+        <input type="text" placeholder="Show title..." data-ng-model="search_name"/>
         <br />
 
         Unselected Shows:
-        <ul>
+        <ul class="unstyled">
           <li data-ng-repeat="show in unselected_shows | filter:search_name | orderBy:'title'">
-            {{ show.title }}
-            <button data-ng-click="selectShow(show)" data-ng-disabled="show.selected">Select</button>
+            <button class="btn" data-ng-click="selectShow(show)" data-ng-disabled="show.selected">{{ show.title }}</button>
           </li>
         </ul>
       </div>
     
-      <div class="secondary">
+      <div class="span6">
         Selected Shows:
-        <ul>
+        <ul class="unstyled">
           <li data-ng-repeat="show in selected_shows | orderBy:'title'">
-            {{ show.title }}
-            <button data-ng-click="deselectShow(show)">Deselect</button>
+            <button class="btn" data-ng-click="deselectShow(show)">{{ show.title }}</button>
           </li>
         </ul>
       </div>
     </pane>
+
     <pane title="Times">
-      Unselected Times:
-      <ul>
-        <li data-ng-repeat="time in unselected_times | orderBy:'datetime'">
-          {{ time.timeString }}
-          <button data-ng-click="selectTime(time)" data-ng-disabled="time.selected">Select</button>
-        </li>
-      </ul>
+      <div class="span6"> 
+        Unselected Times:
+        <ul class="unstyled">
+          <li data-ng-repeat="time in unselected_times | orderBy:'datetime'">
+            <button class="btn" data-ng-click="selectTime(time)" data-ng-disabled="time.selected">{{ time.timeString }}</button>
+          </li>
+        </ul>
+      </div>
     
-      Selected Times:
-      <ul>
-        <li data-ng-repeat="time in selected_times | orderBy:'datetime'">
-          {{ time.timeString }}
-          <button data-ng-click="deselectTime(time)">Deselect</button>
-        </li>
-      </ul>
+      <div class="span6"> 
+        Selected Times:
+        <ul class="unstyled">
+          <li data-ng-repeat="time in selected_times | orderBy:'datetime'">
+            <button class="btn" data-ng-click="deselectTime(time)">{{ time.timeString }}</button>
+          </li>
+        </ul>
+      </div>
     </pane>
+
     <pane title="Schedule">
       <label>Allow each show to be selected only once:</label>
       <input type="checkbox" data-ng-model="limit_one_showing_per_show" data-ng-change="refresh_relevant_showings_selectable()" />
       <br />
     
-      Relevant Showings:
-      <ul>
-        <li data-ng-repeat="showing in selectable_showings | orderBy:'time'">
-          {{ showing.show.title }} ({{ showing.time.timeString }})
-          <button data-ng-click="selectShowing(showing)" data-ng-disabled="!showing.selectable">Select</button>
-        </li>
-      </ul>
+      <div class="span6"> 
+        Relevant Showings:
+        <ul class="unstyled">
+          <li data-ng-repeat="showing in selectable_showings | orderBy:'time'">
+            <button class="btn" data-ng-click="selectShowing(showing)" data-ng-disabled="!showing.selectable">
+              {{ showing.show.title }} ({{ showing.time.timeString }})
+            </button>
+          </li>
+        </ul>
+      </div>
     
-      Selected Showings:
-      <ul>
-        <li data-ng-repeat="showing in selected_showings | orderBy:'showing'">
-          {{ showing.show.title }} ({{ showing.time.timeString }})
-          <button data-ng-click="deselectShowing(showing)">Deselect</button>
-        </li>
-      </ul>
+      <div class="span6"> 
+        Selected Showings:
+        <ul class="unstyled">
+          <li data-ng-repeat="showing in selected_showings | orderBy:'showing'">
+            <button class="btn" data-ng-click="deselectShowing(showing)">
+              {{ showing.show.title }} ({{ showing.time.timeString }})
+            </button>
+          </li>
+        </ul>
+      </div>
     </pane>
   </tabs>
 </div>
