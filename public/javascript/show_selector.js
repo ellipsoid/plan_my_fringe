@@ -1,4 +1,4 @@
-angular.module('components', []).
+var selectorApp = angular.module('selectorApp', []).
   directive('tabs', function() {
     return {
       restrict: 'E',
@@ -46,8 +46,6 @@ angular.module('components', []).
       replace: true
     };
   });
-
-var selectorApp = angular.module('selectorApp', []);
 
 selectorApp.config(function($routeProvider) {
   $routeProvider
