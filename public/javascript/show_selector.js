@@ -78,7 +78,7 @@ selectorApp.controller('HomeController', function ($scope, $http) {
   // Show selection
   $scope.shows = [];
 
-  $http.get('data/2012/shows.json').success(function(data) {
+  $http.get('data/2013/shows.json').success(function(data) {
     $scope.shows = data;
     $scope.unselected_shows = $scope.shows.slice(0);
   });
@@ -89,7 +89,7 @@ selectorApp.controller('HomeController', function ($scope, $http) {
   // Time selection
   $scope.times = [];
 
-  $http.get('data/2012/timeslots.json').success(function(data) {
+  $http.get('data/2013/timeslots.json').success(function(data) {
     $scope.times = data;
     $scope.times.forEach(function(time) {
       time.selected = true;
@@ -107,7 +107,7 @@ selectorApp.controller('HomeController', function ($scope, $http) {
 
   $scope.showings = [];
 
-  $http.get('data/2012/showings.json').success(function(data) {
+  $http.get('data/2013/showings.json').success(function(data) {
     $scope.showings = data.map(function(showing_data) {
       time = $scope.times.filter(function(time) { return time.id === showing_data.timeslot } )[0]
       show = $scope.shows.filter(function(show) { return show.id === showing_data.show_id } )[0]
