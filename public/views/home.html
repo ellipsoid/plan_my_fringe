@@ -20,7 +20,7 @@
       <h3>Select the times you can see shows</h3>
       <table class="table table-bordered">
         <tr data-ng-repeat="time in times | orderBy: 'datetime'">
-          <td data-ng-class="{selected:time.selected}" data-ng-click="toggleSelectTime(time)">{{ time.timeString }}</td>
+          <td class="selectable" data-ng-class="{selected:time.selected}" data-ng-click="toggleSelectTime(time)">{{ time.timeString }}</td>
         </tr>
       </table>
     </pane>
