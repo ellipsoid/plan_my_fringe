@@ -97,8 +97,6 @@ selectorApp.controller('HomeController', function ($scope, $http) {
       time.timeString = formatDateTime(time.date);
     });
     $scope.selected_times = $scope.times.slice(0);
-
-    $scope.time_groups = getTimeGroups($scope.times)
   });
 
   $scope.time_groups = [];
