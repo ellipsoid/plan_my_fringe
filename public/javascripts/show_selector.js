@@ -57,7 +57,19 @@ selectorApp.config(function($routeProvider) {
     .otherwise({ redirectTo: '/home' });
 });
 
-var timeUtility = new TimeUtility();
+var formatTime = function(datetime) {
+  var minutesAsString = datetime.getMinutes().toString();
+  // pad with zeroes to make 2-digit string
+  var minutesString = "00".slice(0, 2 - minutesAsString.length) + minutesAsString;
+  var timeString = datetime.getHours() + ":" + minutesString;
+  return timeString;
+};
+
+var formatDateTime = function(datetime) {
+  var timePart = formatTime(datetime);
+  return datetime.toDateString() + " " + timePart
+};
+
 
 selectorApp.controller('HomeController', function ($scope, $http) {
 
@@ -74,47 +86,6 @@ selectorApp.controller('HomeController', function ($scope, $http) {
   $scope.selected_shows = [];
   $scope.unselected_shows = [];
 
-  var getTimeGroups = function(time_objects) {
-    var datetimes = time_objects.map(function(time_object) {
-      return new Date(time_object.datetime);
-    });
-
-    var dateFilterFunction = function(datetime) {
-      return function(group) {
-        return group.dateString === datetime.toDateString()
-      }
-    };
-
-    var groups = [];
-    datetimes.forEach(function(datetime) {
-      var test = datetime.toDateString();
-
-      // check if there is already a group with this date
-      var existing_groups_with_date = groups.filter(dateFilterFunction(datetime));
-
-      // if a group doesn't already exist for this date, add it
-      if (existing_groups_with_date.length == 0) {
-        var group = new Object();
-        group.dateString = datetime.toDateString();
-        group.timeStrings = [];
-
-        groups.push(group);
-      }
-      else {
-        group = groups.filter(dateFilterFunction(datetime));
-      }
-
-      // add time to list for date
-      var timeString = timeUtility.timeStringFor(datetime);
-      group.timeStrings.push(timeString);
-
-      // add group to list of groups
-      groups.push(group);
-    });
-
-    return groups;
-  };
-
   // Time selection
   $scope.times = [];
 
@@ -123,7 +94,7 @@ selectorApp.controller('HomeController', function ($scope, $http) {
     $scope.times.forEach(function(time) {
       time.selected = true;
       time.date = new Date(time.datetime);
-      time.timeString = timeUtility.datetimeStringFor(time.date);
+      time.timeString = formatDateTime(time.date);
     });
     $scope.selected_times = $scope.times.slice(0);
 
