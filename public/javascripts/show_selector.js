@@ -75,6 +75,10 @@ var formatDateTime = function(datetime) {
 
 selectorApp.controller('HomeController', function ($scope, $http) {
 
+  $scope.panes = [
+    { title: "Step 1: Shows", content_url: "shows_pane.html" }
+  ];
+
   // Properties
 
   // Show selection

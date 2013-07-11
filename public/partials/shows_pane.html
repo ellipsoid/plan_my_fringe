@@ -1,0 +1,14 @@
+<pane title="Step 1: Shows">
+  <h3>Select the shows you want to see</h3>
+  Search by title:
+  <br />
+  <input type="text" placeholder="Show title..." data-ng-model="search_name"/>
+  <br />
+
+  Shows:
+  <ul class="thumbnails">
+    <li data-ng-repeat="show in shows | filter:search_name | orderBy: 'title'">
+      <button class="btn" data-ng-class="{selected:show.selected}" data-ng-click="toggleSelectShow(show)">{{ show.title }}</button>
+    </li>
+  </ul>
+</pane>

@@ -1,7 +1,10 @@
 <div class="container-fluid">
 
   <tabs>
-    <pane title="Shows">
+    <pane data-ng-repeat="pane in panes">
+      <div data-ng-include src="pane.content_url"></div>
+    </pane>
+    <pane title="Step 1: Shows">
       <h3>Select the shows you want to see</h3>
       Search by title:
       <br />
@@ -16,7 +19,7 @@
       </ul>
     </pane>
 
-    <pane title="Times">
+    <pane title="Step 2: Times">
       <h3>Select the times you can see shows</h3>
       <table class="table table-bordered">
         <tr data-ng-repeat="time in times | orderBy: 'datetime'">
@@ -25,7 +28,7 @@
       </table>
     </pane>
 
-    <pane title="Schedule">
+    <pane title="Step 3: Schedule">
       <h3>Select when you want to see each show</h3>
       <label>Allow each show to be selected only once:</label>
       <input type="checkbox" data-ng-model="limit_one_showing_per_show" data-ng-change="refresh_relevant_showings_selectable()" />

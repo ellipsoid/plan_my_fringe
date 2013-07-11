@@ -1,12 +1,18 @@
 describe("TimeOption", function() {
+  var id;
   var datetime;
   var timeOption;
   var timeUtility;
 
   beforeEach(function() {
+    id = 456;
     datetime = new Date(2012, 11, 9, 4, 5, 36, 314);
     timeUtility = new TimeUtility();
-    timeOption = new TimeOption(datetime, timeUtility);
+    timeOption = new TimeOption(id, datetime, timeUtility);
+  });
+
+  it("should accept an id on initialization", function() {
+    expect(timeOption.id).toEqual(id);
   });
 
   it("should accept a datetime on initialization", function() {

@@ -1,4 +1,5 @@
-function TimeOption(datetime, timeUtility) {
+function TimeOption(id, datetime, timeUtility) {
+  this.id = id;
   this.datetime = datetime;
   this.timeUtility = timeUtility;
 }
