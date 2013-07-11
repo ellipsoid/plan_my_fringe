@@ -2,6 +2,9 @@ function TimeOption(id, datetime, timeUtility) {
   this.id = id;
   this.datetime = datetime;
   this.timeUtility = timeUtility;
+  this.selected = false;
+  this.selectHandlers = [];
+  this.deselectHandlers = [];
 }
 
 TimeOption.prototype.timeString = function() {
@@ -10,4 +13,36 @@ TimeOption.prototype.timeString = function() {
 
 TimeOption.prototype.datetimeString = function() {
   return this.timeUtility.datetimeStringFor(this.datetime);
+};
+
+TimeOption.prototype.changeSelection = function() {
+  // do not set property directly, call setter so handlers are called
+  if (this.selected)
+  {
+    this.deselect();
+  } else {
+    this.select();
+  }
+};
+
+TimeOption.prototype.select = function() {
+  this.selected = true;
+  this.selectHandlers.forEach(function(handler) {
+    handler(this);
+  });
+};
+
+TimeOption.prototype.registerSelectHandler = function(handler) {
+  this.selectHandlers.push(handler);
+};
+
+TimeOption.prototype.deselect = function() {
+  this.selected = false;
+  this.deselectHandlers.forEach(function(handler) {
+    handler(this);
+  });
+};
+
+TimeOption.prototype.registerDeselectHandler = function(handler) {
+  this.deselectHandlers.push(handler);
 };
