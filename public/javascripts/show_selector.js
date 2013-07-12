@@ -59,19 +59,7 @@ selectorApp.config(function($routeProvider) {
     .otherwise({ redirectTo: '/home' });
 });
 
-var formatTime = function(datetime) {
-  var minutesAsString = datetime.getMinutes().toString();
-  // pad with zeroes to make 2-digit string
-  var minutesString = "00".slice(0, 2 - minutesAsString.length) + minutesAsString;
-  var timeString = datetime.getHours() + ":" + minutesString;
-  return timeString;
-};
-
-var formatDateTime = function(datetime) {
-  var timePart = formatTime(datetime);
-  return datetime.toDateString() + " " + timePart
-};
-
+var timeUtility = new TimeUtility();
 
 selectorApp.controller('HomeController', function ($scope, $http) {
 
@@ -94,18 +82,46 @@ selectorApp.controller('HomeController', function ($scope, $http) {
 
   // Time selection
   $scope.times = [];
+  $scope.timeGroups = [];
+
+  var setTimeGroups = function() {
+    var groups = [];
+    $scope.times.forEach(function(timeOption) {
+      var dayOfTheYear = new Date(timeOption.date.getFullYear(), timeOption.date.getMonth(), timeOption.date.getDate());
+      
+      // get time group for day of year, if possible
+      var groupsForDate = groups.filter(function(group) {
+        return group.date.getTime() === dayOfTheYear.getTime();
+      });
+
+      var group;
+      if (groupsForDate.length == 0) {
+        group = new Object();
+        group.date = dayOfTheYear;
+        group.options = [];
+        groups.push(group);
+      } else {
+        group = groupsForDate[0];
+      }
+
+      group.options.push(timeOption);
+    });
+
+    $scope.timeGroups = groups; 
+  };
 
   $http.get('data/2013/timeslots.json').success(function(data) {
     $scope.times = data;
     $scope.times.forEach(function(time) {
       time.selected = true;
       time.date = new Date(time.datetime);
-      time.timeString = formatDateTime(time.date);
+      time.dateString = timeUtility.datetimeStringFor(time.date);
+      time.timeString = timeUtility.timeStringFor(time.date);
     });
     $scope.selected_times = $scope.times.slice(0);
-  });
 
-  $scope.time_groups = [];
+    setTimeGroups();
+  });
 
   // use a copy of times array
   $scope.selected_times = [];
