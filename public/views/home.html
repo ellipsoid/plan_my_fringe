@@ -21,39 +21,33 @@
 
     <pane title="Step 2: Times">
       <h3>Select the times you can see shows</h3>
-      <div data-ng-repeat="group in timeGroups">
-        <h5>{{ group.date.toLocaleDateString() }}</h5>
-        <table class="table table-bordered">
-          <tr data-ng-repeat="time in group.options | orderBy: 'datetime'">
-            <td class="selectable" data-ng-class="{selected:time.selected}" data-ng-click="toggleSelectTime(time)">{{ time.timeString }}</td>
-          </tr>
-        </table>
-      </div>
+      <ul>
+        <li data-ng-repeat="group in timeGroups">
+          <h5>{{ group.date.toLocaleDateString() }}</h5>
+          <table class="table table-bordered">
+            <tr data-ng-repeat="time in group.options | orderBy: 'datetime'">
+              <td class="selectable" data-ng-class="{selected:time.selected}" data-ng-click="toggleSelectTime(time)">{{ time.timeString }}</td>
+            </tr>
+          </table>
+        </li>
+      </ul>
     </pane>
 
     <pane title="Step 3: Schedule">
       <h3>Select when you want to see each show</h3>
-      <div class="span6"> 
-        Relevant Showings:
-        <ul class="unstyled">
-          <li data-ng-repeat="showing in selectable_showings | orderBy:'time.datetime'">
-            <button class="btn" data-ng-click="selectShowing(showing)" data-ng-disabled="!showing.selectable">
-              {{ showing.show.title }} ({{ showing.time.dateString }})
-            </button>
-          </li>
-        </ul>
-      </div>
-    
-      <div class="span6"> 
-        Selected Showings:
-        <ul class="unstyled">
-          <li data-ng-repeat="showing in selected_showings | orderBy:'time.datetime'">
-            <button class="btn" data-ng-click="deselectShowing(showing)">
-              {{ showing.show.title }} ({{ showing.time.timeString }})
-            </button>
-          </li>
-        </ul>
-      </div>
+      <ul>
+        <li data-ng-repeat="dateGroup in showingGroups | orderBy: 'date'">
+          <h5>{{ dateGroup.date.toLocaleDateString() }}</h5>
+          <div data-ng-repeat="timeGroup in dateGroup.timeGroups | orderBy: 'time'">
+            <h6>{{ timeGroup.timeString }}</h5>
+            <table class="table table-bordered">
+              <tr data-ng-repeat="showing in timeGroup.showings | orderBy: 'time.datetime'">
+                <td class="selectable" data-ng-class="{selected:showing.selected}" data-ng-click="toggleSelectShowing(showing)">{{ showing.show.title }}</td>
+              </tr>
+            </table>
+          </div>
+        </li>
+      </ul>
     </pane>
   </tabs>
 </div>

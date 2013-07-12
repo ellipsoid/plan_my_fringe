@@ -63,51 +63,64 @@ var timeUtility = new TimeUtility();
 
 selectorApp.controller('HomeController', function ($scope, $http) {
 
-  $scope.panes = [
-    { title: "Step 1: Shows", content_url: "shows_pane.html" }
-  ];
-
   // Properties
 
   // Show selection
   $scope.shows = [];
+  var showsLoaded = false;
 
   $http.get('data/2013/shows.json').success(function(data) {
-    $scope.shows = data;
-    $scope.unselected_shows = $scope.shows.slice(0);
+    $scope.shows = data.map(function(item) {
+      return new ShowOption(item.id, item.title)
+    });
+    // let showings know that shows are loaded
+    showsLoaded = true;
+    tryLoadShowings();
   });
-
-  $scope.selected_shows = [];
-  $scope.unselected_shows = [];
 
   // Time selection
   $scope.times = [];
+  var timesLoaded = false;
   $scope.timeGroups = [];
 
-  var setTimeGroups = function() {
+  var getGroups = function(collection, keyFunction) {
     var groups = [];
-    $scope.times.forEach(function(timeOption) {
-      var dayOfTheYear = new Date(timeOption.date.getFullYear(), timeOption.date.getMonth(), timeOption.date.getDate());
-      
-      // get time group for day of year, if possible
-      var groupsForDate = groups.filter(function(group) {
-        return group.date.getTime() === dayOfTheYear.getTime();
+    collection.forEach(function(element) {
+      var key = keyFunction(element);
+
+      // get groups for key - should be 0 or 1 group
+      var groupsForKey = groups.filter(function(group) {
+        return group.key === key
       });
 
       var group;
-      if (groupsForDate.length == 0) {
+      if (groupsForKey.length == 0) {
         group = new Object();
-        group.date = dayOfTheYear;
-        group.options = [];
+        group.key = key;
+        group.elements = [];
         groups.push(group);
       } else {
-        group = groupsForDate[0];
-      }
+        group = groupsForKey[0];
+      };
 
-      group.options.push(timeOption);
+      group.elements.push(element);
     });
 
-    $scope.timeGroups = groups; 
+    return groups;
+  };
+
+  var setTimeGroups = function() {
+    var groups = getGroups($scope.times, function(time) {
+      var calendarDate = new Date(time.date.getFullYear(), time.date.getMonth(), time.date.getDate());
+      return calendarDate.getTime();
+    });
+
+    $scope.timeGroups = groups.map(function(rawGroup) {
+      var timeGroup = new Object();
+      timeGroup.date = new Date(rawGroup.key);
+      timeGroup.options = rawGroup.elements;
+      return timeGroup;
+    });
   };
 
   $http.get('data/2013/timeslots.json').success(function(data) {
@@ -119,6 +132,9 @@ selectorApp.controller('HomeController', function ($scope, $http) {
       time.timeString = timeUtility.timeStringFor(time.date);
     });
     $scope.selected_times = $scope.times.slice(0);
+    // let showings know that times are loaded
+    timesLoaded = true;
+    tryLoadShowings();
 
     setTimeGroups();
   });
@@ -131,13 +147,18 @@ selectorApp.controller('HomeController', function ($scope, $http) {
 
   $scope.showings = [];
 
-  $http.get('data/2013/showings.json').success(function(data) {
-    $scope.showings = data.map(function(showing_data) {
-      time = $scope.times.filter(function(time) { return time.id === showing_data.timeslot } )[0]
-      show = $scope.shows.filter(function(show) { return show.id === showing_data.show_id } )[0]
-      return {show: show, time: time, selected: false, selectable: true}
-    });
-  });
+  var tryLoadShowings = function() {
+    // only attempt to create showings once shows and times are both loaded
+    if (showsLoaded && timesLoaded) {
+      $http.get('data/2013/showings.json').success(function(data) {
+        $scope.showings = data.map(function(showing_data) {
+          time = $scope.times.filter(function(time) { return time.id === showing_data.timeslot } )[0]
+          show = $scope.shows.filter(function(show) { return show.id === showing_data.show_id } )[0]
+          return {show: show, time: time, selected: false, selectable: true}
+        });
+      });
+    }
+  };
 
   $scope.relevant_showings = [];
 
@@ -155,6 +176,41 @@ selectorApp.controller('HomeController', function ($scope, $http) {
       return showing.show.selected && showing.time.selected
     });
     $scope.refresh_relevant_showings_selectable();
+  };
+
+  var refreshShowingGroups = function() {
+    var displayedShowings = $scope.selected_showings.concat($scope.selectable_showings);
+    var timeGroups = getGroups(displayedShowings, function(showing) {
+      var timestamp = showing.time.date;
+      return timestamp.getTime();
+    });
+
+    // convert to a more user-friendly format
+    timeGroups = timeGroups.map(function(rawGroup) {
+      var timeGroup = new Object();
+      timeGroup.time = new Date(rawGroup.key);
+      timeGroup.timeString = timeUtility.timeStringFor(timeGroup.time);
+      timeGroup.showings = rawGroup.elements;
+      return timeGroup;
+    });
+
+    // group timeGroups by date
+    var dateGroups = getGroups(timeGroups, function(timeGroup) {
+      var time = timeGroup.time;
+      // strip away time of day information and compare only by date
+      var calendarDate = new Date(time.getFullYear(), time.getMonth(), time.getDate());
+      return calendarDate.getTime();
+    });
+
+    // convert to a more user-friendly format
+    dateGroups = dateGroups.map(function(rawGroup) {
+      var dateGroup = new Object();
+      dateGroup.date = new Date(rawGroup.key);
+      dateGroup.timeGroups = rawGroup.elements;
+      return dateGroup;
+    });
+
+    $scope.showingGroups = dateGroups;
   };
 
   $scope.refresh_relevant_showings_selectable = function() {
@@ -185,6 +241,7 @@ selectorApp.controller('HomeController', function ($scope, $http) {
         };
       };
     });
+    refreshShowingGroups();
   };
 
   // Selection
@@ -206,9 +263,7 @@ selectorApp.controller('HomeController', function ($scope, $http) {
 
   // Show selection
   $scope.refresh_show_selections = function() {
-    $scope.selected_shows = $scope.shows.filter(function(show) { return show.selected } );
-    $scope.unselected_shows = $scope.shows.filter(function(show) { return !show.selected } );
-    $scope.refresh_relevant_showings()
+    $scope.refresh_relevant_showings();
   };
 
   $scope.toggleSelectShow = function(show) {
@@ -268,6 +323,15 @@ selectorApp.controller('HomeController', function ($scope, $http) {
     // find show in original list and mark as unselected
     var showingsIndex = $scope.showings.indexOf(showing);
     $scope.showings[showingsIndex].selected = false;
+    $scope.refresh_relevant_showings_selectable();
+  };
+
+  $scope.toggleSelectShowing = function(showing) {
+    if (showing.selected) {
+      $scope.deselectShowing(showing);
+    } else {
+      $scope.selectShowing(showing);
+    }
     $scope.refresh_relevant_showings_selectable();
   };
 
