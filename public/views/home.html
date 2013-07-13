@@ -12,7 +12,7 @@
 
       <ul data-ng-show="groupByVenue">
         <li data-ng-repeat="group in showGroups">
-          <h5>{{ group.venueName }}</h5>
+          <strong>{{ group.venueName }}</strong>
           <table class="table table-bordered">
             <tr data-ng-repeat="show in group.shows | orderBy: 'title'">
               <td class="selectable" data-ng-class="{selected:show.selected}" data-ng-click="toggleSelectShow(show)">
@@ -24,13 +24,13 @@
       </ul>
 
       <div data-ng-hide="groupByVenue">
-        Search by title:
+        Search:
         <br />
-        <input type="text" placeholder="Show title..." data-ng-model="search_name"/>
+        <input type="text" placeholder="Search text here..." data-ng-model="searchText"/>
         <br />
   
         <table class="table table-bordered">
-          <tr data-ng-repeat="show in shows | filter:search_name | orderBy: 'title'">
+          <tr data-ng-repeat="show in shows | filter:searchText | orderBy: 'title'">
             <td class="selectable" data-ng-class="{selected:show.selected}" data-ng-click="toggleSelectShow(show)">
               {{ show.title }} ({{ show.venue.name }})
             </td>
@@ -43,7 +43,7 @@
       <p class="lead">Click to turn off any times you can't see shows, then click "Step 3"</p>
       <ul>
         <li data-ng-repeat="group in timeGroups">
-          <h5>{{ group.dateString }}</h5>
+          <strong>{{ group.dateString }}</strong>
           <table class="table table-bordered">
             <tr data-ng-repeat="time in group.options | orderBy: 'datetime'">
               <td class="selectable" data-ng-class="{selected:time.selected}" data-ng-click="toggleSelectTime(time)">{{ time.timeString }}</td>
@@ -58,9 +58,9 @@
       Made a mistake? Just click again to 'unselect' the show!</p>
       <ul>
         <li data-ng-repeat="dateGroup in showingGroups | orderBy: 'date'">
-          <h5>{{ dateGroup.dateString }}</h5>
+          <strong>{{ dateGroup.dateString }}</strong>
           <div data-ng-repeat="timeGroup in dateGroup.timeGroups | orderBy: 'time'">
-            <h6>{{ timeGroup.timeString }}</h5>
+            <em>{{ timeGroup.timeString }}</em>
             <table class="table table-bordered">
               <tr data-ng-repeat="showing in timeGroup.showings | orderBy: 'time.datetime'">
                 <td class="selectable" data-ng-class="{selected:showing.selected}" data-ng-click="toggleSelectShowing(showing)">

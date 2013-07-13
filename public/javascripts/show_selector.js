@@ -103,6 +103,11 @@ selectorApp.controller('HomeController', function ($scope, $http) {
   var showsLoaded = false;
   $scope.showGroups = [];
 
+  $scope.titleFilter = function(show) {
+    var re = new RegExp($scope.searchText, 'i');
+    return !$scope.searchText || re.test(show.title);
+  };
+
   var setShowGroups = function() {
     var groups = getGroups($scope.shows, function(show) {
       return show.venue;
