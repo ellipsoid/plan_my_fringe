@@ -6,24 +6,44 @@
     </pane>
     <pane title="Step 1: Shows">
       <h3>Select the shows you want to see</h3>
-      Search by title:
+      <input type="checkbox" data-ng-model="groupByVenue"/> Group shows by venue
       <br />
-      <input type="text" placeholder="Show title..." data-ng-model="search_name"/>
       <br />
 
-      Shows:
-      <ul class="thumbnails">
-        <li data-ng-repeat="show in shows | filter:search_name | orderBy: 'title'">
-          <button class="btn" data-ng-class="{selected:show.selected}" data-ng-click="toggleSelectShow(show)">{{ show.title }}</button>
+      <ul data-ng-show="groupByVenue">
+        <li data-ng-repeat="group in showGroups">
+          <h5>{{ group.venueName }}</h5>
+          <table class="table table-bordered">
+            <tr data-ng-repeat="show in group.shows | orderBy: 'title'">
+              <td class="selectable" data-ng-class="{selected:show.selected}" data-ng-click="toggleSelectShow(show)">
+                {{ show.title }}
+              </td>
+            </tr>
+          </table>
         </li>
       </ul>
+
+      <div data-ng-hide="groupByVenue">
+        Search by title:
+        <br />
+        <input type="text" placeholder="Show title..." data-ng-model="search_name"/>
+        <br />
+  
+        <table class="table table-bordered">
+          <tr data-ng-repeat="show in shows | filter:search_name | orderBy: 'title'">
+            <td class="selectable" data-ng-class="{selected:show.selected}" data-ng-click="toggleSelectShow(show)">
+              {{ show.title }} ({{ show.venue.name }})
+            </td>
+          </tr>
+        </table>
+      </div>
     </pane>
 
     <pane title="Step 2: Times">
       <h3>Select the times you can see shows</h3>
       <ul>
         <li data-ng-repeat="group in timeGroups">
-          <h5>{{ group.date.toLocaleDateString() }}</h5>
+          <h5>{{ group.dateString }}</h5>
           <table class="table table-bordered">
             <tr data-ng-repeat="time in group.options | orderBy: 'datetime'">
               <td class="selectable" data-ng-class="{selected:time.selected}" data-ng-click="toggleSelectTime(time)">{{ time.timeString }}</td>
@@ -37,12 +57,14 @@
       <h3>Select when you want to see each show</h3>
       <ul>
         <li data-ng-repeat="dateGroup in showingGroups | orderBy: 'date'">
-          <h5>{{ dateGroup.date.toLocaleDateString() }}</h5>
+          <h5>{{ dateGroup.dateString }}</h5>
           <div data-ng-repeat="timeGroup in dateGroup.timeGroups | orderBy: 'time'">
             <h6>{{ timeGroup.timeString }}</h5>
             <table class="table table-bordered">
               <tr data-ng-repeat="showing in timeGroup.showings | orderBy: 'time.datetime'">
-                <td class="selectable" data-ng-class="{selected:showing.selected}" data-ng-click="toggleSelectShowing(showing)">{{ showing.show.title }}</td>
+                <td class="selectable" data-ng-class="{selected:showing.selected}" data-ng-click="toggleSelectShowing(showing)">
+                  {{ showing.show.title }} ({{ showing.show.venue.name }})
+                </td>
               </tr>
             </table>
           </div>

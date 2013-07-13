@@ -63,26 +63,6 @@ var timeUtility = new TimeUtility();
 
 selectorApp.controller('HomeController', function ($scope, $http) {
 
-  // Properties
-
-  // Show selection
-  $scope.shows = [];
-  var showsLoaded = false;
-
-  $http.get('data/2013/shows.json').success(function(data) {
-    $scope.shows = data.map(function(item) {
-      return new ShowOption(item.id, item.title)
-    });
-    // let showings know that shows are loaded
-    showsLoaded = true;
-    tryLoadShowings();
-  });
-
-  // Time selection
-  $scope.times = [];
-  var timesLoaded = false;
-  $scope.timeGroups = [];
-
   var getGroups = function(collection, keyFunction) {
     var groups = [];
     collection.forEach(function(element) {
@@ -109,6 +89,55 @@ selectorApp.controller('HomeController', function ($scope, $http) {
     return groups;
   };
 
+  // Properties
+
+  // Venues
+  $http.get('data/2013/venues.json').success(function(data) {
+    $scope.venues = data;
+    loadShows();
+  });
+
+  // Show selection
+  $scope.groupByVenue = false;
+  $scope.shows = [];
+  var showsLoaded = false;
+  $scope.showGroups = [];
+
+  var setShowGroups = function() {
+    var groups = getGroups($scope.shows, function(show) {
+      return show.venue;
+    });
+
+    $scope.showGroups = groups.map(function(rawGroup) {
+      var showGroup = new Object();
+      showGroup.venue = rawGroup.key;
+      showGroup.venueName = showGroup.venue.name;
+      showGroup.shows = rawGroup.elements;
+      return showGroup;
+    });
+  };
+
+  var loadShows = function() {
+    $http.get('data/2013/shows.json').success(function(data) {
+      $scope.shows = data.map(function(item) {
+        venue = $scope.venues.filter(function(venue) {
+          return venue.id === item.venue_id;
+        })[0];
+        return new ShowOption(item.id, item.title, venue)
+      });
+      // let showings know that shows are loaded
+      showsLoaded = true;
+      tryLoadShowings();
+  
+      setShowGroups();
+    });
+  };
+
+  // Time selection
+  $scope.times = [];
+  var timesLoaded = false;
+  $scope.timeGroups = [];
+
   var setTimeGroups = function() {
     var groups = getGroups($scope.times, function(time) {
       var calendarDate = new Date(time.date.getFullYear(), time.date.getMonth(), time.date.getDate());
@@ -118,6 +147,7 @@ selectorApp.controller('HomeController', function ($scope, $http) {
     $scope.timeGroups = groups.map(function(rawGroup) {
       var timeGroup = new Object();
       timeGroup.date = new Date(rawGroup.key);
+      timeGroup.dateString = timeGroup.date.toDateString();
       timeGroup.options = rawGroup.elements;
       return timeGroup;
     });
@@ -206,6 +236,7 @@ selectorApp.controller('HomeController', function ($scope, $http) {
     dateGroups = dateGroups.map(function(rawGroup) {
       var dateGroup = new Object();
       dateGroup.date = new Date(rawGroup.key);
+      dateGroup.dateString = dateGroup.date.toDateString();
       dateGroup.timeGroups = rawGroup.elements;
       return dateGroup;
     });

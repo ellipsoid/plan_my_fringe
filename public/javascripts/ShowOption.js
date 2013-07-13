@@ -1,6 +1,7 @@
-function ShowOption(id, title) {
+function ShowOption(id, title, venue) {
   this.id = id;
   this.title = title;
+  this.venue = venue;
   this.selected = false;
   this.selectHandlers = [];
   this.deselectHandlers = [];

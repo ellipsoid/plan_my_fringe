@@ -6,12 +6,14 @@ describe("ShowOption", function() {
   beforeEach(function() {
     id = 123;
     title = "Some show title";
-    showOption = new ShowOption(id, title);
+    venue = "Some venue";
+    showOption = new ShowOption(id, title, venue);
   });
 
-  it("should accept a title and id on initialization", function() {
+  it("should accept a title, id, and venue on initialization", function() {
     expect(showOption.title).toEqual(title);
     expect(showOption.id).toEqual(id);
+    expect(showOption.venue).toEqual(venue);
   });
 
   it("should set 'selected' to false by default", function() {
