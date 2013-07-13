@@ -5,7 +5,7 @@
       <div data-ng-include src="pane.content_url"></div>
     </pane>
     <pane title="Step 1: Shows">
-      <h3>Select the shows you want to see</h3>
+      <p class="lead">Click on the shows you want to see, then click "Step 2"</p>
       <input type="checkbox" data-ng-model="groupByVenue"/> Group shows by venue
       <br />
       <br />
@@ -40,7 +40,7 @@
     </pane>
 
     <pane title="Step 2: Times">
-      <h3>Select the times you can see shows</h3>
+      <p class="lead">Click to turn off any times you can't see shows, then click "Step 3"</p>
       <ul>
         <li data-ng-repeat="group in timeGroups">
           <h5>{{ group.dateString }}</h5>
@@ -54,7 +54,8 @@
     </pane>
 
     <pane title="Step 3: Schedule">
-      <h3>Select when you want to see each show</h3>
+      <p class="lead">Click to select when you want to see each show. The other performances at that time will be hidden, and the other performances for that show will be hidden, too.
+      Made a mistake? Just click again to 'unselect' the show!</p>
       <ul>
         <li data-ng-repeat="dateGroup in showingGroups | orderBy: 'date'">
           <h5>{{ dateGroup.dateString }}</h5>
