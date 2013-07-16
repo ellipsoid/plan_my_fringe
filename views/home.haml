@@ -1,0 +1,51 @@
+%div.container-fluid
+  %tabs
+    %pane{ "data-ng-repeat" => "pane in panes" }
+      %div{ "data-ng-include src" => "pane.content_url" }
+    %pane{ "title" => "Step 1: Shows" }
+      %p.lead Click on the shows you want to see, then click "Step 2"
+      %input{ "type" => "checkbox", "data-ng-model"=>"groupByVenue" } Group shows by venue
+      %br
+      %br
+
+      %ul{ "data-ng-show"=>"groupByVenue" }
+        %li{ "data-ng-repeat"=>"group in showGroups"}
+          %strong {{ group.venueName }}
+          %table.table.table-bordered
+            %tr{ "data-ng-repeat" => "show in group.shows | orderBy: 'title'"}
+              %td.selectable{ "data-ng-class" => "{selected:show.selected}", "data-ng-click"=>"toggleSelectShow(show)"}
+                {{ show.title }}
+
+      %div{ "data-ng-hide" => "groupByVenue" }
+        Search:
+        %br
+        %input{ "type" => "text", "placeholder" => "Search text here...", "data-ng-model" => "searchText"}
+        %br
+  
+        %table.table.table-bordered
+          %tr{ "data-ng-repeat" => "show in shows | filter:searchText | orderBy: 'title'" }
+            %td.selectable{ "data-ng-class" => "{selected:show.selected}", "data-ng-click" => "toggleSelectShow(show)" }
+              {{ show.title }} ({{ show.venue.name }})
+
+    %pane{ "title" => "Step 2: Times"}
+      %p.lead Click to turn off any times you can't see shows, then click "Step 3"
+      %ul
+        %li{ "data-ng-repeat" => "group in timeGroups"}
+          %strong {{ group.dateString }}
+          %table.table.table-bordered
+            %tr{ "data-ng-repeat" => "time in group.options | orderBy: 'datetime'"}
+              %td.selectable{ "data-ng-class" => "{selected:time.selected}", "data-ng-click" => "toggleSelectTime(time)"} {{ time.timeString }}
+
+    %pane{ "title" => "Step 3: Schedule"}
+      %p.lead
+        Click to select when you want to see each show. The other performances at that time will be hidden, and the other performances for that show will be hidden, too.
+        Made a mistake? Just click again to 'unselect' the show!
+      %ul
+        %li{ "data-ng-repeat" => "dateGroup in showingGroups | orderBy: 'date'"}
+          %strong {{ dateGroup.dateString }}
+          %div{ "data-ng-repeat" => "timeGroup in dateGroup.timeGroups | orderBy: 'time'"}
+            %em {{ timeGroup.timeString }}
+            %table.table.table-bordered
+              %tr{ "data-ng-repeat" => "showing in timeGroup.showings | orderBy: 'time.datetime'"}
+                %td.selectable{ "data-ng-class" => "{selected:showing.selected}", "data-ng-click" => "toggleSelectShowing(showing)"}
+                  {{ showing.show.title }} ({{ showing.show.venue.name }})

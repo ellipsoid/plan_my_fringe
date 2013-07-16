@@ -41,6 +41,10 @@ class App < Sinatra::Base
     #File.read(File.join('public', 'show_selector.html'))
   end
 
+  get '/views/home.html' do
+    haml :home
+  end
+
   # CSS
   get '/stylesheets/:name.css' do
     content_type 'text/css', :charset => 'utf-8'
