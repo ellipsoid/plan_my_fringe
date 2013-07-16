@@ -9,6 +9,19 @@ GEM
     fssm (0.2.10)
     haml (4.0.3)
       tilt
+    hashie (2.0.4)
+    multi_json (1.7.7)
+    oauth (0.4.7)
+    omniauth (1.1.4)
+      hashie (>= 1.2, < 3)
+      rack
+    omniauth-google (1.0.2)
+      multi_json
+      omniauth (~> 1.0)
+      omniauth-oauth
+    omniauth-oauth (1.0.1)
+      oauth
+      omniauth (~> 1.0)
     rack (1.5.2)
     rack-protection (1.5.0)
       rack
@@ -25,5 +38,7 @@ PLATFORMS
 DEPENDENCIES
   compass
   haml
+  omniauth (~> 1.0)
+  omniauth-google
   sass
   sinatra
