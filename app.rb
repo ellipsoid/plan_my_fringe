@@ -3,6 +3,7 @@ require 'compass'
 require 'sinatra/base'
 require 'omniauth'
 require 'omniauth-google'
+require 'haml'
 
 # this probably shouldn't need to be here, but ENV variables were 
 # not being loaded correctly from config.ru
@@ -22,21 +23,28 @@ class App < Sinatra::Base
     set :session_secret, ENV["SESSION_SECRET"]
   end
 
+  # OAuth
   use OmniAuth::Builder do
     provider :google, ENV["GOOGLE_KEY"], ENV["GOOGLE_SECRET"]
   end
 
-  get '/' do
-    File.read(File.join('public', 'show_selector.html'))
+  # OAuth Callbacks
+  get '/auth/:provider/callback' do
+    session["logged_in"] = true
+    session["user_name"] = request.env['omniauth.auth'].info.name
+    redirect('/')
   end
 
+  get '/' do
+    user_name = session["user_name"] || "Guest"
+    haml :app, :locals => { user_name: user_name }
+    #File.read(File.join('public', 'show_selector.html'))
+  end
+
+  # CSS
   get '/stylesheets/:name.css' do
     content_type 'text/css', :charset => 'utf-8'
     scss(:"stylesheets/#{params[:name]}", Compass.sass_engine_options )
-  end
-
-  get '/auth/:provider/callback' do
-    "blah"
   end
 
   run! if app_file == $0

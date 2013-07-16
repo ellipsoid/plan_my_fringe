@@ -1,4 +1,4 @@
-var selectorApp = angular.module('selectorApp', []);
+var selectorApp = angular.module('selectorApp', ['ngCookies']);
 
 selectorApp.directive('tabs', function() {
   return {
@@ -61,8 +61,7 @@ selectorApp.config(function($routeProvider) {
 
 var timeUtility = new TimeUtility();
 
-selectorApp.controller('HomeController', function ($scope, $http) {
-
+selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
   var getGroups = function(collection, keyFunction) {
     var groups = [];
     collection.forEach(function(element) {
