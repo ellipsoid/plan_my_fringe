@@ -46,13 +46,17 @@ class App < Sinatra::Base
     haml :home
   end
 
-  get '/user_data/:id' do
+  get '/user_data/:id' do |id|
     content_type 'json'
-    fakeSelectionData = {
-      "selectedShowIds" => ["2587", "2588", "2589"],
-      "selectedTimeIds" => (1..32).to_a,
-      "selectedShowingIds" => [1,6,11]
-    }.to_json
+    data = IO.read("user_data/#{id}.json")
+  end
+
+  put '/user_data/:id' do |id|
+    data = request.body.read
+    puts "\nData: #{data.inspect}\n"
+    File.open("user_data/#{id}.json", 'w') do |file|
+      file.write(data)
+    end
   end
 
   # CSS

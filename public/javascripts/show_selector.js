@@ -397,13 +397,16 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     $scope.refresh_relevant_showings_selectable();
   };
 
+  userId = function() {
+    return 123;
+  };
+
   // load user data
   $scope.loadSelectionsFromServer = function() {
     // if not logged in, no work to be done (shouldn't ever have this situation)
     
     // if logged in, attempt to get selection data from server
-    user_id = 123;
-    $http.get('user_data/' + user_id).success(function(data) {
+    $http.get('user_data/' + userId()).success(function(data) {
       // data validation?
 
       // reset all current selections
@@ -437,6 +440,22 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
       $scope.refresh_time_selections();
       $scope.refresh_relevant_showings_selectable();
     });
+  };
+
+  getSelectedIds = function(list) {
+    selectedIds = list
+      .filter(function(show) { return show.selected })
+      .map(function(show) { return show.id });
+    return selectedIds;
+  };
+
+  // save user data
+  $scope.saveSelectionsToServer = function() {
+    data = new Object();
+    data.selectedShowIds = getSelectedIds($scope.shows);
+    data.selectedTimeIds = getSelectedIds($scope.times);
+    data.selectedShowingIds = getSelectedIds($scope.showings);
+    $http.put('user_data/' + userId(), data);
   };
 
 });
