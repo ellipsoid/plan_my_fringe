@@ -206,7 +206,19 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
 
   // Methods
 
+  deselectForbiddenShowings = function() {
+    $scope.showings.forEach(function(showing) {
+      if (showing.selected) {
+        // if the showing's time or show is deselected, need to deselect the showing as well
+        if (!showing.show.selected || !showing.time.selected) {
+          $scope.deselectShowing(showing);
+        };
+      };
+    });
+  };
+
   $scope.refresh_relevant_showings = function() {
+    deselectForbiddenShowings();
     $scope.relevant_showings = $scope.showings.filter(function(showing) {
       return showing.show.selected && showing.time.selected
     });
