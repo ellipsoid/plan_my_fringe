@@ -10,6 +10,7 @@ GEM
     haml (4.0.3)
       tilt
     hashie (2.0.4)
+    json (1.8.0)
     multi_json (1.7.7)
     oauth (0.4.7)
     omniauth (1.1.4)
@@ -38,6 +39,7 @@ PLATFORMS
 DEPENDENCIES
   compass
   haml
+  json
   omniauth (~> 1.0)
   omniauth-google
   sass

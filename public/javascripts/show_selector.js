@@ -186,9 +186,10 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     if (showsLoaded && timesLoaded) {
       $http.get('data/2013/showings.json').success(function(data) {
         $scope.showings = data.map(function(showing_data) {
-          time = $scope.times.filter(function(time) { return time.id === showing_data.timeslot } )[0]
-          show = $scope.shows.filter(function(show) { return show.id === showing_data.show_id } )[0]
-          return {show: show, time: time, selected: false, selectable: true}
+          id = showing_data.id;
+          time = $scope.times.filter(function(time) { return time.id === showing_data.timeslot } )[0];
+          show = $scope.shows.filter(function(show) { return show.id === showing_data.show_id } )[0];
+          return {id: id, show: show, time: time, selected: false, selectable: true}
         });
       });
     }
@@ -296,6 +297,20 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     });
   };
 
+  assignSelectionAll = function(list, value) {
+    list.forEach(function(element) {
+      element.selected = value;
+    });
+  };
+
+  assignSelectionById = function(id, list, value) {
+    list.forEach(function(element) {
+      if (element.id === id) {
+        element.selected = value;
+      };
+    });
+  };
+
   // Show selection
   $scope.refresh_show_selections = function() {
     $scope.refresh_relevant_showings();
@@ -368,6 +383,48 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
       $scope.selectShowing(showing);
     }
     $scope.refresh_relevant_showings_selectable();
+  };
+
+  // load user data
+  $scope.loadSelectionsFromServer = function() {
+    // if not logged in, no work to be done (shouldn't ever have this situation)
+    
+    // if logged in, attempt to get selection data from server
+    user_id = 123;
+    $http.get('user_data/' + user_id).success(function(data) {
+      // data validation?
+
+      // reset all current selections
+      assignSelectionAll($scope.times, false);
+      assignSelectionAll($scope.shows, false);
+      // this is a workaround to make sure appropriate showing lists are updated
+      $scope.showings.forEach(function(showing) {
+        $scope.deselectShowing(showing);
+      });
+
+      // select shows, times, and showtimes according to ids
+      data.selectedShowIds.forEach(function(showId) {
+        assignSelectionById(showId, $scope.shows, true);
+      });
+
+      data.selectedTimeIds.forEach(function(timeId) {
+        assignSelectionById(timeId, $scope.times, true);
+      });
+
+      data.selectedShowingIds.forEach(function(showingId) {
+        // showing are inconsistent - this is a workaround to make sure appropriate
+        // lists are being updated
+        showing = $scope.showings.filter(function(showing) {
+          return showing.id === showingId
+        })[0];
+        $scope.toggleSelectShowing(showing);
+      });
+
+      // refresh selection lists
+      $scope.refresh_show_selections();
+      $scope.refresh_time_selections();
+      $scope.refresh_relevant_showings_selectable();
+    });
   };
 
 });

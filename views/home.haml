@@ -6,6 +6,8 @@
       %p.lead Click on the shows you want to see, then click "Step 2"
       %input{ "type" => "checkbox", "data-ng-model"=>"groupByVenue" } Group shows by venue
       %br
+
+      %button{ "data-ng-click" => "loadSelectionsFromServer()" } Load it!
       %br
 
       %ul{ "data-ng-show"=>"groupByVenue" }

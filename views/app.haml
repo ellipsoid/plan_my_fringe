@@ -10,12 +10,7 @@
     %link{:rel=>"stylesheet", :href=>"http://twitter.github.com/bootstrap/assets/css/bootstrap.css"}
     %link{:rel=>"stylesheet", :href=>"stylesheets/default.css"}
   %body
-    =haml :account_bar, :locals => { user_name: user_name }
-
-    %div.page-header
-      %h1
-        Plan My Fringe
-        %small A better way to plan your Fringe schedule
+    =haml :header_bar, :locals => { user_name: user_name }
 
     %div
       / Placeholder for views

@@ -4,6 +4,7 @@ require 'sinatra/base'
 require 'omniauth'
 require 'omniauth-google'
 require 'haml'
+require 'json'
 
 # this probably shouldn't need to be here, but ENV variables were 
 # not being loaded correctly from config.ru
@@ -43,6 +44,15 @@ class App < Sinatra::Base
 
   get '/views/home.html' do
     haml :home
+  end
+
+  get '/user_data/:id' do
+    content_type 'json'
+    fakeSelectionData = {
+      "selectedShowIds" => ["2587", "2588", "2589"],
+      "selectedTimeIds" => (1..32).to_a,
+      "selectedShowingIds" => [1,6,11]
+    }.to_json
   end
 
   # CSS
