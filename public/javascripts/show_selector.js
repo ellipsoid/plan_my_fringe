@@ -90,6 +90,9 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
 
   // Properties
 
+  $scope.userName = $cookies.user_name;
+  $scope.loggedIn = $cookies.logged_in;
+
   // Venues
   $http.get('data/2013/venues.json').success(function(data) {
     $scope.venues = data;
@@ -191,7 +194,15 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
           show = $scope.shows.filter(function(show) { return show.id === showing_data.show_id } )[0];
           return {id: id, show: show, time: time, selected: false, selectable: true}
         });
+        tryLoadingSelectionsFromServer();
       });
+    }
+  };
+
+  // load selections from server if user is logged in
+  tryLoadingSelectionsFromServer = function() {
+    if ($scope.loggedIn) {
+      $scope.loadSelectionsFromServer();
     }
   };
 
@@ -398,7 +409,7 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
   };
 
   userId = function() {
-    return 123;
+    return $cookies.uid;
   };
 
   // load user data
@@ -456,6 +467,19 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     data.selectedTimeIds = getSelectedIds($scope.times);
     data.selectedShowingIds = getSelectedIds($scope.showings);
     $http.put('user_data/' + userId(), data);
+  };
+
+  $scope.logout = function() {
+    data = new Object();
+    data.uid = userId();
+
+    $cookies.user_name = null;
+    $scope.username = null;
+    $cookies.uid = null;
+    $scope.uid = null;
+    $cookies.logged_in = false;
+    $scope.loggedIn = false;
+    $http.post('logout', data);
   };
 
 });

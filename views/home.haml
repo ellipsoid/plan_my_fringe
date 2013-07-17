@@ -1,4 +1,10 @@
 %div.container-fluid
+  %div.pull-right.spacer-left=haml :account_bar
+  %div.pull-right
+    %button.btn.btn-primary{ "data-ng-click" => "saveSelectionsToServer()", "data-ng-show" => "loggedIn" } Save
+    %button.btn.btn-primary{ "data-ng-click" => "loadSelectionsFromServer()", "data-ng-show" => "loggedIn" } Load
+  %br
+
   %tabs
     %pane{ "data-ng-repeat" => "pane in panes" }
       %div{ "data-ng-include src" => "pane.content_url" }
@@ -7,8 +13,6 @@
       %input{ "type" => "checkbox", "data-ng-model"=>"groupByVenue" } Group shows by venue
       %br
 
-      %button{ "data-ng-click" => "loadSelectionsFromServer()" } Load it!
-      %button{ "data-ng-click" => "saveSelectionsToServer()" } Save it!
       %br
 
       %ul{ "data-ng-show"=>"groupByVenue" }

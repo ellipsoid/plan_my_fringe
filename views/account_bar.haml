@@ -1,6 +1,11 @@
 %div{ "class" => "account_bar"}
-  %span
+  %span{ "data-ng-hide" => "loggedIn" }
     Welcome, 
-    %strong= user_name + "!"
-    %a{:href=>"/auth/google/"}
+    %strong Guest!
+    %a{ :href=>"/auth/google/" }
       Login
+  %span{ "data-ng-show" => "loggedIn" }
+    Welcome, 
+    %strong {{ userName }}!
+    %button.btn.btn-link{ :href=>"#", "data-ng-click" => "logout()" }
+      Logout

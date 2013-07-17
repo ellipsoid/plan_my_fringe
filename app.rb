@@ -30,16 +30,25 @@ class App < Sinatra::Base
   end
 
   # OAuth Callbacks
-  get '/auth/:provider/callback' do
+  get '/auth/:provider/callback' do |provider|
     session["logged_in"] = true
-    session["user_name"] = request.env['omniauth.auth'].info.name
+
+    user_name = request.env['omniauth.auth'].info.name
+    session["user_name"] = user_name
+
+    uid = provider + "-" + request.env['omniauth.auth'].uid
+    session["uid"] = uid
     redirect('/')
   end
 
   get '/' do
-    user_name = session["user_name"] || "Guest"
-    haml :app, :locals => { user_name: user_name }
-    #File.read(File.join('public', 'show_selector.html'))
+    response.set_cookie("user_name", session["user_name"])
+    response.set_cookie("logged_in", session["logged_in"])
+    if session["logged_in"]
+      response.set_cookie("uid", session["uid"])
+    end
+    
+    haml :app
   end
 
   get '/views/home.html' do
@@ -48,15 +57,35 @@ class App < Sinatra::Base
 
   get '/user_data/:id' do |id|
     content_type 'json'
+
+    unless id == session["uid"]
+      # users are not allowed to grab another user's data
+      return
+    end
+
     data = IO.read("user_data/#{id}.json")
   end
 
   put '/user_data/:id' do |id|
+
+    unless id == session["uid"]
+      # users are only allowed to update their own data
+      redirect('/')
+    end
+
     data = request.body.read
     puts "\nData: #{data.inspect}\n"
     File.open("user_data/#{id}.json", 'w') do |file|
       file.write(data)
     end
+  end
+
+  post '/logout' do
+    #data = JSON.parse(request.body)
+    session.clear
+    response.delete_cookie("user_name")
+    response.delete_cookie("uid")
+    response.set_cookie("logged_in", false)
   end
 
   # CSS
