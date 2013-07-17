@@ -1,6 +1,6 @@
 %div.container-fluid
   %div.pull-right.spacer-left=haml :account_bar
-  %div.pull-right
+  %div.pull-right{"data-ng-hide" => "true" }
     %button.btn.btn-primary{ "data-ng-click" => "saveSelectionsToServer()", "data-ng-show" => "loggedIn" } Save
     %button.btn.btn-primary{ "data-ng-click" => "loadSelectionsFromServer()", "data-ng-show" => "loggedIn" } Load
   %br
