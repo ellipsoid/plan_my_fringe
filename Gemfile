@@ -8,3 +8,4 @@ gem 'json'
 
 gem 'omniauth', '~>1.0'
 gem 'omniauth-google'
+gem 'omniauth-facebook'

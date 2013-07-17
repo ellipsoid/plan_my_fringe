@@ -2,8 +2,13 @@
   %span{ "data-ng-hide" => "loggedIn" }
     Welcome, 
     %strong Guest!
-    %a{ :href=>"/auth/google/" }
-      Login
+    %ul
+      %li
+        %a{ :href=>"/auth/google/" }
+          Login with Google
+      %li
+        %a{ :href=>"/auth/facebook/" }
+          Login with Facebook
   %span{ "data-ng-show" => "loggedIn" }
     Welcome, 
     %strong {{ userName }}!
