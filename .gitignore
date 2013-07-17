@@ -2,3 +2,4 @@
 *.swo
 
 env.rb
+user_data/*.*
