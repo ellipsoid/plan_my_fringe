@@ -89,7 +89,8 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
   // Properties
 
   $scope.userName = $cookies.user_name;
-  $scope.loggedIn = $cookies.logged_in;
+  $scope.loggedIn = ($cookies.logged_in === "true");
+  $scope.hasData = ($cookies.has_data === "true");
 
   // Venues
   $http.get('data/2013/venues.json').success(function(data) {
@@ -197,9 +198,9 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     }
   };
 
-  // load selections from server if user is logged in
+  // load selections from server if user is logged in and has data
   tryLoadingSelectionsFromServer = function() {
-    if ($scope.loggedIn) {
+    if ($scope.loggedIn && $scope.hasData) {
       $scope.loadSelectionsFromServer();
     }
   };
@@ -417,6 +418,10 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     // if logged in, attempt to get selection data from server
     $http.get('user_data/' + userId()).success(function(data) {
       // data validation?
+      if (typeof data !== "object") {
+        $scope.alerts.push({type: 'error', msg: "Failed to load selections."});
+        return
+      }
 
       // reset all current selections
       assignSelectionAll($scope.times, false);
@@ -448,6 +453,12 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
       $scope.refresh_show_selections();
       $scope.refresh_time_selections();
       $scope.refresh_relevant_showings_selectable();
+
+      // add alert to let user know data was fetched
+      $scope.alerts.push({ type: 'success', msg: "Selections successfully loaded." });
+    })
+    .error(function(){
+      $scope.alerts.push({ type: 'error', msg: "Failed to load selections." });
     });
   };
 
@@ -458,13 +469,25 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     return selectedIds;
   };
 
+  $scope.alerts = [];
+
+  $scope.closeAlert = function(index) {
+    $scope.alerts.splice(index, 1);
+  };
+
   // save user data
   $scope.saveSelectionsToServer = function() {
     data = new Object();
     data.selectedShowIds = getSelectedIds($scope.shows);
     data.selectedTimeIds = getSelectedIds($scope.times);
     data.selectedShowingIds = getSelectedIds($scope.showings);
-    $http.put('user_data/' + userId(), data);
+    $http.put('user_data/' + userId(), data)
+      .success(function(){
+        $scope.alerts.push({ type: 'success', msg: "Selections saved successfully." });
+      })
+      .error(function(){
+        $scope.alerts.push({ type: 'error', msg: "Unable to save selections." });
+      });
   };
 
   $scope.logout = function() {

@@ -6,6 +6,7 @@ require 'omniauth-google'
 require 'omniauth-facebook'
 require 'haml'
 require 'json'
+require 'sequel'
 
 # this probably shouldn't need to be here, but ENV variables were 
 # not being loaded correctly from config.ru
@@ -23,6 +24,22 @@ class App < Sinatra::Base
     set :views, "views"
     set :sessions, true
     set :session_secret, ENV["SESSION_SECRET"]
+  end
+
+  DB = Sequel.connect(ENV['DATABASE_URL'])
+
+  # get connection to database
+  def selection_data
+    dataset ||= DB[:selections]
+  end
+
+  def data_for_uid(uid)
+    rows = selection_data.where(:uid => uid)
+    if rows.empty?
+      return nil
+    else
+      return rows.first[:json]
+    end
   end
 
   # OAuth
@@ -48,6 +65,9 @@ class App < Sinatra::Base
     response.set_cookie("logged_in", session["logged_in"])
     if session["logged_in"]
       response.set_cookie("uid", session["uid"])
+
+      has_data = !data_for_uid(session["uid"]).nil?
+      response.set_cookie("has_data", has_data)
     end
     
     haml :app
@@ -65,7 +85,7 @@ class App < Sinatra::Base
       return
     end
 
-    data = IO.read("user_data/#{id}.json")
+    data = data_for_uid(id)
   end
 
   put '/user_data/:id' do |id|
@@ -76,10 +96,18 @@ class App < Sinatra::Base
     end
 
     data = request.body.read
-    puts "\nData: #{data.inspect}\n"
-    File.open("user_data/#{id}.json", 'w') do |file|
-      file.write(data)
+
+    response.set_cookie("has_data", true)
+    if data_for_uid(id).nil?
+      # no existing entry for user - need to insert
+      selection_data.insert(:uid => id, :json => data)
+    else
+      # entry already exists for user - need to overwrite
+      selection_data.where(:uid => id).update(:json => data)
     end
+
+    # return newly-stored data
+    data_for_uid(id)
   end
 
   post '/logout' do
