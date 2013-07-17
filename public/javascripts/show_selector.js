@@ -59,8 +59,6 @@ selectorApp.config(function($routeProvider) {
     .otherwise({ redirectTo: '/home' });
 });
 
-var timeUtility = new TimeUtility();
-
 selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
   var getGroups = function(collection, keyFunction) {
     var groups = [];
@@ -165,8 +163,8 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     $scope.times.forEach(function(time) {
       time.selected = true;
       time.date = new Date(time.datetime);
-      time.dateString = timeUtility.datetimeStringFor(time.date);
-      time.timeString = timeUtility.timeStringFor(time.date);
+      time.dateString = time.date.toLocaleDateString();
+      time.timeString = time.date.toLocaleTimeString().replace(":00", "");
     });
     $scope.selected_times = $scope.times.slice(0);
     // let showings know that times are loaded
@@ -247,7 +245,7 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     timeGroups = timeGroups.map(function(rawGroup) {
       var timeGroup = new Object();
       timeGroup.time = new Date(rawGroup.key);
-      timeGroup.timeString = timeUtility.timeStringFor(timeGroup.time);
+      timeGroup.timeString = timeGroup.time.toLocaleTimeString().replace(":00","");
       timeGroup.showings = rawGroup.elements;
       return timeGroup;
     });
