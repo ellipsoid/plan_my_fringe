@@ -7,6 +7,7 @@ gem 'compass'
 gem 'json'
 gem 'sequel'
 gem 'rake'
+gem 'pg'
 
 gem 'omniauth', '~>1.0'
 gem 'omniauth-google'

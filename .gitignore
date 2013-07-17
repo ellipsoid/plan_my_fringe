@@ -3,3 +3,5 @@
 
 env.rb
 user_data/*.*
+db/dev.db
+db/config.yml
