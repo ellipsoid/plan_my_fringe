@@ -6,19 +6,16 @@ To visit the live site, please go to http://plan-my-fringe.herokuapp.com/
 ### Purpose
 
 plan_my_fringe was designed to help attendees of a large performance 
-festival choose when to their selected shows. Keeping track of time conflicts between 
-shows can be a burden for attendees planning their schedule, and this app aims 
-to alleviate that burden.
+festival choose when to see their selected shows. Keeping track of time conflicts between 
+shows can be a burden, and this app aims to alleviate that burden.
 
 ### Use
 
-On the first tab, users select the shows they would like to see. On the second tab, 
-users select the times they are available to see shows. And on the third tab, the user 
-selects the performances they would like to see.
-
-On the third tab, the app filters the performances to hide shows and times that the user 
-doesn't care about, and also filters out any performances that would cause a time 
-conflict with performances the user has already selected.
+Users select the shows and times they are interested in, and then begin selecting 
+their performances. In the performance-selecton tab, the app filters out any perfromances 
+that
++ do not match the chosen shows and/or times, or 
++ conflict with a performance already selected
 
 ### Technology
 
