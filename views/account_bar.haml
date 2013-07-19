@@ -1,13 +1,14 @@
 %div{ "class" => "account_bar"}
   %span{ "data-ng-hide" => "loggedIn" }
-    Welcome, 
-    %strong Guest!
-    %ul
+    %ul.inline
       %li
-        %button.btn.btn-link{ :href=>"/auth/facebook/" }
+        Welcome, 
+        %strong Guest!
+      %li
+        %a{ :href=>"/auth/google/" }
           Login with Google
       %li
-        %button.btn.btn-link{ :href=>"/auth/facebook/" }
+        %a{ :href=>"/auth/facebook/" }
           Login with Facebook
   %span{ "data-ng-show" => "loggedIn" }
     Welcome, 
