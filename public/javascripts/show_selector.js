@@ -47,8 +47,23 @@ selectorApp.config(function($routeProvider, $locationProvider) {
         templateUrl: 'views/home.html'
       })
     .otherwise({ redirectTo: '/home' });
+});
 
-  $locationProvider.html5Mode(true);
+selectorApp.service('selectionService', function() {
+  var selectedShows = [];
+
+  return {
+    shows: function() {
+      return selectedShows;
+    },
+    selectShow: function(show) {
+      selectedShows.push(show);
+    },
+    deselectShow: function(show) {
+      var index = selectedShows.indexOf(show);
+      selectedShows.slice(index, 1);
+    }
+  };
 });
 
 selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
