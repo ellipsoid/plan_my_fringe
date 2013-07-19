@@ -12,7 +12,7 @@ shows can be a burden, and this app aims to alleviate that burden.
 ### Use
 
 Users select the shows and times they are interested in, and then begin selecting 
-their performances. In the performance-selecton tab, the app filters out any perfromances 
+their performances. In the performance-selecton tab, the app filters out any performances 
 that
 + do not match the chosen shows and/or times, or 
 + conflict with a performance already selected
