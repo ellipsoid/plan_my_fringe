@@ -8,10 +8,10 @@
     %button.btn.btn-primary{ "data-ng-click" => "loadSelectionsFromServer()", "data-ng-show" => "loggedIn && hasData" } Load
   %br
 
-  %tabs
-    %pane{ "data-ng-repeat" => "pane in panes" }
+  .tabs
+    .pane{ "data-ng-repeat" => "pane in panes" }
       %div{ "data-ng-include src" => "pane.content_url" }
-    %pane{ "title" => "Step 1: Shows" }
+    .pane{ "title" => "Step 1: Shows" }
       %p.lead Click on the shows you want to see, then click "Step 2"
       %input{ "type" => "checkbox", "data-ng-model"=>"groupByVenue" } Group shows by venue
       %br
@@ -37,7 +37,7 @@
             %td.selectable{ "data-ng-class" => "{selected:show.selected}", "data-ng-click" => "toggleSelectShow(show)" }
               {{ show.title }} ({{ show.venue.name }})
 
-    %pane{ "title" => "Step 2: Times"}
+    .pane{ "title" => "Step 2: Times"}
       %p.lead Click to turn off any times you can't see shows, then click "Step 3"
       %ul
         %li{ "data-ng-repeat" => "group in timeGroups"}
@@ -46,7 +46,7 @@
             %tr{ "data-ng-repeat" => "time in group.options | orderBy: 'datetime'"}
               %td.selectable{ "data-ng-class" => "{selected:time.selected}", "data-ng-click" => "toggleSelectTime(time)"} {{ time.timeString }}
 
-    %pane{ "title" => "Step 3: Schedule"}
+    .pane{ "title" => "Step 3: Schedule"}
       %p.lead
         Click to select when you want to see each show. The other performances at that time will be hidden, and the other performances for that show will be hidden, too.
         Made a mistake? Just click again to 'unselect' the show!

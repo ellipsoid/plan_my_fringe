@@ -77,6 +77,10 @@ class App < Sinatra::Base
     haml :home
   end
 
+  get '/directives/:directive.html' do |directive|
+    haml "directives/#{directive}".to_sym
+  end
+
   get '/user_data/:id' do |id|
     content_type 'json'
 

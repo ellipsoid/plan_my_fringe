@@ -2,7 +2,7 @@ var selectorApp = angular.module('selectorApp', ['ngCookies']);
 
 selectorApp.directive('tabs', function() {
   return {
-    restrict: 'E',
+    restrict: 'C',
     transclude: true,
     scope: {},
     controller: function($scope, $element) {
@@ -20,15 +20,7 @@ selectorApp.directive('tabs', function() {
         panes.push(pane);
       }
     },
-    template:
-      '<div class="tabbable">' + 
-        '<ul class="nav nav-tabs">' + 
-          '<li data-ng-repeat="pane in panes" data-ng-class="{active:pane.selected}">' +
-            '<a href="" data-ng-click="select(pane)">{{pane.title}}</a>' +
-          '</li>' + 
-        '</ul>' + 
-        '<div class="tab-content" data-ng-transclude></div>' + 
-      '</div>',
+    templateUrl: 'directives/tabs.html',
     replace: true
   };
 });
@@ -36,20 +28,18 @@ selectorApp.directive('tabs', function() {
 selectorApp.directive('pane', function() {
   return {
     require: '^tabs',
-    restrict: 'E',
+    restrict: 'C',
     transclude: true,
     scope: { title: '@' },
     link: function(scope, element, atrs, tabsController) {
       tabsController.addPane(scope);
     },
-    template:
-      '<div class="tab-pane" ng-class="{active: selected}" ng-transclude>' +
-      '</div>',
+    templateUrl: 'directives/pane.html',
     replace: true
   };
 });
 
-selectorApp.config(function($routeProvider) {
+selectorApp.config(function($routeProvider, $locationProvider) {
   $routeProvider
     .when('/home',
       {
@@ -57,6 +47,8 @@ selectorApp.config(function($routeProvider) {
         templateUrl: 'views/home.html'
       })
     .otherwise({ redirectTo: '/home' });
+
+  $locationProvider.html5Mode(true);
 });
 
 selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
