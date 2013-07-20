@@ -49,7 +49,7 @@ selectorApp.config(function($routeProvider, $locationProvider) {
     .otherwise({ redirectTo: '/home' });
 });
 
-selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dialog) {
+selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dialog, $timeout) {
 
   var getGroups = function(collection, keyFunction) {
     var groups = [];
@@ -417,7 +417,7 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
       .success(function(data) {
         // data validation?
         if (typeof data !== "object") {
-          $scope.alerts.push({type: 'error', msg: "Failed to load selections."});
+          addAlert("Failed to load selections.", "error");
           return
         }
   
@@ -428,7 +428,7 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
   
       })
       .error(function(){
-        $scope.alerts.push({ type: 'error', msg: "Failed to load selections." });
+        addAlert("Failed to load selections.", "error");
       });
   };
 
@@ -470,7 +470,7 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
     $scope.refresh_relevant_showings_selectable();
 
     // add alert to let user know data was fetched
-    $scope.alerts.push({ type: 'success', msg: "Selections successfully loaded." });
+    addAlert("Selections successfully loaded.", "success");
   };
 
   getSelectedIds = function(list) {
@@ -478,6 +478,15 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
       .filter(function(show) { return show.selected })
       .map(function(show) { return show.id });
     return selectedIds;
+  };
+
+  var addAlert = function(message, type) {
+    var newAlert = { type: type, msg: message };
+    $scope.alerts.push(newAlert);
+    $timeout(function() {
+      var index = $scope.alerts.indexOf(newAlert);
+      $scope.closeAlert(index);
+    }, 3000);
   };
 
   $scope.alerts = [];
@@ -500,10 +509,10 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
     var data = getSelectionsAsDataObject();
     $http.put('user_data/' + userId(), data)
       .success(function(){
-        $scope.alerts.push({ type: 'success', msg: "Selections saved successfully." });
+        addAlert("Selections saved successfully", "success");
       })
       .error(function(){
-        $scope.alerts.push({ type: 'error', msg: "Unable to save selections." });
+        addAlert("Unable to save selections.", "error");
       });
   };
 
