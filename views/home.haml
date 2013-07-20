@@ -8,6 +8,7 @@
     %button.btn.btn-primary{ "data-ng-click" => "loadSelectionsFromServer()", "data-ng-show" => "loggedIn && hasData" } Load
   %br
 
+
   .tabs
     .pane{ "data-ng-repeat" => "pane in panes" }
       %div{ "data-ng-include src" => "pane.content_url" }

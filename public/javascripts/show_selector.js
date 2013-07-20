@@ -1,4 +1,4 @@
-var selectorApp = angular.module('selectorApp', ['ngCookies']);
+var selectorApp = angular.module('selectorApp', ['ngCookies', 'ui.bootstrap']);
 
 selectorApp.directive('tabs', function() {
   return {
@@ -18,7 +18,7 @@ selectorApp.directive('tabs', function() {
       this.addPane = function(pane) {
         if (panes.length == 0) $scope.select(pane);
         panes.push(pane);
-      }
+     }
     },
     templateUrl: 'directives/tabs.html',
     replace: true
@@ -49,24 +49,8 @@ selectorApp.config(function($routeProvider, $locationProvider) {
     .otherwise({ redirectTo: '/home' });
 });
 
-selectorApp.service('selectionService', function() {
-  var selectedShows = [];
+selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dialog) {
 
-  return {
-    shows: function() {
-      return selectedShows;
-    },
-    selectShow: function(show) {
-      selectedShows.push(show);
-    },
-    deselectShow: function(show) {
-      var index = selectedShows.indexOf(show);
-      selectedShows.slice(index, 1);
-    }
-  };
-});
-
-selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
   var getGroups = function(collection, keyFunction) {
     var groups = [];
     collection.forEach(function(element) {
@@ -110,11 +94,6 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
   $scope.shows = [];
   var showsLoaded = false;
   $scope.showGroups = [];
-
-  $scope.titleFilter = function(show) {
-    var re = new RegExp($scope.searchText, 'i');
-    return !$scope.searchText || re.test(show.title);
-  };
 
   var setShowGroups = function() {
     var groups = getGroups($scope.shows, function(show) {
@@ -200,16 +179,28 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
           show = $scope.shows.filter(function(show) { return show.id === showing_data.show_id } )[0];
           return {id: id, show: show, time: time, selected: false, selectable: true}
         });
-        tryLoadingSelectionsFromServer();
+        tryLoadingSelections();
       });
     }
   };
 
-  // load selections from server if user is logged in and has data
-  tryLoadingSelectionsFromServer = function() {
+  // load selections from server or localStorage, if available
+  var tryLoadingSelections = function() {
     if ($scope.loggedIn && $scope.hasData) {
       $scope.loadSelectionsFromServer();
+    } else if (Modernizr.localstorage && localStorage["selectionData"]) {
+      var data = JSON.parse(localStorage["selectionData"]);
+
+      assignSelectionsFromData(
+        data.selectedShowIds,
+        data.selectedTimeIds,
+        data.selectedShowingIds);
     }
+  };
+
+  $scope.saveSelectionsToLocalStorage = function() {
+    var data = getSelectionsAsDataObject();
+    localStorage["selectionData"] = JSON.stringify(data);
   };
 
   $scope.relevant_showings = [];
@@ -217,13 +208,9 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
   $scope.selected_showings = [];
   $scope.selectable_showings = [];
 
-  $scope.limit_one_showing_per_show = true;
-  $scope.show_unselectable_showings = false;
-
-
   // Methods
 
-  deselectForbiddenShowings = function() {
+  var deselectForbiddenShowings = function() {
     $scope.showings.forEach(function(showing) {
       if (showing.selected) {
         // if the showing's time or show is deselected, need to deselect the showing as well
@@ -307,10 +294,11 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
       };
     });
     refreshShowingGroups();
+    $scope.saveSelectionsToLocalStorage();
   };
 
   // Selection
-  assign_selection = function(targetElement, list, value) {
+  var assign_selection = function(targetElement, list, value) {
     list.forEach(function(element) {
       if (element == targetElement) {
         element.selected = value;
@@ -318,7 +306,7 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     });
   };
 
-  toggleSelection = function(targetElement, list) {
+  var toggleSelection = function(targetElement, list) {
     list.forEach(function(element) {
       if (element == targetElement) {
         element.selected = !element.selected;
@@ -326,13 +314,13 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     });
   };
 
-  assignSelectionAll = function(list, value) {
+  var assignSelectionAll = function(list, value) {
     list.forEach(function(element) {
       element.selected = value;
     });
   };
 
-  assignSelectionById = function(id, list, value) {
+  var assignSelectionById = function(id, list, value) {
     list.forEach(function(element) {
       if (element.id === id) {
         element.selected = value;
@@ -343,6 +331,7 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
   // Show selection
   $scope.refresh_show_selections = function() {
     $scope.refresh_relevant_showings();
+    $scope.saveSelectionsToLocalStorage();
   };
 
   $scope.toggleSelectShow = function(show) {
@@ -366,6 +355,7 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     $scope.selected_times = $scope.times.filter(function(time) { return time.selected } );
     $scope.unselected_times = $scope.times.filter(function(time) { return !time.selected } );
     $scope.refresh_relevant_showings();
+    $scope.saveSelectionsToLocalStorage();
   };
 
   $scope.selectTime = function(time) {
@@ -423,50 +413,64 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     // if not logged in, no work to be done (shouldn't ever have this situation)
     
     // if logged in, attempt to get selection data from server
-    $http.get('user_data/' + userId()).success(function(data) {
-      // data validation?
-      if (typeof data !== "object") {
-        $scope.alerts.push({type: 'error', msg: "Failed to load selections."});
-        return
-      }
-
-      // reset all current selections
-      assignSelectionAll($scope.times, false);
-      assignSelectionAll($scope.shows, false);
-      // this is a workaround to make sure appropriate showing lists are updated
-      $scope.showings.forEach(function(showing) {
-        $scope.deselectShowing(showing);
+    $http.get('user_data/' + userId())
+      .success(function(data) {
+        // data validation?
+        if (typeof data !== "object") {
+          $scope.alerts.push({type: 'error', msg: "Failed to load selections."});
+          return
+        }
+  
+        assignSelectionsFromData(
+          data.selectedShowIds,
+          data.selectedTimeIds,
+          data.selectedShowingIds);
+  
+      })
+      .error(function(){
+        $scope.alerts.push({ type: 'error', msg: "Failed to load selections." });
       });
+  };
 
-      // select shows, times, and showtimes according to ids
-      data.selectedShowIds.forEach(function(showId) {
-        assignSelectionById(showId, $scope.shows, true);
-      });
+  var assignSelectionsFromData = function(
+    selectedShowIds,
+    selectedTimeIds,
+    selectedShowingIds)
+  {
+    // clear all current selections
+    assignSelectionAll($scope.times, false);
+    assignSelectionAll($scope.shows, false);
 
-      data.selectedTimeIds.forEach(function(timeId) {
-        assignSelectionById(timeId, $scope.times, true);
-      });
-
-      data.selectedShowingIds.forEach(function(showingId) {
-        // showing are inconsistent - this is a workaround to make sure appropriate
-        // lists are being updated
-        showing = $scope.showings.filter(function(showing) {
-          return showing.id === showingId
-        })[0];
-        $scope.toggleSelectShowing(showing);
-      });
-
-      // refresh selection lists
-      $scope.refresh_show_selections();
-      $scope.refresh_time_selections();
-      $scope.refresh_relevant_showings_selectable();
-
-      // add alert to let user know data was fetched
-      $scope.alerts.push({ type: 'success', msg: "Selections successfully loaded." });
-    })
-    .error(function(){
-      $scope.alerts.push({ type: 'error', msg: "Failed to load selections." });
+    // this is a workaround to make sure appropriate showing lists are updated
+    $scope.showings.forEach(function(showing) {
+      $scope.deselectShowing(showing);
     });
+
+    // select shows, times, and showtimes according to ids
+    selectedShowIds.forEach(function(showId) {
+      assignSelectionById(showId, $scope.shows, true);
+    });
+
+    selectedTimeIds.forEach(function(timeId) {
+      assignSelectionById(timeId, $scope.times, true);
+    });
+
+    selectedShowingIds.forEach(function(showingId) {
+      // showings are inconsistent - this is a workaround to make sure appropriate
+      // lists are being updated
+      showing = $scope.showings.filter(function(showing) {
+        return showing.id === showingId
+      })[0];
+      $scope.toggleSelectShowing(showing);
+    });
+
+    // refresh selection lists
+    $scope.refresh_show_selections();
+    $scope.refresh_time_selections();
+    $scope.refresh_relevant_showings_selectable();
+
+    // add alert to let user know data was fetched
+    $scope.alerts.push({ type: 'success', msg: "Selections successfully loaded." });
   };
 
   getSelectedIds = function(list) {
@@ -482,12 +486,18 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies) {
     $scope.alerts.splice(index, 1);
   };
 
-  // save user data
-  $scope.saveSelectionsToServer = function() {
-    data = new Object();
+  var getSelectionsAsDataObject = function() {
+    var data = new Object();
     data.selectedShowIds = getSelectedIds($scope.shows);
     data.selectedTimeIds = getSelectedIds($scope.times);
     data.selectedShowingIds = getSelectedIds($scope.showings);
+
+    return data;
+  };
+
+  // save user data
+  $scope.saveSelectionsToServer = function() {
+    var data = getSelectionsAsDataObject();
     $http.put('user_data/' + userId(), data)
       .success(function(){
         $scope.alerts.push({ type: 'success', msg: "Selections saved successfully." });
