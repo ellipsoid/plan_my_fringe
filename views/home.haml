@@ -48,7 +48,9 @@
           %table.table.table-bordered
             %tr{ "data-ng-repeat" => "time in group.options | orderBy: 'datetime'"}
               %td.selectable{ "data-ng-class" => "{selected:time.selected}",
-                  "data-ng-click" => "toggleSelectTime(time)"}
+                  "data-ng-click" => "toggleSelectTime(time)",
+                  "tooltip" => "click to select / deselect",
+                  "tooltip-placement" => "mouse"}
                 {{ time.timeString }}
 
     %tab{ "heading" => "Step 3: Schedule"}

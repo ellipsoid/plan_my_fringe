@@ -1,9 +1,5 @@
 var selectorApp = angular.module('selectorApp', ['ngCookies', 'ui.bootstrap']);
 
-selectorApp.directive('tabs', tabsDirective);
-
-selectorApp.directive('pane', paneDirective);
-
 selectorApp.config(function($routeProvider, $locationProvider) {
   $routeProvider
     .when('/home',
