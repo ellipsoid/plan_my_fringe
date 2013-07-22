@@ -60,6 +60,7 @@ class App < Sinatra::Base
     redirect('/')
   end
 
+  # home page - single page app
   get '/' do
     response.set_cookie("user_name", session["user_name"])
     response.set_cookie("logged_in", session["logged_in"])
@@ -73,14 +74,17 @@ class App < Sinatra::Base
     haml :app
   end
 
-  get '/views/home.html' do
-    haml :home
+  # template files
+  get '/views/:page.html' do |page|
+    haml page.to_sym
   end
 
+  # directive scripts
   get '/directives/:directive.html' do |directive|
     haml "directives/#{directive}".to_sym
   end
 
+  # fetch data for logged-in user
   get '/user_data/:id' do |id|
     content_type 'json'
 
@@ -92,6 +96,7 @@ class App < Sinatra::Base
     data = data_for_uid(id)
   end
 
+  # save data for logged-in user
   put '/user_data/:id' do |id|
 
     unless id == session["uid"]
@@ -114,6 +119,7 @@ class App < Sinatra::Base
     data_for_uid(id)
   end
 
+  # logout user
   post '/logout' do
     #data = JSON.parse(request.body)
     session.clear

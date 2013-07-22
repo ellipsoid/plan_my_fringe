@@ -40,9 +40,9 @@
 
     .pane{ "title" => "Step 2: Times"}
       %p.lead Click to turn off any times you can't see shows, then click "Step 3"
-      %ul
-        %li{ "data-ng-repeat" => "group in timeGroups"}
-          %strong {{ group.dateString }}
+      %accordion{ "close-others" => "oneAtATime" }
+        %accordion-group{ "data-ng-repeat" => "group in timeGroups", 
+          "heading" => "{{group.dateString}}", "is-open" => "true" }
           %table.table.table-bordered
             %tr{ "data-ng-repeat" => "time in group.options | orderBy: 'datetime'"}
               %td.selectable{ "data-ng-class" => "{selected:time.selected}", "data-ng-click" => "toggleSelectTime(time)"} {{ time.timeString }}
