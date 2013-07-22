@@ -28,7 +28,6 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
         group.key = key;
         group.elements = [];
         groups.push(group);
-        group.open = true; // groups should default to open
       } else {
         group = groupsForKey[0];
       };
@@ -103,7 +102,6 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
       timeGroup.date = new Date(rawGroup.key);
       timeGroup.dateString = timeGroup.date.toDateString();
       timeGroup.options = rawGroup.elements;
-      timeGroup.open = true;
       return timeGroup;
     });
   };
