@@ -1,0 +1,14 @@
+-# locals expected:
+-#   options_enum => name of variable containing options
+-#   order_by => angularJS orderBy argument, ex. " 'time' "
+-#   on_click_function => name of function angularJS uses when row clicked, ex. "toggleSelectTime"
+-#   option_name => angularJS epression to be displayed in row, ex. " {{ option.name }} "
+
+%table.table.table-bordered
+  %tr{ "data-ng-repeat" => "option in #{locals[:options_enum]} | orderBy: #{locals[:order_by]}",
+      "tooltip" => "click to select / deselect row",
+      "tooltip-placement" => "mouse", 
+      "tooltip-append-to-body" => "true" }
+    %td.selectable{ "data-ng-class" => "{selected:option.selected}",
+        "data-ng-click" => "#{locals[:on_click_function]}(option)" }
+      #{locals[:option_name]}

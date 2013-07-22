@@ -52,7 +52,7 @@
           %strong {{ dateGroup.dateString }}
           %div{ "data-ng-repeat" => "timeGroup in dateGroup.timeGroups | orderBy: 'time'"}
             %em {{ timeGroup.timeString }}
-            %table.table.table-bordered
-              %tr{ "data-ng-repeat" => "showing in timeGroup.showings | orderBy: 'time.datetime'"}
-                %td.selectable{ "data-ng-class" => "{selected:showing.selected}", "data-ng-click" => "toggleSelectShowing(showing)"}
-                  {{ showing.show.title }} ({{ showing.show.venue.name }})
+            = haml :selection_table, locals: { options_enum: "timeGroup.showings",
+                order_by: "'time.datetime'",
+                on_click_function: "toggleSelectShowing",
+                option_name: "{{ option.show.title }} [{{ option.show.venue.name }}]" }
