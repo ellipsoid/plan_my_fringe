@@ -38,10 +38,15 @@
 
     %tab{ "heading" => "Step 2: Times"}
       %p.lead Click to turn off any times you can't see shows, then click "Step 3"
+      -# WARNING: There is a haml template rendered to pass as an argument inside 
+      -# another call to the haml template - if you know a way to make this clearer,
+      -# please let me know.
       = haml :accordian, locals: { groups_name: "timeGroups", 
           heading_expression: "{{group.dateString}}",
-          order_by: "'datetime'",
-          option_name: "{{option.timeString}}"}
+          group_content: (haml :selection_table, locals: { options_enum: "group.options",
+            order_by: "'datetime'",
+            on_click_function: "toggleSelectTime",
+            option_name: "{{option.timeString}}"})}
 
     %tab{ "heading" => "Step 3: Schedule"}
       %p.lead
