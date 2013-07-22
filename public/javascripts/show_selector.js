@@ -113,6 +113,7 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
       time.date = new Date(time.datetime);
       time.dateString = time.date.toLocaleDateString();
       time.timeString = time.date.toLocaleTimeString().replace(":00", "");
+      time.showings = [];
     });
     $scope.selected_times = $scope.times.slice(0);
     // let showings know that times are loaded

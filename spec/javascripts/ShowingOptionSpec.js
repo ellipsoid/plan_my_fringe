@@ -3,8 +3,8 @@ describe("ShowingOption", function() {
   var showOption;
 
   beforeEach(function() {
-    showOption = "dummy show option";
-    timeOption = "dummy time option";
+    showOption = jasmine.createSpyObj('showOption', ['canSelect']);
+    timeOption = jasmine.createSpyObj('timeOption', ['canSelect']);
     showingOption = new ShowingOption(showOption, timeOption);
   });
 
@@ -13,11 +13,63 @@ describe("ShowingOption", function() {
     expect(showingOption.timeOption).toEqual(timeOption);
   });
 
-  it("should set 'selected' to false by default", function() {
+  it("should set 'selectable' to 'true' on 'updateSelectable()' when showOption.canSelect() and timeOption.canSelect() both return false", function() {
+    showOption.canSelect.andCallFake(function(showing) {
+      return true;
+    });
+    timeOption.canSelect.andCallFake(function(showing) {
+      return true;
+    });
+    showingOption.updateSelectable();
+    expect(showOption.canSelect).toHaveBeenCalledWith(showingOption);
+    expect(timeOption.canSelect).toHaveBeenCalledWith(showingOption);
+    expect(showingOption.selectable).toEqual(true);
+  });
+
+  it("should set 'selectable' to 'false' on 'updateSelectable()' when showOption.canSelect returns false", function() {
+    showOption.canSelect.andCallFake(function(showing) {
+      return false;
+    });
+    timeOption.canSelect.andCallFake(function(showing) {
+      return true;
+    });
+    showingOption.updateSelectable();
+    expect(showOption.canSelect).toHaveBeenCalledWith(showingOption);
+    // timeOption not called due to short-circuiting
+    expect(showingOption.selectable).toEqual(false);
+  });
+
+  it("should set 'selectable' to 'false' on 'updateSelectable()' when timeOption.canSelect returns false", function() {
+    showOption.canSelect.andCallFake(function(showing) {
+      return true;
+    });
+    timeOption.canSelect.andCallFake(function(showing) {
+      return false;
+    });
+    showingOption.updateSelectable();
+    expect(showOption.canSelect).toHaveBeenCalledWith(showingOption);
+    expect(timeOption.canSelect).toHaveBeenCalledWith(showingOption);
+    expect(showingOption.selectable).toEqual(false);
+  });
+
+  it("should set 'selectable' to 'false' on 'updateSelectable()' when canSelect returns false for both options", function() {
+    showOption.canSelect.andCallFake(function(showing) {
+      return false;
+    });
+    timeOption.canSelect.andCallFake(function(showing) {
+      return false;
+    });
+    showingOption.updateSelectable();
+    expect(showOption.canSelect).toHaveBeenCalledWith(showingOption);
+    // timeOption not called due to short-circuiting
+    expect(showingOption.selectable).toEqual(false);
+  });
+
+  it("should have 'selected' as false by default", function() {
     expect(showingOption.selected).toEqual(false);
   });
 
-  it("should set 'selected' to true when 'select()' called", function() {
+  it("should have 'selected' as true when 'select()' called", function() {
     // sanity check
     expect(showingOption.selected).toEqual(false);
 
@@ -25,35 +77,13 @@ describe("ShowingOption", function() {
     expect(showingOption.selected).toEqual(true);
   });
 
-  it("should call 'select' when selected is false and 'changeSelection' called", function() {
+  it("should call 'select()' when selected is false and 'changeSelection()' called", function() {
     spyOn(showingOption, "select");
     // sanity check
     expect(showingOption.selected).toEqual(false);
 
     showingOption.changeSelection();
     expect(showingOption.select).toHaveBeenCalled();
-  });
-
-  it("intializes with no select handlers", function() {
-    expect(showingOption.selectHandlers).toEqual([]);
-  });
-
-  it("registers a select handler", function() {
-    var handler = "dummy";
-    showingOption.registerSelectHandler(handler);
-    expect(showingOption.selectHandlers).toEqual([handler]);
-  });
-
-  it("calls select handlers when 'select' called", function() {
-    var functionCalled = false;
-    var handler = function(option) {
-      if (option) {
-        functionCalled = true;
-      };
-    };
-    showingOption.registerSelectHandler(handler);
-    showingOption.select();
-    expect(functionCalled).toEqual(true);
   });
 
   it("should set 'selected' to false when 'deselect()' called", function() {
@@ -65,7 +95,7 @@ describe("ShowingOption", function() {
     expect(showingOption.selected).toEqual(false);
   });
 
-  it("should call 'deselect' when selected is true and 'changeSelection' called", function() {
+  it("should call 'deselect()' when selected is true and 'changeSelection()' called", function() {
     spyOn(showingOption, "deselect");
     showingOption.selected = true;
     // sanity check
@@ -73,28 +103,6 @@ describe("ShowingOption", function() {
 
     showingOption.changeSelection();
     expect(showingOption.deselect).toHaveBeenCalled();
-  });
-
-  it("intializes with no deselect handlers", function() {
-    expect(showingOption.deselectHandlers).toEqual([]);
-  });
-
-  it("registers a deselect handler", function() {
-    var handler = "dummy";
-    showingOption.registerDeselectHandler(handler);
-    expect(showingOption.deselectHandlers).toEqual([handler]);
-  });
-
-  it("calls deselect handlers when 'deselect' called", function() {
-    var functionCalled = false;
-    var handler = function(option) {
-      if (option) {
-        functionCalled = true;
-      };
-    };
-    showingOption.registerDeselectHandler(handler);
-    showingOption.deselect();
-    expect(functionCalled).toEqual(true);
   });
 
 });

@@ -2,9 +2,18 @@ function ShowingOption(showOption, timeOption) {
   this.showOption = showOption;
   this.timeOption = timeOption;
   this.selected = false;
-  this.selectHandlers = [];
-  this.deselectHandlers = [];
+  this.selectable = false;
+  this.updateSelectable();
 }
+
+ShowingOption.prototype.updateSelectable = function() {
+  // check that both show and time allow this showing to be selected
+  if (this.showOption.canSelect(this) && this.timeOption.canSelect(this)) {
+    this.selectable = true;
+  } else {
+    this.selectable = false;
+  }
+};
 
 ShowingOption.prototype.changeSelection = function() {
   // do not set property directly, call setter so handlers are called
@@ -18,22 +27,8 @@ ShowingOption.prototype.changeSelection = function() {
 
 ShowingOption.prototype.select = function() {
   this.selected = true;
-  this.selectHandlers.forEach(function(handler) {
-    handler(this);
-  });
-};
-
-ShowingOption.prototype.registerSelectHandler = function(handler) {
-  this.selectHandlers.push(handler);
 };
 
 ShowingOption.prototype.deselect = function() {
   this.selected = false;
-  this.deselectHandlers.forEach(function(handler) {
-    handler(this);
-  });
-};
-
-ShowingOption.prototype.registerDeselectHandler = function(handler) {
-  this.deselectHandlers.push(handler);
 };
