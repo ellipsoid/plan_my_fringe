@@ -17,13 +17,18 @@
 
       %br
 
-      %ul{ "data-ng-show"=>"groupByVenue" }
-        %li{ "data-ng-repeat"=>"group in showGroups"}
-          %strong {{ group.venueName }}
-          %table.table.table-bordered
-            %tr{ "data-ng-repeat" => "show in group.shows | orderBy: 'title'"}
-              %td.selectable{ "data-ng-class" => "{selected:show.selected}", "data-ng-click"=>"toggleSelectShow(show)"}
-                {{ show.title }}
+      - @show_selection_template = haml :selection_table,
+        locals: { options_enum: "group.shows",
+          order_by: "'title'",
+          on_click_function: "toggleSelectShow",
+          option_name: "{{ option.title }}" }
+
+      %div{ "data-ng-show"=>"groupByVenue" }
+        = haml :accordian,
+          locals: { groups_name: "showGroups",
+            heading_expression: "{{group.venueName}}",
+            order_by: "'venueName'",
+            group_content: @show_selection_template }
 
       %div{ "data-ng-hide" => "groupByVenue" }
         Search:
@@ -31,22 +36,24 @@
         %input{ "type" => "text", "placeholder" => "Search text here...", "data-ng-model" => "searchText"}
         %br
   
-        %table.table.table-bordered
-          %tr{ "data-ng-repeat" => "show in shows | filter:searchText | orderBy: 'title'" }
-            %td.selectable{ "data-ng-class" => "{selected:show.selected}", "data-ng-click" => "toggleSelectShow(show)" }
-              {{ show.title }} ({{ show.venue.name }})
+        = haml :selection_table,
+          locals: { options_enum: "shows",
+            order_by: "'title'",
+            on_click_function: "toggleSelectShow",
+            option_name: "{{ option.title }} [{{ option.venue.name }}]"}
 
     %tab{ "heading" => "Step 2: Times"}
       %p.lead Click to turn off any times you can't see shows, then click "Step 3"
-      -# WARNING: There is a haml template rendered to pass as an argument inside 
-      -# another call to the haml template - if you know a way to make this clearer,
-      -# please let me know.
+
+      - @time_selection_template = haml :selection_table,
+        locals: { options_enum: "group.options",
+          order_by: "'datetime'",
+          on_click_function: "toggleSelectTime",
+          option_name: "{{option.timeString}}"}
+
       = haml :accordian, locals: { groups_name: "timeGroups", 
           heading_expression: "{{group.dateString}}",
-          group_content: (haml :selection_table, locals: { options_enum: "group.options",
-            order_by: "'datetime'",
-            on_click_function: "toggleSelectTime",
-            option_name: "{{option.timeString}}"})}
+          group_content: @time_selection_template }
 
     %tab{ "heading" => "Step 3: Schedule"}
       %p.lead
