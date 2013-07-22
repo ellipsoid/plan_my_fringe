@@ -16,6 +16,16 @@ describe("ShowOption", function() {
     expect(showOption.venue).toEqual(venue);
   });
 
+  it("should have an empty array as 'showings' by default", function() {
+    expect(showOption.showings).toEqual([]);
+  });
+
+  it("should accept a showing with 'addShowing'", function() {
+    var showing = "dummy showing";
+    showOption.addShowing(showing);
+    expect(showOption.showings).toEqual([showing]);
+  });
+
   it("should set 'selected' to false by default", function() {
     expect(showOption.selected).toEqual(false);
   });

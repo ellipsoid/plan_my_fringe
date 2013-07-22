@@ -2,6 +2,7 @@ function TimeOption(id, datetime, timeUtility) {
   this.id = id;
   this.datetime = datetime;
   this.timeUtility = timeUtility;
+  this.showings = [];
   this.selected = false;
   this.selectHandlers = [];
   this.deselectHandlers = [];
@@ -13,6 +14,10 @@ TimeOption.prototype.timeString = function() {
 
 TimeOption.prototype.datetimeString = function() {
   return this.timeUtility.datetimeStringFor(this.datetime);
+};
+
+TimeOption.prototype.addShowing = function(showing) {
+  this.showings.push(showing);
 };
 
 TimeOption.prototype.changeSelection = function() {

@@ -2,10 +2,15 @@ function ShowOption(id, title, venue) {
   this.id = id;
   this.title = title;
   this.venue = venue;
+  this.showings = [];
   this.selected = false;
   this.selectHandlers = [];
   this.deselectHandlers = [];
 }
+
+ShowOption.prototype.addShowing = function(showing) {
+  this.showings.push(showing);
+};
 
 ShowOption.prototype.changeSelection = function() {
   // do not set property directly, call setter so handlers are called

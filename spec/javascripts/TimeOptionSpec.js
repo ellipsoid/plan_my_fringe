@@ -31,6 +31,16 @@ describe("TimeOption", function() {
     expect(timeOption.datetimeString()).toEqual("Sun Dec 09 2012 04:05");
   });
 
+  it("should have an empty array as 'showings' by default", function() {
+    expect(timeOption.showings).toEqual([]);
+  });
+
+  it("should accept a showing with 'addShowing'", function() {
+    var showing = "dummy showing";
+    timeOption.addShowing(showing);
+    expect(timeOption.showings).toEqual([showing]);
+  });
+
   it("should set 'selected' to false by default", function() {
     expect(timeOption.selected).toEqual(false);
   });
