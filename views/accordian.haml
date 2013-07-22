@@ -1,0 +1,21 @@
+-# expects locals:
+-#  groups_name => name iterable of groups for accordians -> comes from Angular
+-#  heading_expression => expression used to create heading
+-#  order_by => property to order rows by
+-#  option_name => expression used to create text for row
+
+%accordion{ "close-others" => "oneAtATime" }
+  %accordion-group.selection-group{ "data-ng-repeat" => "group in #{locals[:groups_name]}", 
+      "data-is-open" => "true" }
+    %accordion-heading
+      %div{ "tooltip" => "click to expand / collapse group",
+          "tooltip-placement" => "mouse" }
+        #{locals[:heading_expression]}
+    %table.table.table-bordered
+      %tr{ "data-ng-repeat" => "option in group.options | orderBy: #{locals[:order_by]}",
+          "tooltip" => "click to select / deselect row",
+          "tooltip-placement" => "mouse", 
+          "tooltip-append-to-body" => "true" }
+        %td.selectable{ "data-ng-class" => "{selected:option.selected}",
+            "data-ng-click" => "toggleSelectTime(option)" }
+          #{locals[:option_name]}

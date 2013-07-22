@@ -38,21 +38,10 @@
 
     %tab{ "heading" => "Step 2: Times"}
       %p.lead Click to turn off any times you can't see shows, then click "Step 3"
-      %accordion{ "close-others" => "oneAtATime" }
-        %accordion-group.selection-group{ "data-ng-repeat" => "group in timeGroups", 
-            "data-is-open" => "true" }
-          %accordion-heading
-            %div{ "tooltip" => "click to expand / collapse group",
-                "tooltip-placement" => "mouse" }
-              {{group.dateString}}
-          %table.table.table-bordered
-            %tr{ "data-ng-repeat" => "time in group.options | orderBy: 'datetime'",
-                "tooltip" => "click to select / deselect row",
-                "tooltip-placement" => "mouse", 
-                "tooltip-append-to-body" => "true" }
-              %td.selectable{ "data-ng-class" => "{selected:time.selected}",
-                  "data-ng-click" => "toggleSelectTime(time)" }
-                {{ time.timeString }}
+      = haml :accordian, locals: { groups_name: "timeGroups", 
+          heading_expression: "{{group.dateString}}",
+          order_by: "'datetime'",
+          option_name: "{{option.timeString}}"}
 
     %tab{ "heading" => "Step 3: Schedule"}
       %p.lead
