@@ -52,12 +52,21 @@
       %p.lead
         Click to select when you want to see each show. The other performances at that time will be hidden, and the other performances for that show will be hidden, too.
         Made a mistake? Just click again to 'unselect' the show!
-      %ul
-        %li{ "data-ng-repeat" => "dateGroup in showingGroups | orderBy: 'date'"}
-          %strong {{ dateGroup.dateString }}
-          %div{ "data-ng-repeat" => "timeGroup in dateGroup.timeGroups | orderBy: 'time'"}
-            %em {{ timeGroup.timeString }}
-            = haml :selection_table, locals: { options_enum: "timeGroup.showings",
-                order_by: "'time.datetime'",
-                on_click_function: "toggleSelectShowing",
-                option_name: "{{ option.show.title }} [{{ option.show.venue.name }}]" }
+
+      - @option_template = haml :selection_table,
+        locals: { options_enum: "group.showings",
+          order_by: "'time.datetime'",
+          on_click_function: "toggleSelectShowing",
+          option_name: "{{ option.show.title }} [{{ option.show.venue.name }}]"}
+
+      - @showing_times_template = haml :accordian,
+        locals: { groups_name: "group.timeGroups",
+          heading_expression: "{{group.timeString}}",
+          order_by: "'time'",
+          group_content: @option_template }
+
+      = haml :accordian,
+        locals: { groups_name: "showingGroups",
+          heading_expression: "{{group.dateString}}",
+          order_by: "'date'",
+          group_content: @showing_times_template }
