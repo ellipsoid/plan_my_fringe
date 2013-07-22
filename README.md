@@ -5,7 +5,7 @@ To visit the live site, please go to http://plan-my-fringe.herokuapp.com/
 
 ### Purpose
 
-plan_my_fringe was designed to help attendees of a large performance 
+plan_my_fringe is designed to help attendees of a large performance 
 festival choose when to see their selected shows. Keeping track of time conflicts between 
 shows can be a burden, and this app aims to alleviate that burden.
 
