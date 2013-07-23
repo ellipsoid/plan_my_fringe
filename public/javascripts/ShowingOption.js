@@ -1,7 +1,14 @@
 function ShowingOption(showOption, timeOption) {
   SelectableOption.call(this);
+
+  // link show with this showing so both have reference to the other
   this.showOption = showOption;
+  showOption.addShowing(this);
+
+  // link time with this showing so both have reference to the other
   this.timeOption = timeOption;
+  timeOption.addShowing(this);
+
   this.updateSelectable();
 }
 
@@ -14,15 +21,5 @@ ShowingOption.prototype.updateSelectable = function() {
     this.selectable = true;
   } else {
     this.selectable = false;
-  }
-};
-
-ShowingOption.prototype.changeSelection = function() {
-  // do not set property directly, call setter so handlers are called
-  if (this.selected)
-  {
-    this.deselect();
-  } else {
-    this.select();
   }
 };

@@ -8,6 +8,9 @@ function ShowOption(id, title, venue) {
   this.deselectHandlers = [];
 }
 
+ShowOption.prototype = Object.create(SelectableOption.prototype);
+ShowOption.prototype.constructor = ShowOption;
+
 ShowOption.prototype.addShowing = function(showing) {
   this.showings.push(showing);
 };

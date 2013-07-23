@@ -3,14 +3,19 @@ describe("ShowingOption", function() {
   var showOption;
 
   beforeEach(function() {
-    showOption = jasmine.createSpyObj('showOption', ['canSelect']);
-    timeOption = jasmine.createSpyObj('timeOption', ['canSelect']);
+    showOption = jasmine.createSpyObj('showOption', ['canSelect','addShowing']);
+    timeOption = jasmine.createSpyObj('timeOption', ['canSelect','addShowing']);
     showingOption = new ShowingOption(showOption, timeOption);
   });
 
   it("should accept a show option and time option on initialization", function() {
     expect(showingOption.showOption).toEqual(showOption);
     expect(showingOption.timeOption).toEqual(timeOption);
+  });
+
+  it("should register itself with show and time on initialization", function() {
+    expect(showOption.addShowing).toHaveBeenCalledWith(showingOption);
+    expect(timeOption.addShowing).toHaveBeenCalledWith(showingOption);
   });
 
   // updateSelectable
