@@ -1,6 +1,6 @@
 describe("TimeSlot", function() {
   var id;
-  var calendarDate;
+  var day;
   var timeOfDay;
   var timeSlot;
   var firstShowing;
@@ -26,9 +26,9 @@ describe("TimeSlot", function() {
 
   beforeEach(function() {
     id = 456;
-    calendarDate = jasmine.createSpyObj('calendarDate',['addTimeSlot','toString']);
+    day = jasmine.createSpyObj('day',['addTimeSlot','toString']);
     timeOfDay = jasmine.createSpyObj('timeOfDay',['addTimeSlot','toString']);
-    timeSlot = new TimeSlot(id, calendarDate, timeOfDay);
+    timeSlot = new TimeSlot(id, day, timeOfDay);
     newShowing = mockShowing('newShowing');
   });
 
@@ -36,8 +36,8 @@ describe("TimeSlot", function() {
     expect(timeSlot.id).toEqual(id);
   });
 
-  it("should accept a calendarDate on initialization", function() {
-    expect(timeSlot.calendarDate).toEqual(calendarDate);
+  it("should accept a day on initialization", function() {
+    expect(timeSlot.day).toEqual(day);
   });
 
   it("should accept a timeOfDay on initialization", function() {
@@ -53,8 +53,8 @@ describe("TimeSlot", function() {
     expect(timeSlot.showings).toEqual([newShowing]);
   });
 
-  it("should register itself with calendarDate and timeOfDay on initialization", function() {
-    expect(calendarDate.addTimeSlot).toHaveBeenCalledWith(timeSlot);
+  it("should register itself with day and timeOfDay on initialization", function() {
+    expect(day.addTimeSlot).toHaveBeenCalledWith(timeSlot);
     expect(timeOfDay.addTimeSlot).toHaveBeenCalledWith(timeSlot);
   });
 
@@ -63,8 +63,8 @@ describe("TimeSlot", function() {
     expect(timeSlot.timeString()).toEqual("5:30 PM");
   });
 
-  it("should forward 'dateString' calls to calendarDate 'toString' method", function() {
-    calendarDate.toString.andCallFake(function() { return "Aug 1, 2013" });
+  it("should forward 'dateString' calls to day 'toString' method", function() {
+    day.toString.andCallFake(function() { return "Aug 1, 2013" });
     expect(timeSlot.dateString()).toEqual("Aug 1, 2013");
   });
 

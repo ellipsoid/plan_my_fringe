@@ -1,11 +1,11 @@
-function TimeSlot(id, calendarDate, timeOfDay) {
+function TimeSlot(id, day, timeOfDay) {
   // inherit properties from SelectableOption
   SelectableOption.call(this);
 
   this.id = id;
 
-  this.calendarDate = calendarDate;
-  calendarDate.addTimeSlot(this);
+  this.day = day;
+  day.addTimeSlot(this);
 
   this.timeOfDay = timeOfDay;
   timeOfDay.addTimeSlot(this);
@@ -23,7 +23,7 @@ TimeSlot.prototype.timeString = function() {
 };
 
 TimeSlot.prototype.dateString = function() {
-  return this.calendarDate.toString();
+  return this.day.toString();
 };
 
 TimeSlot.prototype.addShowing = function(showing) {
