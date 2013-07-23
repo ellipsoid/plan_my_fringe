@@ -1,6 +1,8 @@
 function TimeSlot(id, day, timeOfDay) {
   // inherit properties from SelectableOption
   SelectableOption.call(this);
+  // override defaul value of 'selectable'
+  this.selectable = true;
 
   this.id = id;
 
@@ -35,7 +37,9 @@ TimeSlot.prototype.addShowing = function(showing) {
 
 TimeSlot.prototype.canSelect = function(showing) {
   time = this;
-  if (time.selectedShowing == null || time.selectedShowing == showing) {
+  if (!time.selected) {
+    return false;
+  } else if (time.selectedShowing == null || time.selectedShowing == showing) {
     return true;
   } else {
     return false;

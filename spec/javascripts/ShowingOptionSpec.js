@@ -31,6 +31,10 @@ describe("ShowingOption", function() {
     expect(showingOption.selected).toEqual(true);    
   });
 
+  it("should default 'selectable' to false", function() {
+    expect(showingOption.selectable).toEqual(false);
+  });
+
   // updateSelectable
 
   it("should set 'selectable' to 'true' on 'updateSelectable()' when showOption.canSelect() and timeOption.canSelect() both return false", function() {

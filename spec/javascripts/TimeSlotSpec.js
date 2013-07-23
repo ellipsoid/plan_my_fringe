@@ -78,6 +78,10 @@ describe("TimeSlot", function() {
     expect(timeSlot.selected).toEqual(true);    
   });
 
+  it("should default 'selectable' to 'true'", function() {
+    expect(timeSlot.selectable).toBe(true);
+  });
+
   // event handlers
 
   it("should add select and deselect handlers to showing on 'addShowing'", function() {
@@ -141,24 +145,54 @@ describe("TimeSlot", function() {
 
   // canSelect
 
-  it("returns true for 'canSelect' when showing passed as arg is the selected showing", function() {
+  it("returns 'false' for 'canSelect' when 'selected' is false and showing passed as arg is the selected showing", function() {
     createAndAddMockShowings();
+    expect(timeSlot.selected).toBe(false); // sanity check
     timeSlot.showingSelected(secondShowing);
 
     var result = timeSlot.canSelect(secondShowing);
-    expect(result).toBe(true);
+    expect(result).toBe(false);
   });
 
-  it("returns false for 'canSelect' when the selected showing does not match argument", function() {
+  it("returns 'false' for 'canSelect' when 'selected' is false and showing passed as arg is not the selected showing", function() {
     createAndAddMockShowings();
+    expect(timeSlot.selected).toBe(false); // sanity check
     timeSlot.showingSelected(secondShowing);
 
     var result = timeSlot.canSelect(thirdShowing);
     expect(result).toBe(false);
   });
 
-  it("returns true for 'canSelect' when no selected showing exists", function() {
+  it("returns 'false' for 'canSelect' when 'selected' is false and selectedShowing null", function() {
     createAndAddMockShowings();
+    expect(timeSlot.selected).toBe(false); // sanity check
+    expect(timeSlot.selectedShowing).toBe(null); // sanity check
+
+    var result = timeSlot.canSelect(secondShowing);
+    expect(result).toBe(false);
+  });
+
+  it("returns true for 'canSelect' when show selected and showing passed as arg is the selected showing", function() {
+    createAndAddMockShowings();
+    timeSlot.select();
+    timeSlot.showingSelected(secondShowing);
+
+    var result = timeSlot.canSelect(secondShowing);
+    expect(result).toBe(true);
+  });
+
+  it("returns false for 'canSelect' when show selected and the selected showing does not match argument", function() {
+    createAndAddMockShowings();
+    timeSlot.select();
+    timeSlot.showingSelected(secondShowing);
+
+    var result = timeSlot.canSelect(thirdShowing);
+    expect(result).toBe(false);
+  });
+
+  it("returns true for 'canSelect' when show selected and no selected showing exists", function() {
+    createAndAddMockShowings();
+    timeSlot.select();
     expect(timeSlot.selectedShowing).toBe(null); // sanity check
 
     var result = timeSlot.canSelect(thirdShowing);

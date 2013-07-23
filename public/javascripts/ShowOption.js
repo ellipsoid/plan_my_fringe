@@ -2,6 +2,9 @@ function ShowOption(id, title, venue) {
   // inherit properties from SelectableOption
   SelectableOption.call(this);
 
+  // override default value of 'selectable'
+  this.selectable = true;
+
   this.id = id;
   this.title = title;
   this.venue = venue;
@@ -22,7 +25,9 @@ ShowOption.prototype.addShowing = function(showing) {
 
 ShowOption.prototype.canSelect = function(showing) {
   show = this;
-  if (show.selectedShowing == null || show.selectedShowing == showing) {
+  if (!show.selected) {
+    return false;
+  } else if (show.selectedShowing == null || show.selectedShowing == showing) {
     return true;
   } else {
     return false;
