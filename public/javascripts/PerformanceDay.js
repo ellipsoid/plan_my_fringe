@@ -1,16 +1,16 @@
 var stripTimeOfDayInfo = function(datetime) {
-  var calendarDate = new Date(datetime.getFullYear(),
+  var performanceDay = new Date(datetime.getFullYear(),
     datetime.getMonth(),
     datetime.getDate());
-  return calendarDate;
+  return performanceDay;
 };
 
-function CalendarDate(datetime) {
+function PerformanceDay(datetime) {
   this.datetime = stripTimeOfDayInfo(datetime);
   this.timeSlots = [];
 };
 
-CalendarDate.prototype.includes = function(datetime) {
+PerformanceDay.prototype.includes = function(datetime) {
   var sameYear = datetime.getFullYear() === this.datetime.getFullYear();
   var sameMonth = datetime.getMonth() === this.datetime.getMonth();
   var sameDate = datetime.getDate() === this.datetime.getDate();
@@ -18,6 +18,10 @@ CalendarDate.prototype.includes = function(datetime) {
   return sameYear && sameMonth && sameDate;
 };
 
-CalendarDate.prototype.addTimeSlot = function(timeSlot) {
+PerformanceDay.prototype.addTimeSlot = function(timeSlot) {
   this.timeSlots.push(timeSlot);
+};
+
+PerformanceDay.prototype.toString = function() {
+  return this.datetime.toDateString();
 };

@@ -1,14 +1,14 @@
-describe("CalendarDate", function() {
+describe("PerformanceDay", function() {
   var year = 2012;
   var month = 11;
   var day = 9;
   var datetime;
-  var calendarDate;
+  var performanceDay;
   var newTimeSlot;
 
   beforeEach(function() {
     datetime = new Date(year, month, day, 4, 5, 36, 314);
-    calendarDate = new CalendarDate(datetime);
+    performanceDay = new PerformanceDay(datetime);
     newTimeSlot = jasmine.createSpyObj('newTimeSlot', ['toString']);
   });
 
@@ -16,7 +16,7 @@ describe("CalendarDate", function() {
     var trimmedDateTime = new Date(datetime.getFullYear(),
       datetime.getMonth(),
       datetime.getDate());
-    expect(calendarDate.datetime).toEqual(trimmedDateTime);
+    expect(performanceDay.datetime).toEqual(trimmedDateTime);
   });
 
   it("returns true on 'includes' with datetime that is part of the calendar date", function() {
@@ -24,7 +24,7 @@ describe("CalendarDate", function() {
     // change the time of copied datetime
     newDate.setHours(13);
     expect(newDate).not.toEqual(datetime);
-    var result = calendarDate.includes(newDate);
+    var result = performanceDay.includes(newDate);
     expect(result).toBe(true);
   });
 
@@ -33,18 +33,22 @@ describe("CalendarDate", function() {
     // change the date of copied datetime
     newDate.setDate(13);
     expect(newDate).not.toEqual(datetime);
-    var result = calendarDate.includes(newDate);
+    var result = performanceDay.includes(newDate);
     expect(result).toBe(false);
   });
 
   it("defaults with no time slots", function() {
-    expect(calendarDate.timeSlots).toEqual([]);
+    expect(performanceDay.timeSlots).toEqual([]);
   });
 
   it("adds a timeslot with 'addTimeSlot'", function() {
-    expect(calendarDate.timeSlots).toEqual([]); // sanity check
-    calendarDate.addTimeSlot(newTimeSlot);
-    expect(calendarDate.timeSlots).toEqual([newTimeSlot]);
+    expect(performanceDay.timeSlots).toEqual([]); // sanity check
+    performanceDay.addTimeSlot(newTimeSlot);
+    expect(performanceDay.timeSlots).toEqual([newTimeSlot]);
+  });
+
+  it("returns date with format 'Sun Dec 09, 2012' on toString", function() {
+    expect(performanceDay.toString()).toEqual("Sun Dec 09 2012");
   });
 
 });
