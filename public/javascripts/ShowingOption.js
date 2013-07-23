@@ -1,10 +1,12 @@
 function ShowingOption(showOption, timeOption) {
+  SelectableOption.call(this);
   this.showOption = showOption;
   this.timeOption = timeOption;
-  this.selected = false;
-  this.selectable = false;
   this.updateSelectable();
 }
+
+ShowingOption.prototype = Object.create(SelectableOption.prototype);
+ShowingOption.prototype.constructor = ShowingOption;
 
 ShowingOption.prototype.updateSelectable = function() {
   // check that both show and time allow this showing to be selected
@@ -23,12 +25,4 @@ ShowingOption.prototype.changeSelection = function() {
   } else {
     this.select();
   }
-};
-
-ShowingOption.prototype.select = function() {
-  this.selected = true;
-};
-
-ShowingOption.prototype.deselect = function() {
-  this.selected = false;
 };

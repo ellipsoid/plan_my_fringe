@@ -13,6 +13,8 @@ describe("ShowingOption", function() {
     expect(showingOption.timeOption).toEqual(timeOption);
   });
 
+  // updateSelectable
+
   it("should set 'selectable' to 'true' on 'updateSelectable()' when showOption.canSelect() and timeOption.canSelect() both return false", function() {
     showOption.canSelect.andCallFake(function(showing) {
       return true;
@@ -63,46 +65,6 @@ describe("ShowingOption", function() {
     expect(showOption.canSelect).toHaveBeenCalledWith(showingOption);
     // timeOption not called due to short-circuiting
     expect(showingOption.selectable).toEqual(false);
-  });
-
-  it("should have 'selected' as false by default", function() {
-    expect(showingOption.selected).toEqual(false);
-  });
-
-  it("should have 'selected' as true when 'select()' called", function() {
-    // sanity check
-    expect(showingOption.selected).toEqual(false);
-
-    showingOption.select();
-    expect(showingOption.selected).toEqual(true);
-  });
-
-  it("should call 'select()' when selected is false and 'changeSelection()' called", function() {
-    spyOn(showingOption, "select");
-    // sanity check
-    expect(showingOption.selected).toEqual(false);
-
-    showingOption.changeSelection();
-    expect(showingOption.select).toHaveBeenCalled();
-  });
-
-  it("should set 'selected' to false when 'deselect()' called", function() {
-    showingOption.selected = true;
-    // sanity check
-    expect(showingOption.selected).toEqual(true);
-
-    showingOption.deselect();
-    expect(showingOption.selected).toEqual(false);
-  });
-
-  it("should call 'deselect()' when selected is true and 'changeSelection()' called", function() {
-    spyOn(showingOption, "deselect");
-    showingOption.selected = true;
-    // sanity check
-    expect(showingOption.selected).toEqual(true);
-
-    showingOption.changeSelection();
-    expect(showingOption.deselect).toHaveBeenCalled();
   });
 
 });
