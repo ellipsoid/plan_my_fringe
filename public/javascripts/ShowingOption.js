@@ -1,5 +1,8 @@
-function ShowingOption(showOption, timeOption) {
+function ShowingOption(id, showOption, timeOption) {
+  // inherit properties from SelectableOption
   SelectableOption.call(this);
+
+  this.id = id;
 
   // link show with this showing so both have reference to the other
   this.showOption = showOption;
@@ -12,6 +15,7 @@ function ShowingOption(showOption, timeOption) {
   this.updateSelectable();
 }
 
+// inherit methods from SelectableOption's prototype
 ShowingOption.prototype = Object.create(SelectableOption.prototype);
 ShowingOption.prototype.constructor = ShowingOption;
 

@@ -2,12 +2,33 @@ describe("ShowOption", function() {
   var id;
   var title;
   var showOption;
+  var firstShowing;
+  var secondShowing;
+  var thirdShowing;
+  var newShowing;
+
+  var mockShowing = function(name) {
+    return jasmine.createSpyObj(name, ['addMethodHandler','updateSelectable']);
+  };
+
+  var createAndAddMockShowings = function() {
+    firstShowing = mockShowing('firstShowing');
+    secondShowing = mockShowing('secondShowing');
+    thirdShowing = mockShowing('thirdShowing');
+
+    showOption.addShowing(firstShowing);
+    showOption.addShowing(secondShowing);
+    showOption.addShowing(thirdShowing);
+
+    expect(showOption.showings.length).toBe(3); // sanity check
+  };
 
   beforeEach(function() {
     id = 123;
     title = "Some show title";
     venue = "Some venue";
     showOption = new ShowOption(id, title, venue);
+    newShowing = mockShowing('newShowing');
   });
 
   it("should accept a title, id, and venue on initialization", function() {
@@ -21,93 +42,105 @@ describe("ShowOption", function() {
   });
 
   it("should accept a showing with 'addShowing'", function() {
-    var showing = "dummy showing";
-    showOption.addShowing(showing);
-    expect(showOption.showings).toEqual([showing]);
+    showOption.addShowing(newShowing);
+    expect(showOption.showings).toEqual([newShowing]);
   });
 
-  it("should set 'selected' to false by default", function() {
-    expect(showOption.selected).toEqual(false);
-  });
+  // quick test to make sure SelectableOption properties are available
 
-  it("should set 'selected' to true when 'select()' called", function() {
+  it("should respond to 'select()'", function() {
     // sanity check
     expect(showOption.selected).toEqual(false);
 
     showOption.select();
-    expect(showOption.selected).toEqual(true);
+    expect(showOption.selected).toEqual(true);    
   });
 
-  it("should call 'select' when selected is false and 'changeSelection' called", function() {
-    spyOn(showOption, "select");
-    // sanity check
-    expect(showOption.selected).toEqual(false);
+  // event handlers
 
-    showOption.changeSelection();
-    expect(showOption.select).toHaveBeenCalled();
+  it("should add select and deselect handlers to showing on 'addShowing'", function() {
+    showOption.addShowing(newShowing);
+
+    expect(newShowing.addMethodHandler).toHaveBeenCalledWith("select", showOption.showingSelected);
+    expect(newShowing.addMethodHandler).toHaveBeenCalledWith("deselect", showOption.showingDeselected);
+  }); 
+
+  // showing selection
+
+  it("defaults to having no selected showing", function() {
+    createAndAddMockShowings();
+    expect(showOption.selectedShowing).toBe(null);
   });
 
-  it("intializes with no select handlers", function() {
-    expect(showOption.selectHandlers).toEqual([]);
+  it("keeps record of the selected showing", function() {
+    createAndAddMockShowings();
+    showOption.showingSelected(secondShowing);
+    expect(showOption.selectedShowing).toBe(secondShowing);
   });
 
-  it("registers a select handler", function() {
-    var handler = "dummy";
-    showOption.registerSelectHandler(handler);
-    expect(showOption.selectHandlers).toEqual([handler]);
+  it("clears selected showing when selected showing deselected", function() {
+    createAndAddMockShowings();
+    showOption.showingSelected(secondShowing);
+    expect(showOption.selectedShowing).toBe(secondShowing); // sanity check
+
+    showOption.showingDeselected(secondShowing);
+    expect(showOption.selectedShowing).toBe(null);
   });
 
-  it("calls select handlers when 'select' called", function() {
-    var functionCalled = false;
-    var handler = function(option) {
-      if (option) {
-        functionCalled = true;
-      };
-    };
-    showOption.registerSelectHandler(handler);
-    showOption.select();
-    expect(functionCalled).toEqual(true);
+  it("does not clear selected showing when different showing deselected", function() {
+    createAndAddMockShowings();
+    showOption.showingSelected(secondShowing);
+    expect(showOption.selectedShowing).toBe(secondShowing); // sanity check
+
+    showOption.showingDeselected(thirdShowing);
+    expect(showOption.selectedShowing).toBe(secondShowing); // selected showing unchanged
   });
 
-  it("should set 'selected' to false when 'deselect()' called", function() {
-    showOption.selected = true;
-    // sanity check
-    expect(showOption.selected).toEqual(true);
+  // update Showings
 
-    showOption.deselect();
-    expect(showOption.selected).toEqual(false);
+  it("tells showings to updateSelectable when showing selected", function() {
+    createAndAddMockShowings();
+    showOption.showingSelected(secondShowing);
+
+    expect(firstShowing.updateSelectable).toHaveBeenCalled();    
+    // ignore whether second showing is updated, since it's still selectable
+    expect(thirdShowing.updateSelectable).toHaveBeenCalled();    
   });
 
-  it("should call 'deselect' when selected is true and 'changeSelection' called", function() {
-    spyOn(showOption, "deselect");
-    showOption.selected = true;
-    // sanity check
-    expect(showOption.selected).toEqual(true);
+  it("tells showings to updateSelectable when selected showing deselected", function() {
+    createAndAddMockShowings();
+    showOption.showingSelected(secondShowing);
 
-    showOption.changeSelection();
-    expect(showOption.deselect).toHaveBeenCalled();
+    showOption.showingDeselected(secondShowing);
+    expect(firstShowing.updateSelectable).toHaveBeenCalled();    
+    // ignore whether second showing is updated, since it's still selectable
+    expect(thirdShowing.updateSelectable).toHaveBeenCalled();    
   });
 
-  it("intializes with no deselect handlers", function() {
-    expect(showOption.deselectHandlers).toEqual([]);
+  // canSelect
+
+  it("returns true for 'canSelect' when showing passed as arg is the selected showing", function() {
+    createAndAddMockShowings();
+    showOption.showingSelected(secondShowing);
+
+    var result = showOption.canSelect(secondShowing);
+    expect(result).toBe(true);
   });
 
-  it("registers a deselect handler", function() {
-    var handler = "dummy";
-    showOption.registerDeselectHandler(handler);
-    expect(showOption.deselectHandlers).toEqual([handler]);
+  it("returns false for 'canSelect' when the selected showing does not match argument", function() {
+    createAndAddMockShowings();
+    showOption.showingSelected(secondShowing);
+
+    var result = showOption.canSelect(thirdShowing);
+    expect(result).toBe(false);
   });
 
-  it("calls deselect handlers when 'deselect' called", function() {
-    var functionCalled = false;
-    var handler = function(option) {
-      if (option) {
-        functionCalled = true;
-      };
-    };
-    showOption.registerDeselectHandler(handler);
-    showOption.deselect();
-    expect(functionCalled).toEqual(true);
+  it("returns true for 'canSelect' when no selected showing exists", function() {
+    createAndAddMockShowings();
+    expect(showOption.selectedShowing).toBe(null); // sanity check
+
+    var result = showOption.canSelect(thirdShowing);
+    expect(result).toBe(true);
   });
 
 });

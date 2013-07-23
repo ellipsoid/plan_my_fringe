@@ -1,48 +1,50 @@
 function ShowOption(id, title, venue) {
+  // inherit properties from SelectableOption
+  SelectableOption.call(this);
+
   this.id = id;
   this.title = title;
   this.venue = venue;
   this.showings = [];
-  this.selected = false;
-  this.selectHandlers = [];
-  this.deselectHandlers = [];
+  this.selectedShowing = null;
 }
 
+// inherit methods from SelectableOption's prototype
 ShowOption.prototype = Object.create(SelectableOption.prototype);
 ShowOption.prototype.constructor = ShowOption;
 
 ShowOption.prototype.addShowing = function(showing) {
-  this.showings.push(showing);
+  show = this;
+  show.showings.push(showing);
+  showing.addMethodHandler("select", show.showingSelected);
+  showing.addMethodHandler("deselect", show.showingDeselected);
 };
 
-ShowOption.prototype.changeSelection = function() {
-  // do not set property directly, call setter so handlers are called
-  if (this.selected)
-  {
-    this.deselect();
+ShowOption.prototype.canSelect = function(showing) {
+  show = this;
+  if (show.selectedShowing == null || show.selectedShowing == showing) {
+    return true;
   } else {
-    this.select();
+    return false;
   }
 };
 
-ShowOption.prototype.select = function() {
-  this.selected = true;
-  this.selectHandlers.forEach(function(handler) {
-    handler(this);
-  });
+ShowOption.prototype.showingSelected = function(showingToSelect) {
+  show = this;
+  if (show.selectedShowing != showingToSelect) {
+    // select showing
+    show.selectedShowing = showingToSelect;
+
+    // have all showings check whether they are selectable
+    show.showings.forEach(function(showing) {
+      showing.updateSelectable();
+    });
+  }
 };
 
-ShowOption.prototype.registerSelectHandler = function(handler) {
-  this.selectHandlers.push(handler);
-};
-
-ShowOption.prototype.deselect = function() {
-  this.selected = false;
-  this.deselectHandlers.forEach(function(handler) {
-    handler(this);
-  });
-};
-
-ShowOption.prototype.registerDeselectHandler = function(handler) {
-  this.deselectHandlers.push(handler);
+ShowOption.prototype.showingDeselected = function(showing) {
+  show = this;
+  if (show.selectedShowing == showing) {
+    show.selectedShowing = null;
+  }
 };
