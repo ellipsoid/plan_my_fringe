@@ -1,6 +1,6 @@
 function Showing(id, show, timeSlot) {
   // inherit properties from Selectable
-  SelectableOption.call(this);
+  Selectable.call(this);
 
   showing = this;
 
@@ -21,8 +21,8 @@ function Showing(id, show, timeSlot) {
   showing.updateSelectable();
 }
 
-// inherit methods from SelectableOption's prototype
-Showing.prototype = Object.create(SelectableOption.prototype);
+// inherit methods from Selectable's prototype
+Showing.prototype = Object.create(Selectable.prototype);
 Showing.prototype.constructor = Showing;
 
 Showing.prototype.updateSelectable = function() {

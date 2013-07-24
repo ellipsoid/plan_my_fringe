@@ -1,6 +1,6 @@
 function Show(id, title, venue) {
-  // inherit properties from SelectableOption
-  SelectableOption.call(this);
+  // inherit properties from Selectable
+  Selectable.call(this);
 
   // override default value of 'selectable'
   this.selectable = true;
@@ -12,8 +12,8 @@ function Show(id, title, venue) {
   this.selectedShowing = null;
 }
 
-// inherit methods from SelectableOption's prototype
-Show.prototype = Object.create(SelectableOption.prototype);
+// inherit methods from Selectable's prototype
+Show.prototype = Object.create(Selectable.prototype);
 Show.prototype.constructor = Show;
 
 Show.prototype.addShowing = function(showing) {

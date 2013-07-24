@@ -1,6 +1,6 @@
 function TimeSlot(id, day, timeOfDay) {
-  // inherit properties from SelectableOption
-  SelectableOption.call(this);
+  // inherit properties from Selectable
+  Selectable.call(this);
   // override defaul value of 'selectable'
   this.selectable = true;
 
@@ -16,8 +16,8 @@ function TimeSlot(id, day, timeOfDay) {
   this.selectedShowing = null;
 }
 
-// inherit methods from SelectableOption's prototype
-TimeSlot.prototype = Object.create(SelectableOption.prototype);
+// inherit methods from Selectable's prototype
+TimeSlot.prototype = Object.create(Selectable.prototype);
 TimeSlot.prototype.constructor = TimeSlot;
 
 TimeSlot.prototype.timeString = function() {
