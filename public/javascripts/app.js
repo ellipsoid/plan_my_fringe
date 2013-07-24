@@ -53,12 +53,12 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
 
   $http.get('data/2013/timeslots.json').success(function(data) {
     data.forEach(function(datum) {
-      var datetime = datum.datetime;
+      var datetime = new Date(datum.datetime);
       var day;
       var timeOfDay;
 
       var matchingDays = $scope.days.filter(function(existingDay) {
-        return existingDay.include(datetime);
+        return existingDay.includes(datetime);
       });
       if (matchingDays.length != 0) {
         day = matchingDays[0];
@@ -68,7 +68,7 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
       }
 
       var matchingTimesOfDay = $scope.timesOfDay.filter(function(existingTime) {
-        return existingDay.include(datetime);
+        return existingTime.includes(datetime);
       });
       if (matchingTimesOfDay.length != 0) {
         timeOfDay = matchingTimesOfDay[0];
@@ -148,42 +148,6 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
       return showing.show.selected && showing.time.selected
     });
     $scope.refresh_relevant_showings_selectable();
-  };
-
-  var refreshShowingGroups = function() {
-    var displayedShowings = $scope.selected_showings.concat($scope.selectable_showings);
-    var timeGroups = getGroups(displayedShowings, function(showing) {
-      var timestamp = showing.time.date;
-      return timestamp.getTime();
-    });
-
-    // convert to a more user-friendly format
-    timeGroups = timeGroups.map(function(rawGroup) {
-      var timeGroup = new Object();
-      timeGroup.time = new Date(rawGroup.key);
-      timeGroup.timeString = timeGroup.time.toLocaleTimeString().replace(":00","");
-      timeGroup.showings = rawGroup.elements;
-      return timeGroup;
-    });
-
-    // group timeGroups by date
-    var dateGroups = getGroups(timeGroups, function(timeGroup) {
-      var time = timeGroup.time;
-      // strip away time of day information and compare only by date
-      var calendarDate = new Date(time.getFullYear(), time.getMonth(), time.getDate());
-      return calendarDate.getTime();
-    });
-
-    // convert to a more user-friendly format
-    dateGroups = dateGroups.map(function(rawGroup) {
-      var dateGroup = new Object();
-      dateGroup.date = new Date(rawGroup.key);
-      dateGroup.dateString = dateGroup.date.toDateString();
-      dateGroup.timeGroups = rawGroup.elements;
-      return dateGroup;
-    });
-
-    $scope.showingGroups = dateGroups;
   };
 
   $scope.refresh_relevant_showings_selectable = function() {

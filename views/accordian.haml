@@ -1,11 +1,15 @@
 -# expects locals:
 -#  groups_name => name iterable of groups for accordians -> comes from Angular
 -#  heading_expression => expression used to create heading
--#  order_by => property to order rows by
--#  option_name => expression used to create text for row
+-#  order_by (optional) => property to order groups by
+-#  group_content => content to live inside group
+
+- @repeat = "group in #{locals[:groups_name]}"
+- if locals[:order_by]
+  - @repeat += " | orderBy: #{locals[:order_by]}"
 
 %accordion{ "close-others" => "oneAtATime" }
-  %accordion-group.selection-group{ "data-ng-repeat" => "group in #{locals[:groups_name]}", 
+  %accordion-group.selection-group{ "data-ng-repeat" => @repeat,
       "data-is-open" => "true" }
     %accordion-heading
       %div{ "tooltip" => "click to expand / collapse group",
