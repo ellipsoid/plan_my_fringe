@@ -12,32 +12,6 @@ selectorApp.config(function($routeProvider, $locationProvider) {
 
 selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dialog, $timeout) {
 
-  var getGroups = function(collection, keyFunction) {
-    var groups = [];
-    collection.forEach(function(element) {
-      var key = keyFunction(element);
-
-      // get groups for key - should be 0 or 1 group
-      var groupsForKey = groups.filter(function(group) {
-        return group.key === key
-      });
-
-      var group;
-      if (groupsForKey.length == 0) {
-        group = new Object();
-        group.key = key;
-        group.elements = [];
-        groups.push(group);
-      } else {
-        group = groupsForKey[0];
-      };
-
-      group.elements.push(element);
-    });
-
-    return groups;
-  };
-
   // Properties
 
   $scope.userName = $cookies.user_name;
@@ -56,81 +30,64 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
   $scope.groupByVenue = false;
   $scope.shows = [];
   var showsLoaded = false;
-  $scope.showGroups = [];
-
-  var setShowGroups = function() {
-    var groups = getGroups($scope.shows, function(show) {
-      return show.venue;
-    });
-
-    $scope.showGroups = groups.map(function(rawGroup) {
-      var showGroup = new Object();
-      showGroup.venue = rawGroup.key;
-      showGroup.venueName = showGroup.venue.name;
-      showGroup.shows = rawGroup.elements;
-      return showGroup;
-    });
-  };
 
   var loadShows = function() {
     $http.get('data/2013/shows.json').success(function(data) {
-      $scope.shows = data.map(function(item) {
+      $scope.shows = data.map(function(datum) {
         venue = $scope.venues.filter(function(venue) {
-          return venue.id === item.venue_id;
+          return venue.id === datum.venue_id;
         })[0];
-        return new Show(item.id, item.title, venue)
+        return new Show(datum.id, datum.title, venue)
       });
       // let showings know that shows are loaded
       showsLoaded = true;
       tryLoadShowings();
-  
-      setShowGroups();
     });
   };
 
   // Time selection
   $scope.times = [];
+  $scope.days = [];
+  $scope.timesOfDay = [];
   var timesLoaded = false;
-  $scope.timeGroups = [];
-
-  var setTimeGroups = function() {
-    var groups = getGroups($scope.times, function(time) {
-      var calendarDate = new Date(time.date.getFullYear(), time.date.getMonth(), time.date.getDate());
-      return calendarDate.getTime();
-    });
-
-    $scope.timeGroups = groups.map(function(rawGroup) {
-      var timeGroup = new Object();
-      timeGroup.date = new Date(rawGroup.key);
-      timeGroup.dateString = timeGroup.date.toDateString();
-      timeGroup.options = rawGroup.elements;
-      return timeGroup;
-    });
-  };
 
   $http.get('data/2013/timeslots.json').success(function(data) {
-    $scope.times = data;
-    $scope.times.forEach(function(time) {
-      time.selected = true;
-      time.date = new Date(time.datetime);
-      time.dateString = time.date.toLocaleDateString();
-      time.timeString = time.date.toLocaleTimeString().replace(":00", "");
-      time.showings = [];
+    data.forEach(function(datum) {
+      var datetime = datum.datetime;
+      var day;
+      var timeOfDay;
+
+      var matchingDays = $scope.days.filter(function(existingDay) {
+        return existingDay.include(datetime);
+      });
+      if (matchingDays.length != 0) {
+        day = matchingDays[0];
+      } else {
+        day = new Day(datetime);
+        $scope.days.push(day);
+      }
+
+      var matchingTimesOfDay = $scope.timesOfDay.filter(function(existingTime) {
+        return existingDay.include(datetime);
+      });
+      if (matchingTimesOfDay.length != 0) {
+        timeOfDay = matchingTimesOfDay[0];
+      } else {
+        timeOfDay = new TimeOfDay(datetime);
+        $scope.timesOfDay.push(timeOfDay);
+      }
+
+      var timeSlot = new TimeSlot(datum.id, day, timeOfDay);
+      $scope.times.push(timeSlot);
     });
-    $scope.selected_times = $scope.times.slice(0);
+
     // let showings know that times are loaded
     timesLoaded = true;
     tryLoadShowings();
-
-    setTimeGroups();
   });
 
-  // use a copy of times array
-  $scope.selected_times = [];
-  $scope.unselected_times = [];
 
   // Showing selection
-
   $scope.showings = [];
 
   var tryLoadShowings = function() {

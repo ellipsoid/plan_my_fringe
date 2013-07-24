@@ -18,10 +18,10 @@
       %br
 
       %ul{ "data-ng-show"=>"groupByVenue" }
-        %li{ "data-ng-repeat"=>"group in showGroups"}
-          %strong {{ group.venueName }}
+        %li{ "data-ng-repeat"=>"venue in venues | orderBy: 'name'"}
+          %strong {{ venue.name }}
           %table.table.table-bordered
-            %tr{ "data-ng-repeat" => "show in group.shows | orderBy: 'title'"}
+            %tr{ "data-ng-repeat" => "show in venue.shows | orderBy: 'title'"}
               %td.selectable{ "data-ng-class" => "{selected:show.selected}", "data-ng-click"=>"toggleSelectShow(show)"}
                 {{ show.title }}
 
