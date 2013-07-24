@@ -46,7 +46,9 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
 
   // Venues
   $http.get('data/2013/venues.json').success(function(data) {
-    $scope.venues = data;
+    $scope.venues = data.map(function(datum) {
+      return new Venue(datum.id, datum.name);
+    });
     loadShows();
   });
 
@@ -76,7 +78,7 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
         venue = $scope.venues.filter(function(venue) {
           return venue.id === item.venue_id;
         })[0];
-        return new ShowOption(item.id, item.title, venue)
+        return new Show(item.id, item.title, venue)
       });
       // let showings know that shows are loaded
       showsLoaded = true;
