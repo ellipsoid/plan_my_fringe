@@ -53,11 +53,11 @@
         Click to select when you want to see each show. The other performances at that time will be hidden, and the other performances for that show will be hidden, too.
         Made a mistake? Just click again to 'unselect' the show!
 
-      %ul
+      %ul.unstyled
         %li{ "data-ng-repeat"=>"day in days" }
           %strong {{ day.toString() }}
-          %ul
-            %li{ "data-ng-repeat"=>"timeSlot in day.timeSlots" }
+          %ul.unstyled
+            %li.indent{ "data-ng-repeat"=>"timeSlot in day.timeSlots", "data-ng-show" => "timeSlot.selected" }
               %em {{ timeSlot.timeOfDay.toString() }}
               %table.table.table-bordered
                 %tr{ "data-ng-repeat" => "showing in timeSlot.showings | orderBy: 'show.title'",
