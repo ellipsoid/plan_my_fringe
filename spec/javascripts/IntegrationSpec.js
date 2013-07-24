@@ -24,7 +24,7 @@ describe("IntegrationTests", function() {
   var createShow = function() {
     showId = 456;
     title = "Some damn title";
-    venue = "Some damn venue";
+    venue = new Venue(314, "Some damn venue");
     show = new Show(showId, title, venue);
   };
 
@@ -122,8 +122,8 @@ describe("IntegrationTests", function() {
     timeSlot4 = new TimeSlot(4, day2, timeOfDay2);
 
     // create two venues
-    venue1 = "Venue 1";
-    venue2 = "Venue 2";
+    venue1 = new Venue(1, "Venue 1");
+    venue2 = new Venue(2, "Venue 2");
 
     // create four shows
     show1 = new Show(1, "Title 1", venue1);

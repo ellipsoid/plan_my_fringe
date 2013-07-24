@@ -8,6 +8,8 @@ function Show(id, title, venue) {
   this.id = id;
   this.title = title;
   this.venue = venue;
+  venue.addShow(this);
+
   this.showings = [];
   this.selectedShowing = null;
 }
