@@ -17,18 +17,13 @@
 
       %br
 
-      - @show_selection_template = haml :selection_table,
-        locals: { options_enum: "group.shows",
-          order_by: "'title'",
-          on_click_function: "toggleSelectShow",
-          option_name: "{{ option.title }}" }
-
-      %div{ "data-ng-show"=>"groupByVenue" }
-        = haml :accordian,
-          locals: { groups_name: "venues",
-            heading_expression: "{{group.name}}",
-            order_by: "'name'",
-            group_content: @show_selection_template }
+      %ul{ "data-ng-show"=>"groupByVenue" }
+        %li{ "data-ng-repeat"=>"group in venues"}
+          %strong {{ venue.name }}
+          %table.table.table-bordered
+            %tr{ "data-ng-repeat" => "show in venue.shows | orderBy: 'title'"}
+              %td.selectable{ "data-ng-class" => "{selected:show.selected}", "data-ng-click"=>"toggleSelectShow(show)"}
+                {{ show.title }}
 
       %div{ "data-ng-hide" => "groupByVenue" }
         Search:
@@ -36,44 +31,36 @@
         %input{ "type" => "text", "placeholder" => "Search text here...", "data-ng-model" => "searchText"}
         %br
   
-        = haml :selection_table,
-          locals: { options_enum: "shows",
-            order_by: "'title'",
-            on_click_function: "toggleSelectShow",
-            option_name: "{{ option.title }} [{{ option.venue.name }}]"}
+        %strong {{ venue.name }}
+        %table.table.table-bordered
+          %tr{ "data-ng-repeat" => "show in shows | orderBy: 'title'"}
+            %td.selectable{ "data-ng-class" => "{selected:show.selected}", "data-ng-click"=>"toggleSelectShow(show)"}
+              {{ show.title }}
 
     %tab{ "heading" => "Step 2: Times"}
       %p.lead Click to turn off any times you can't see shows, then click "Step 3"
 
-      - @time_selection_template = haml :selection_table,
-        locals: { options_enum: "group.timeSlots",
-          order_by: "'timeOfDay'",
-          on_click_function: "toggleSelectTime",
-          option_name: "{{option.timeOfDay.toString()}}"}
-
-      = haml :accordian, locals: { groups_name: "days", 
-          heading_expression: "{{group.toString()}}",
-          group_content: @time_selection_template }
+      %ul
+        %li{ "data-ng-repeat"=>"day in days | orderBy: 'datetime'" }
+          %strong {{ day.toString() }}
+          %table.table.table-bordered
+            %tr{ "data-ng-repeat" => "timeSlot in day.timeSlots | orderBy: 'timeOfDay.datetime'" }
+              %td.selectable{ "data-ng-class" => "{selected:timeSlot.selected}", "data-ng-click"=>"toggleSelectTime(timeSlot)"}
+                {{ timeSlot.timeOfDay.toString() }}
 
     %tab{ "heading" => "Step 3: Schedule"}
       %p.lead
         Click to select when you want to see each show. The other performances at that time will be hidden, and the other performances for that show will be hidden, too.
         Made a mistake? Just click again to 'unselect' the show!
 
-      - @option_template = haml :selection_table,
-        locals: { options_enum: "group.showings",
-          order_by: "'time.datetime'",
-          on_click_function: "toggleSelectShowing",
-          option_name: "{{ option.show.title }} [{{ option.show.venue.name }}]"}
-
-      - @showing_times_template = haml :accordian,
-        locals: { groups_name: "group.timeGroups",
-          heading_expression: "{{group.timeString}}",
-          order_by: "'time'",
-          group_content: @option_template }
-
-      = haml :accordian,
-        locals: { groups_name: "showingGroups",
-          heading_expression: "{{group.dateString}}",
-          order_by: "'date'",
-          group_content: @showing_times_template }
+      %ul
+        %li{ "data-ng-repeat"=>"day in days" }
+          %strong {{ day.toString() }}
+          %ul
+            %li{ "data-ng-repeat"=>"timeSlot in day.timeSlots" }
+              %em {{ timeSlot.timeOfDay.toString() }}
+              %table.table.table-bordered
+                %tr{ "data-ng-repeat" => "showing in timeSlot.showings | orderBy: 'show.title'",
+                    "data-ng-show" => "showing.selectable" }
+                  %td.selectable{ "data-ng-class" => "{selected:showing.selected}", "data-ng-click"=>"toggleSelectShowing(showing)"}
+                    {{ showing.show.title }}

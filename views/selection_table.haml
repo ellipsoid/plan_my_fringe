@@ -8,7 +8,8 @@
   %tr{ "data-ng-repeat" => "option in #{locals[:options_enum]} | orderBy: #{locals[:order_by]}",
       "tooltip" => "click to select / deselect row",
       "tooltip-placement" => "mouse", 
-      "tooltip-append-to-body" => "true" }
+      "tooltip-append-to-body" => "true",
+      "data-ng-show" => "{selectable:option.selectable}" }
     %td.selectable{ "data-ng-class" => "{selected:option.selected}",
         "data-ng-click" => "#{locals[:on_click_function]}(option)" }
       #{locals[:option_name]}
