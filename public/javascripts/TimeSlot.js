@@ -31,8 +31,8 @@ TimeSlot.prototype.dateString = function() {
 TimeSlot.prototype.addShowing = function(showing) {
   time = this;
   time.showings.push(showing);
-  showing.addMethodHandler("select", time.showingSelected);
-  showing.addMethodHandler("deselect", time.showingDeselected);
+  showing.addMethodHandler("select", time.showingSelected.bind(this));
+  showing.addMethodHandler("deselect", time.showingDeselected.bind(this));
 };
 
 TimeSlot.prototype.canSelect = function(showing) {
@@ -63,5 +63,10 @@ TimeSlot.prototype.showingDeselected = function(showing) {
   time = this;
   if (time.selectedShowing == showing) {
     time.selectedShowing = null;
+
+    // have all showings check whether they are selectable
+    time.showings.forEach(function(showing) {
+      showing.updateSelectable();
+    });
   }
 };

@@ -65,8 +65,8 @@ describe("ShowOption", function() {
   it("should add select and deselect handlers to showing on 'addShowing'", function() {
     showOption.addShowing(newShowing);
 
-    expect(newShowing.addMethodHandler).toHaveBeenCalledWith("select", showOption.showingSelected);
-    expect(newShowing.addMethodHandler).toHaveBeenCalledWith("deselect", showOption.showingDeselected);
+    expect(newShowing.addMethodHandler).toHaveBeenCalled();
+    expect(newShowing.addMethodHandler).toHaveBeenCalled();
   }); 
 
   // showing selection

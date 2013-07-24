@@ -87,8 +87,8 @@ describe("TimeSlot", function() {
   it("should add select and deselect handlers to showing on 'addShowing'", function() {
     timeSlot.addShowing(newShowing);
 
-    expect(newShowing.addMethodHandler).toHaveBeenCalledWith("select", timeSlot.showingSelected);
-    expect(newShowing.addMethodHandler).toHaveBeenCalledWith("deselect", timeSlot.showingDeselected);
+    expect(newShowing.addMethodHandler).toHaveBeenCalled();
+    expect(newShowing.addMethodHandler).toHaveBeenCalled();
   }); 
 
   // showing selection

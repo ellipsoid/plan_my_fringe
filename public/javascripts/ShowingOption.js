@@ -1,18 +1,24 @@
-function ShowingOption(id, showOption, timeOption) {
+function ShowingOption(id, showOption, timeSlot) {
   // inherit properties from SelectableOption
   SelectableOption.call(this);
 
-  this.id = id;
+  showing = this;
+
+  showing.id = id;
 
   // link show with this showing so both have reference to the other
-  this.showOption = showOption;
-  showOption.addShowing(this);
+  showing.showOption = showOption;
+  showOption.addShowing(showing);
+  showOption.addMethodHandler("select", showing.updateSelectable.bind(this));
+  showOption.addMethodHandler("deselect", showing.updateSelectable.bind(this));
 
   // link time with this showing so both have reference to the other
-  this.timeOption = timeOption;
-  timeOption.addShowing(this);
+  showing.timeSlot = timeSlot;
+  timeSlot.addShowing(showing);
+  timeSlot.addMethodHandler("select", showing.updateSelectable.bind(this));
+  timeSlot.addMethodHandler("deselect", showing.updateSelectable.bind(this));
 
-  this.updateSelectable();
+  showing.updateSelectable();
 }
 
 // inherit methods from SelectableOption's prototype
@@ -20,10 +26,12 @@ ShowingOption.prototype = Object.create(SelectableOption.prototype);
 ShowingOption.prototype.constructor = ShowingOption;
 
 ShowingOption.prototype.updateSelectable = function() {
+  showing = this;
   // check that both show and time allow this showing to be selected
-  if (this.showOption.canSelect(this) && this.timeOption.canSelect(this)) {
-    this.selectable = true;
+  if (showing.showOption.canSelect(showing) && 
+      showing.timeSlot.canSelect(showing)) {
+    showing.makeSelectable();
   } else {
-    this.selectable = false;
+    showing.makeUnselectable();
   }
 };
