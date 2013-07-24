@@ -26,7 +26,7 @@ describe("ShowOption", function() {
   beforeEach(function() {
     id = 123;
     title = "Some show title";
-    venue = "Some venue";
+    venue = jasmine.createSpyObj('venue', ['addShow']);
     showOption = new ShowOption(id, title, venue);
     newShowing = mockShowing('newShowing');
   });
@@ -35,6 +35,10 @@ describe("ShowOption", function() {
     expect(showOption.title).toEqual(title);
     expect(showOption.id).toEqual(id);
     expect(showOption.venue).toEqual(venue);
+  });
+
+  it("should call 'addShow' on venue when initialized", function() {
+    expect(venue.addShow).toHaveBeenCalledWith(showOption);
   });
 
   it("should have an empty array as 'showings' by default", function() {
