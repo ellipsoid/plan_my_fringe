@@ -48,4 +48,8 @@ describe("TimeOfDay", function() {
     expect(timeOfDay.timeSlots).toEqual([newTimeSlot]);
   });
 
+  it("returns time in format '5:30 PM' with 'toString()'", function() {
+    expect(timeOfDay.toString()).toEqual("5:30 PM");
+  });
+
 });

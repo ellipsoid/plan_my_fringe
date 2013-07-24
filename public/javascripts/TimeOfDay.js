@@ -22,3 +22,10 @@ TimeOfDay.prototype.includes = function(datetime) {
 TimeOfDay.prototype.addTimeSlot = function(timeSlot) {
   this.timeSlots.push(timeSlot);
 };
+
+TimeOfDay.prototype.toString = function() {
+  var fullTimeString = this.datetime.toLocaleTimeString();
+  // remove the seconds part of time string
+  var shortTimeString = fullTimeString.replace(/:\d\d /," ");
+  return shortTimeString;
+};
