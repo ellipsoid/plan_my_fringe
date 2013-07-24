@@ -25,14 +25,14 @@ describe("IntegrationTests", function() {
     showId = 456;
     title = "Some damn title";
     venue = "Some damn venue";
-    show = new ShowOption(showId, title, venue);
+    show = new Show(showId, title, venue);
   };
 
   var createShowing = function() {
     showingId = 789;
     createTimeSlot();
     createShow();
-    showing = new ShowingOption(showingId, show, timeSlot);
+    showing = new Showing(showingId, show, timeSlot);
   };
 
   it("TimeSlot can initialize with real objects", function() {
@@ -55,7 +55,7 @@ describe("IntegrationTests", function() {
 
   it("Showing can initialize with real objects", function() {
     createShowing();
-    expect(showing.showOption).toBe(show);
+    expect(showing.show).toBe(show);
     expect(showing.timeSlot).toBe(timeSlot);
     expect(showing.selected).toBe(false);
     expect(showing.selectable).toBe(false);
@@ -63,7 +63,7 @@ describe("IntegrationTests", function() {
 
   it("canSelect works on time and show", function() {
     createShowing();
-    expect(showing.showOption.canSelect(showing)).toBe(false);
+    expect(showing.show.canSelect(showing)).toBe(false);
     expect(showing.timeSlot.canSelect(showing)).toBe(false);
   });
 
@@ -77,7 +77,7 @@ describe("IntegrationTests", function() {
 
   it("Showing becomes unselectable when timeslot taken by a selected showing", function() {
     createShowing();
-    var otherShowing = new ShowingOption(000, show, timeSlot);
+    var otherShowing = new Showing(000, show, timeSlot);
     show.select();
     timeSlot.select();
     expect(showing.selectable).toBe(true); // sanity check
@@ -88,7 +88,7 @@ describe("IntegrationTests", function() {
 
   it("Showing becomes selectable again when conflicting timeslot deselected", function() {
     createShowing();
-    var otherShowing = new ShowingOption(000, show, timeSlot);
+    var otherShowing = new Showing(000, show, timeSlot);
     show.select();
     timeSlot.select();
     expect(showing.selectable).toBe(true); // sanity check
@@ -126,26 +126,26 @@ describe("IntegrationTests", function() {
     venue2 = "Venue 2";
 
     // create four shows
-    show1 = new ShowOption(1, "Title 1", venue1);
-    show2 = new ShowOption(2, "Title 2", venue1);
-    show3 = new ShowOption(3, "Title 3", venue2);
-    show4 = new ShowOption(4, "Title 4", venue2);
+    show1 = new Show(1, "Title 1", venue1);
+    show2 = new Show(2, "Title 2", venue1);
+    show3 = new Show(3, "Title 3", venue2);
+    show4 = new Show(4, "Title 4", venue2);
 
     // create eight showings
     // in the first venue, shows go AABB
     // in the second venue, shows go ABAB
 
     // showings for venue1
-    showing1 = new ShowingOption(1, show1, timeSlot1);
-    showing2 = new ShowingOption(2, show1, timeSlot2);
-    showing3 = new ShowingOption(3, show2, timeSlot3);
-    showing4 = new ShowingOption(4, show2, timeSlot4);
+    showing1 = new Showing(1, show1, timeSlot1);
+    showing2 = new Showing(2, show1, timeSlot2);
+    showing3 = new Showing(3, show2, timeSlot3);
+    showing4 = new Showing(4, show2, timeSlot4);
 
     // showings for venue2
-    showing5 = new ShowingOption(5, show3, timeSlot1);
-    showing6 = new ShowingOption(6, show4, timeSlot2);
-    showing7 = new ShowingOption(7, show3, timeSlot3);
-    showing8 = new ShowingOption(8, show4, timeSlot4);
+    showing5 = new Showing(5, show3, timeSlot1);
+    showing6 = new Showing(6, show4, timeSlot2);
+    showing7 = new Showing(7, show3, timeSlot3);
+    showing8 = new Showing(8, show4, timeSlot4);
   };
 
   it("defaults loaded correctly for selected and selectable", function() {

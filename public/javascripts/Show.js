@@ -1,4 +1,4 @@
-function ShowOption(id, title, venue) {
+function Show(id, title, venue) {
   // inherit properties from SelectableOption
   SelectableOption.call(this);
 
@@ -13,17 +13,17 @@ function ShowOption(id, title, venue) {
 }
 
 // inherit methods from SelectableOption's prototype
-ShowOption.prototype = Object.create(SelectableOption.prototype);
-ShowOption.prototype.constructor = ShowOption;
+Show.prototype = Object.create(SelectableOption.prototype);
+Show.prototype.constructor = Show;
 
-ShowOption.prototype.addShowing = function(showing) {
+Show.prototype.addShowing = function(showing) {
   show = this;
   show.showings.push(showing);
   showing.addMethodHandler("select", show.showingSelected.bind(this));
   showing.addMethodHandler("deselect", show.showingDeselected.bind(this));
 };
 
-ShowOption.prototype.canSelect = function(showing) {
+Show.prototype.canSelect = function(showing) {
   show = this;
   if (!show.selected) {
     return false;
@@ -34,7 +34,7 @@ ShowOption.prototype.canSelect = function(showing) {
   }
 };
 
-ShowOption.prototype.showingSelected = function(showingToSelect) {
+Show.prototype.showingSelected = function(showingToSelect) {
   show = this;
   if (show.selectedShowing != showingToSelect) {
     // select showing
@@ -47,7 +47,7 @@ ShowOption.prototype.showingSelected = function(showingToSelect) {
   }
 };
 
-ShowOption.prototype.showingDeselected = function(showing) {
+Show.prototype.showingDeselected = function(showing) {
   show = this;
   if (show.selectedShowing == showing) {
     show.selectedShowing = null;

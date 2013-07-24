@@ -1,7 +1,7 @@
-describe("ShowOption", function() {
+describe("Show", function() {
   var id;
   var title;
-  var showOption;
+  var show;
   var firstShowing;
   var secondShowing;
   var thirdShowing;
@@ -16,54 +16,54 @@ describe("ShowOption", function() {
     secondShowing = mockShowing('secondShowing');
     thirdShowing = mockShowing('thirdShowing');
 
-    showOption.addShowing(firstShowing);
-    showOption.addShowing(secondShowing);
-    showOption.addShowing(thirdShowing);
+    show.addShowing(firstShowing);
+    show.addShowing(secondShowing);
+    show.addShowing(thirdShowing);
 
-    expect(showOption.showings.length).toBe(3); // sanity check
+    expect(show.showings.length).toBe(3); // sanity check
   };
 
   beforeEach(function() {
     id = 123;
     title = "Some show title";
     venue = "Some venue";
-    showOption = new ShowOption(id, title, venue);
+    show = new Show(id, title, venue);
     newShowing = mockShowing('newShowing');
   });
 
   it("should accept a title, id, and venue on initialization", function() {
-    expect(showOption.title).toEqual(title);
-    expect(showOption.id).toEqual(id);
-    expect(showOption.venue).toEqual(venue);
+    expect(show.title).toEqual(title);
+    expect(show.id).toEqual(id);
+    expect(show.venue).toEqual(venue);
   });
 
   it("should have an empty array as 'showings' by default", function() {
-    expect(showOption.showings).toEqual([]);
+    expect(show.showings).toEqual([]);
   });
 
   it("should accept a showing with 'addShowing'", function() {
-    showOption.addShowing(newShowing);
-    expect(showOption.showings).toEqual([newShowing]);
+    show.addShowing(newShowing);
+    expect(show.showings).toEqual([newShowing]);
   });
 
   // quick test to make sure SelectableOption properties are available
 
   it("should respond to 'select()'", function() {
     // sanity check
-    expect(showOption.selected).toEqual(false);
+    expect(show.selected).toEqual(false);
 
-    showOption.select();
-    expect(showOption.selected).toEqual(true);    
+    show.select();
+    expect(show.selected).toEqual(true);    
   });
 
   it("should default 'selectable' to 'true'", function() {
-    expect(showOption.selectable).toBe(true);
+    expect(show.selectable).toBe(true);
   });
 
   // event handlers
 
   it("should add select and deselect handlers to showing on 'addShowing'", function() {
-    showOption.addShowing(newShowing);
+    show.addShowing(newShowing);
 
     expect(newShowing.addMethodHandler).toHaveBeenCalled();
     expect(newShowing.addMethodHandler).toHaveBeenCalled();
@@ -73,38 +73,38 @@ describe("ShowOption", function() {
 
   it("defaults to having no selected showing", function() {
     createAndAddMockShowings();
-    expect(showOption.selectedShowing).toBe(null);
+    expect(show.selectedShowing).toBe(null);
   });
 
   it("keeps record of the selected showing", function() {
     createAndAddMockShowings();
-    showOption.showingSelected(secondShowing);
-    expect(showOption.selectedShowing).toBe(secondShowing);
+    show.showingSelected(secondShowing);
+    expect(show.selectedShowing).toBe(secondShowing);
   });
 
   it("clears selected showing when selected showing deselected", function() {
     createAndAddMockShowings();
-    showOption.showingSelected(secondShowing);
-    expect(showOption.selectedShowing).toBe(secondShowing); // sanity check
+    show.showingSelected(secondShowing);
+    expect(show.selectedShowing).toBe(secondShowing); // sanity check
 
-    showOption.showingDeselected(secondShowing);
-    expect(showOption.selectedShowing).toBe(null);
+    show.showingDeselected(secondShowing);
+    expect(show.selectedShowing).toBe(null);
   });
 
   it("does not clear selected showing when different showing deselected", function() {
     createAndAddMockShowings();
-    showOption.showingSelected(secondShowing);
-    expect(showOption.selectedShowing).toBe(secondShowing); // sanity check
+    show.showingSelected(secondShowing);
+    expect(show.selectedShowing).toBe(secondShowing); // sanity check
 
-    showOption.showingDeselected(thirdShowing);
-    expect(showOption.selectedShowing).toBe(secondShowing); // selected showing unchanged
+    show.showingDeselected(thirdShowing);
+    expect(show.selectedShowing).toBe(secondShowing); // selected showing unchanged
   });
 
   // update Showings
 
   it("tells showings to updateSelectable when showing selected", function() {
     createAndAddMockShowings();
-    showOption.showingSelected(secondShowing);
+    show.showingSelected(secondShowing);
 
     expect(firstShowing.updateSelectable).toHaveBeenCalled();    
     // ignore whether second showing is updated, since it's still selectable
@@ -113,9 +113,9 @@ describe("ShowOption", function() {
 
   it("tells showings to updateSelectable when selected showing deselected", function() {
     createAndAddMockShowings();
-    showOption.showingSelected(secondShowing);
+    show.showingSelected(secondShowing);
 
-    showOption.showingDeselected(secondShowing);
+    show.showingDeselected(secondShowing);
     expect(firstShowing.updateSelectable).toHaveBeenCalled();    
     // ignore whether second showing is updated, since it's still selectable
     expect(thirdShowing.updateSelectable).toHaveBeenCalled();    
@@ -125,55 +125,55 @@ describe("ShowOption", function() {
 
   it("returns 'false' for 'canSelect' when 'selected' is false and showing passed as arg is the selected showing", function() {
     createAndAddMockShowings();
-    expect(showOption.selected).toBe(false); // sanity check
-    showOption.showingSelected(secondShowing);
+    expect(show.selected).toBe(false); // sanity check
+    show.showingSelected(secondShowing);
 
-    var result = showOption.canSelect(secondShowing);
+    var result = show.canSelect(secondShowing);
     expect(result).toBe(false);
   });
 
   it("returns 'false' for 'canSelect' when 'selected' is false and showing passed as arg is not the selected showing", function() {
     createAndAddMockShowings();
-    expect(showOption.selected).toBe(false); // sanity check
-    showOption.showingSelected(secondShowing);
+    expect(show.selected).toBe(false); // sanity check
+    show.showingSelected(secondShowing);
 
-    var result = showOption.canSelect(thirdShowing);
+    var result = show.canSelect(thirdShowing);
     expect(result).toBe(false);
   });
 
   it("returns 'false' for 'canSelect' when 'selected' is false and selectedShowing null", function() {
     createAndAddMockShowings();
-    expect(showOption.selected).toBe(false); // sanity check
-    expect(showOption.selectedShowing).toBe(null); // sanity check
+    expect(show.selected).toBe(false); // sanity check
+    expect(show.selectedShowing).toBe(null); // sanity check
 
-    var result = showOption.canSelect(secondShowing);
+    var result = show.canSelect(secondShowing);
     expect(result).toBe(false);
   });
 
   it("returns true for 'canSelect' when show selected and showing passed as arg is the selected showing", function() {
     createAndAddMockShowings();
-    showOption.select();
-    showOption.showingSelected(secondShowing);
+    show.select();
+    show.showingSelected(secondShowing);
 
-    var result = showOption.canSelect(secondShowing);
+    var result = show.canSelect(secondShowing);
     expect(result).toBe(true);
   });
 
   it("returns false for 'canSelect' when show selected and the selected showing does not match argument", function() {
     createAndAddMockShowings();
-    showOption.select();
-    showOption.showingSelected(secondShowing);
+    show.select();
+    show.showingSelected(secondShowing);
 
-    var result = showOption.canSelect(thirdShowing);
+    var result = show.canSelect(thirdShowing);
     expect(result).toBe(false);
   });
 
   it("returns true for 'canSelect' when show selected and no selected showing exists", function() {
     createAndAddMockShowings();
-    showOption.select();
-    expect(showOption.selectedShowing).toBe(null); // sanity check
+    show.select();
+    expect(show.selectedShowing).toBe(null); // sanity check
 
-    var result = showOption.canSelect(thirdShowing);
+    var result = show.canSelect(thirdShowing);
     expect(result).toBe(true);
   });
 
