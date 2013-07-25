@@ -1,7 +1,8 @@
 plan_my_fringe
 ==============
 
-To visit the live site, please go to http://plan-my-fringe.herokuapp.com/
+To visit the live site, please go to http://plan-my-fringe.herokuapp.com/ (If the dyno
+ is sleeping, this make take a few seconds.)
 
 ### Purpose
 
