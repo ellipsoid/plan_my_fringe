@@ -140,14 +140,17 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
 
   $scope.toggleSelectShow = function(show) {
     show.invertSelection();
+    $scope.saveSelectionsToLocalStorage();
   };
 
   $scope.toggleSelectTime = function(time) {
     time.invertSelection();
+    $scope.saveSelectionsToLocalStorage();
   };
 
   $scope.toggleSelectShowing = function(showing) {
     showing.invertSelection();
+    $scope.saveSelectionsToLocalStorage();
   };
 
   userId = function() {
