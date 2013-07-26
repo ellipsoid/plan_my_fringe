@@ -17,8 +17,8 @@
 
       %br
 
-      %ul{ "data-ng-show"=>"groupByVenue" }
-        %li{ "data-ng-repeat"=>"group in venues"}
+      %ul.unstyled{ "data-ng-show"=>"groupByVenue" }
+        %li{ "data-ng-repeat"=>"venue in venues"}
           %strong {{ venue.name }}
           %table.table.table-bordered
             %tr{ "data-ng-repeat" => "show in venue.shows | orderBy: 'title'"}
@@ -26,21 +26,21 @@
                 {{ show.title }}
 
       %div{ "data-ng-hide" => "groupByVenue" }
-        Search:
+        Search by title:
         %br
         %input{ "type" => "text", "placeholder" => "Search text here...", "data-ng-model" => "searchText"}
         %br
   
         %strong {{ venue.name }}
         %table.table.table-bordered
-          %tr{ "data-ng-repeat" => "show in shows | orderBy: 'title'"}
+          %tr{ "data-ng-repeat" => "show in shows | titleFilter:searchText | orderBy: 'title'"}
             %td.selectable{ "data-ng-class" => "{selected:show.selected}", "data-ng-click"=>"toggleSelectShow(show)"}
               {{ show.title }} [{{ show.venue.name }}]
 
     %tab{ "heading" => "Step 2: Times"}
       %p.lead Click to turn off any times you can't see shows, then click "Step 3"
 
-      %ul
+      %ul.unstyled
         %li{ "data-ng-repeat"=>"day in days | orderBy: 'datetime'" }
           %strong {{ day.toString() }}
           %table.table.table-bordered

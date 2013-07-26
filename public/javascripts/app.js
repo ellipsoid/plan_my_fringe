@@ -10,6 +10,16 @@ selectorApp.config(function($routeProvider, $locationProvider) {
     .otherwise({ redirectTo: '/home' });
 });
 
+selectorApp.filter('titleFilter', function() {
+  return function(list, title) {
+    if (!title || title == "") { return list; }
+    var resultList = list.filter(function(item) {
+      return item.title.toLowerCase().indexOf(title.toLowerCase()) != -1;
+    });
+    return resultList;
+  };
+});
+
 selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dialog, $timeout) {
 
   // Properties
