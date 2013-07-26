@@ -20,7 +20,22 @@ selectorApp.filter('titleFilter', function() {
   };
 });
 
-selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dialog, $timeout) {
+selectorApp.factory('objectExtractor', function($q, $http) {
+  var deferredVenues = $q.defer();
+
+  $http.get('data/2013/venues.json').success(function(data) {
+    var venues = data.map(function(datum) {
+      return new Venue(datum.id, datum.name);
+    });
+    deferredVenues.resolve(venues);
+  }).error(function(reason) {
+    deferredVenues.reject(reason);
+  });
+
+  return deferredVenues.promise;
+});
+
+selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dialog, $timeout, $q, objectExtractor) {
 
   // Properties
 
@@ -40,11 +55,18 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
     }
   };
 
+//  // Venues
+//  $http.get('data/2013/venues.json').success(function(data) {
+//    $scope.venues = data.map(function(datum) {
+//      return new Venue(datum.id, datum.name);
+//    });
+//    loadShows();
+//  });
+
   // Venues
-  $http.get('data/2013/venues.json').success(function(data) {
-    $scope.venues = data.map(function(datum) {
-      return new Venue(datum.id, datum.name);
-    });
+  var venuesPromise = objectExtractor;
+  venuesPromise.then(function(venues) {
+    $scope.venues = venues;
     loadShows();
   });
 
