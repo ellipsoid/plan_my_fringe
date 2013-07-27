@@ -1,8 +1,10 @@
 plan_my_fringe
 ==============
 
-To visit the live site, please go to http://plan-my-fringe.herokuapp.com/ (If the dyno
+To visit the live site, please visit http://plan-my-fringe.herokuapp.com/ (If the dyno
  is sleeping, this make take a few seconds.)
+
+For more information about the Fringe Festival, please visit http://www.fringefestival.org/
 
 ### Purpose
 
