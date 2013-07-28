@@ -1,3 +1,5 @@
+'use strict'
+
 var selectorApp = angular.module('selectorApp', ['ngCookies', 'ui.bootstrap']);
 
 selectorApp.config(function($routeProvider, $locationProvider) {
@@ -56,10 +58,10 @@ selectorApp.factory('objectExtractor', function($q, $http) {
 
   var showsPromise = $q.all([showsDataPromise, venuesPromise]).then(
     function(result) {
-      showData = result[0];
-      venues = result[1];
-      shows = showData.map(function(datum) {
-        venue = findById(venues, datum.venue_id);
+      var showData = result[0];
+      var venues = result[1];
+      var shows = showData.map(function(datum) {
+        var venue = findById(venues, datum.venue_id);
         return new Show(datum.id, datum.title, venue)
       });
       return shows;
@@ -130,9 +132,9 @@ selectorApp.factory('objectExtractor', function($q, $http) {
       var timeSlots = result[2].timeSlots;
   
       var showings = showingsData.map(function(datum) {
-        id = datum.id;
-        time = findById(timeSlots, datum.timeslot);
-        show = findById(shows, datum.show_id);
+        var id = datum.id;
+        var time = findById(timeSlots, datum.timeslot);
+        var show = findById(shows, datum.show_id);
         return new Showing(id, show, time);
       });
   
@@ -187,6 +189,9 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
   var showsLoaded = false;
   var timesLoaded = false;
 
+  // user options
+  $scope.groupByVenue = false;
+
   // Get objects from data
   var objectsPromise = objectExtractor;
   objectsPromise.then(function(objects) {
@@ -200,9 +205,6 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
 
     tryLoadingSelections();
   });
-
-  // Show selection
-  $scope.groupByVenue = false;
 
   // load selections from server or localStorage, if available
   var tryLoadingSelections = function() {
@@ -241,7 +243,7 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
     $scope.saveSelectionsToLocalStorage();
   };
 
-  userId = function() {
+  var userId = function() {
     return $cookies.uid;
   };
 
@@ -299,7 +301,7 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
     addAlert("Selections successfully loaded.", "success");
   };
 
-  getSelectedIds = function(list) {
+  var getSelectedIds = function(list) {
     selectedIds = list
       .filter(function(element) { return element.selected })
       .map(function(element) { return element.id });
