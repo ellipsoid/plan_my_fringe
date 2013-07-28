@@ -1,6 +1,6 @@
 'use strict'
 
-Application.Controllers.controller('SchedulerController', function ($scope, $http, $cookies, $dialog, $timeout, schedulerObjects) {
+Application.Controllers.controller('SchedulerController', function ($scope, $http, $cookies, $dialog, $timeout, SchedulerObjects) {
 
   // Properties
 
@@ -32,7 +32,7 @@ Application.Controllers.controller('SchedulerController', function ($scope, $htt
   $scope.groupByVenue = false;
 
   // Get objects from data
-  schedulerObjects.then(function(objects) {
+  SchedulerObjects.then(function(objects) {
     $scope.venues = objects.venues;
     $scope.shows = objects.shows;
     $scope.days = objects.days;

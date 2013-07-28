@@ -1,6 +1,6 @@
 'use strict'
 
-Application.Services.factory('schedulerObjects', function($q, $http) {
+Application.Services.factory('SchedulerObjects', function($q, $http) {
   var errorHandler = function(error) {
     return error;
   };
