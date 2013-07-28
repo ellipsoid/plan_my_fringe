@@ -1,6 +1,6 @@
 'use strict'
 
-Application.Controllers.controller('SchedulerController', function ($scope, $http, $cookies, $dialog, $timeout, $q, schedulerObjects) {
+Application.Controllers.controller('SchedulerController', function ($scope, $http, $cookies, $dialog, $timeout, schedulerObjects) {
 
   // Properties
 
@@ -139,7 +139,7 @@ Application.Controllers.controller('SchedulerController', function ($scope, $htt
   };
 
   var getSelectedIds = function(list) {
-    selectedIds = list
+    var selectedIds = list
       .filter(function(element) { return element.selected })
       .map(function(element) { return element.id });
     return selectedIds;
