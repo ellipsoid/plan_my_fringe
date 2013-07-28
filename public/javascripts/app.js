@@ -1,18 +1,31 @@
 'use strict'
 
-var selectorApp = angular.module('selectorApp', ['ngCookies', 'ui.bootstrap']);
+/**
+* Taken from github.com/thedigitalself/angular-sprout/
+* The application file bootstraps the angular app by  initializing the main module and 
+* creating namespaces and moduled for controllers, filters, services, and directives. 
+*/
 
-selectorApp.config(function($routeProvider, $locationProvider) {
-  $routeProvider
-    .when('/home',
-      {
-        controller: 'HomeController',
-        templateUrl: 'views/home.html'
-      })
-    .otherwise({ redirectTo: '/home' });
-});
+var Application = Application || {};
 
-selectorApp.filter('titleFilter', function() {
+Application.Constants = angular.module('application.constants', []);
+Application.Services = angular.module('application.services', []);
+Application.Controllers = angular.module('application.controllers', []);
+Application.Filters = angular.module('application.filters', []);
+Application.Directives = angular.module('application.directives', []);
+
+angular.module('application', ['application.filters', 'application.services', 'application.directives', 'application.constants', 'application.controllers', 'ngCookies', 'ui.bootstrap']).
+  config(['$routeProvider', function($routeProvider) {
+    $routeProvider
+      .when('/home',
+        {
+          controller: 'HomeController',
+          templateUrl: 'views/home.html'
+        })
+      .otherwise({ redirectTo: '/home' });
+}]);
+
+Application.Filters.filter('titleFilter', function() {
   return function(list, title) {
     if (!title || title == "") { return list; }
     var resultList = list.filter(function(item) {
@@ -22,7 +35,7 @@ selectorApp.filter('titleFilter', function() {
   };
 });
 
-selectorApp.factory('objectExtractor', function($q, $http) {
+Application.Services.factory('objectExtractor', function($q, $http) {
   var errorHandler = function(error) {
     return error;
   };
@@ -161,7 +174,7 @@ selectorApp.factory('objectExtractor', function($q, $http) {
   return objectsPromise;
 });
 
-selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dialog, $timeout, $q, objectExtractor) {
+Application.Controllers.controller('HomeController', function ($scope, $http, $cookies, $dialog, $timeout, $q, objectExtractor) {
 
   // Properties
 
