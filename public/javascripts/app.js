@@ -21,18 +21,142 @@ selectorApp.filter('titleFilter', function() {
 });
 
 selectorApp.factory('objectExtractor', function($q, $http) {
-  var deferredVenues = $q.defer();
+  var errorHandler = function(error) {
+    return error;
+  };
 
-  $http.get('data/2013/venues.json').success(function(data) {
-    var venues = data.map(function(datum) {
-      return new Venue(datum.id, datum.name);
+  var findById = function(list, id) {
+    var matchingElements = list.filter(function(element) {
+      return element.id == id;
     });
-    deferredVenues.resolve(venues);
-  }).error(function(reason) {
-    deferredVenues.reject(reason);
-  });
 
-  return deferredVenues.promise;
+    if (matchingElements.length != 0) {
+      return matchingElements[0];
+    } else {
+      return undefined;
+    }
+  };
+
+  var venuesPromise = $http.get('data/2013/venues.json').then(
+    function(result) {
+      var venues = result.data.map(function(datum) {
+        return new Venue(datum.id, datum.name);
+      });
+      return venues;
+    },
+    errorHandler
+  );
+
+  var showsDataPromise = $http.get('data/2013/shows.json').then(
+    function(result) {
+      return result.data;
+    },
+    errorHandler
+  );
+
+  var showsPromise = $q.all([showsDataPromise, venuesPromise]).then(
+    function(result) {
+      showData = result[0];
+      venues = result[1];
+      shows = showData.map(function(datum) {
+        venue = findById(venues, datum.venue_id);
+        return new Show(datum.id, datum.title, venue)
+      });
+      return shows;
+    },
+    errorHandler
+  );
+
+  var timeObjectsPromise = $http.get('data/2013/timeslots.json').then(
+    function(result) {
+      var days = [];
+      var timesOfDay = [];
+      var timeSlots = [];
+
+      result.data.forEach(function(datum) {
+        var datetime = new Date(datum.datetime);
+        var day;
+        var timeOfDay;
+  
+        // get day
+        var matchingDays = days.filter(function(existingDay) {
+          return existingDay.includes(datetime);
+        });
+
+        if (matchingDays.length != 0) {
+          day = matchingDays[0];
+        } else {
+          day = new Day(datetime);
+          days.push(day);
+        }
+  
+        // get time of day
+        var matchingTimesOfDay = timesOfDay.filter(function(existingTime) {
+          return existingTime.includes(datetime);
+        });
+        if (matchingTimesOfDay.length != 0) {
+          timeOfDay = matchingTimesOfDay[0];
+        } else {
+          timeOfDay = new TimeOfDay(datetime);
+          timesOfDay.push(timeOfDay);
+        }
+  
+        // get time slot
+        var timeSlot = new TimeSlot(datum.id, day, timeOfDay);
+        timeSlot.select(); // time slots are selected by default
+        timeSlots.push(timeSlot);
+      });
+
+      return {
+        days: days,
+        timesOfDay: timesOfDay,
+        timeSlots: timeSlots
+      }
+    },
+    errorHandler
+  );
+
+  var showingsDataPromise = $http.get('data/2013/showings.json').then(
+    function(result) {
+      return result.data;
+    },
+    errorHandler
+  );
+
+  var showingsPromise = $q.all([showingsDataPromise, showsPromise, timeObjectsPromise]).then(
+    function(result) {
+      var showingsData = result[0];
+      var shows = result[1];
+      var timeSlots = result[2].timeSlots;
+  
+      var showings = showingsData.map(function(datum) {
+        id = datum.id;
+        time = findById(timeSlots, datum.timeslot);
+        show = findById(shows, datum.show_id);
+        return new Showing(id, show, time);
+      });
+  
+      return showings;
+    }
+  );
+
+  var objectsPromise = $q.all([venuesPromise, showsPromise, timeObjectsPromise, showingsPromise]).then(
+    function(result) {
+      var timeObjects = result[2];
+      var objects = {
+        venues: result[0],
+        shows: result[1],
+        days: timeObjects.days,
+        timesOfDay: timeObjects.timesOfDay,
+        timeSlots: timeObjects.timeSlots,
+        showings: result[3]
+      };
+  
+      return objects;
+    }
+  );
+
+  return objectsPromise;
 });
 
 selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dialog, $timeout, $q, objectExtractor) {
@@ -55,98 +179,30 @@ selectorApp.controller('HomeController', function ($scope, $http, $cookies, $dia
     }
   };
 
-//  // Venues
-//  $http.get('data/2013/venues.json').success(function(data) {
-//    $scope.venues = data.map(function(datum) {
-//      return new Venue(datum.id, datum.name);
-//    });
-//    loadShows();
-//  });
+  $scope.shows = [];
+  $scope.times = [];
+  $scope.days = [];
+  $scope.timesOfDay = [];
+  $scope.showings = [];
+  var showsLoaded = false;
+  var timesLoaded = false;
 
-  // Venues
-  var venuesPromise = objectExtractor;
-  venuesPromise.then(function(venues) {
-    $scope.venues = venues;
-    loadShows();
+  // Get objects from data
+  var objectsPromise = objectExtractor;
+  objectsPromise.then(function(objects) {
+    $scope.venues = objects.venues;
+    $scope.shows = objects.shows;
+    $scope.days = objects.days;
+    $scope.timesOfDay = objects.timesOfDay;
+    $scope.times = objects.timeSlots;
+    $scope.showings = objects.showings;
+
+
+    tryLoadingSelections();
   });
 
   // Show selection
   $scope.groupByVenue = false;
-  $scope.shows = [];
-  var showsLoaded = false;
-
-  var loadShows = function() {
-    $http.get('data/2013/shows.json').success(function(data) {
-      $scope.shows = data.map(function(datum) {
-        venue = findById($scope.venues, datum.venue_id);
-        return new Show(datum.id, datum.title, venue)
-      });
-      // let showings know that shows are loaded
-      showsLoaded = true;
-      tryLoadShowings();
-    });
-  };
-
-  // Time selection
-  $scope.times = [];
-  $scope.days = [];
-  $scope.timesOfDay = [];
-  var timesLoaded = false;
-
-  $http.get('data/2013/timeslots.json').success(function(data) {
-    data.forEach(function(datum) {
-      var datetime = new Date(datum.datetime);
-      var day;
-      var timeOfDay;
-
-      var matchingDays = $scope.days.filter(function(existingDay) {
-        return existingDay.includes(datetime);
-      });
-      if (matchingDays.length != 0) {
-        day = matchingDays[0];
-      } else {
-        day = new Day(datetime);
-        $scope.days.push(day);
-      }
-
-      var matchingTimesOfDay = $scope.timesOfDay.filter(function(existingTime) {
-        return existingTime.includes(datetime);
-      });
-      if (matchingTimesOfDay.length != 0) {
-        timeOfDay = matchingTimesOfDay[0];
-      } else {
-        timeOfDay = new TimeOfDay(datetime);
-        $scope.timesOfDay.push(timeOfDay);
-      }
-
-      var timeSlot = new TimeSlot(datum.id, day, timeOfDay);
-      timeSlot.select(); // time slots selected by default
-      $scope.times.push(timeSlot);
-    });
-
-    // let showings know that times are loaded
-    timesLoaded = true;
-    tryLoadShowings();
-  });
-
-
-  // Showing selection
-  $scope.showings = [];
-
-  var tryLoadShowings = function() {
-    // only attempt to create showings once shows and times are both loaded
-    if (showsLoaded && timesLoaded) {
-      $http.get('data/2013/showings.json').success(function(data) {
-        $scope.showings = data.map(function(showing_data) {
-          id = showing_data.id;
-          time = findById($scope.times, showing_data.timeslot);
-          show = findById($scope.shows, showing_data.show_id);
-          return new Showing(id, show, time);
-        });
-        tryLoadingSelections();
-      });
-    }
-  };
 
   // load selections from server or localStorage, if available
   var tryLoadingSelections = function() {
