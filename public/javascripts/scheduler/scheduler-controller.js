@@ -25,8 +25,6 @@ Application.Controllers.controller('SchedulerController', function ($scope, $htt
   $scope.days = [];
   $scope.timesOfDay = [];
   $scope.showings = [];
-  var showsLoaded = false;
-  var timesLoaded = false;
 
   // user options
   $scope.groupByVenue = false;
