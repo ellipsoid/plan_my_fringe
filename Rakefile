@@ -1,49 +1,6 @@
+# Add your own tasks in files placed in lib/tasks ending in .rake,
+# for example lib/tasks/capistrano.rake, and they will automatically be available to Rake.
 
-# JS Testing
-begin
-  require 'jasmine'
-  load 'jasmine/tasks/jasmine.rake'
-rescue LoadError
-  task :jasmine do
-    abort "Jasmine is not available. In order to run jasmine, you must: (sudo) gem install jasmine"
-  end
-end
+require File.expand_path('../config/application', __FILE__)
 
-
-# Migrations (lifted from http://obfuscurity.com/2011/11/Sequel-Migrations-on-Heroku)
-namespace :db do
-  # load dev variables if not in production
-  require './env.rb' if File.exists?('./env.rb')
-  require 'sequel'
-  namespace :migrate do
-    Sequel.extension :migration
-    DB = Sequel.connect(ENV['DATABASE_URL'])
-
-    desc "Perform migration reset (full erase and migration up)"
-    task :reset do
-      Sequel::Migrator.run(DB, "db/migrations", :target => 0)
-      Sequel::Migrator.run(DB, "db/migrations")
-      puts "<= sq:migrate:reset executed"
-    end
-
-    desc "Perform migration up/down to VERSION"
-    task :to do
-      version = ENV['VERSION'].to_i
-      raise "No VERSION was provided" if version.nil?
-      Sequel::Migrator.run(DB, "db/migrations", :target => version)
-      puts "<= sq:migrate:to version=[#{version}] executed"
-    end
-
-    desc "Perform migration up to latest migration"
-    task :up do
-      Sequel::Migrator.run(DB, "db/migrations")
-      puts "<= sq:migrate:up executed"
-    end
-
-    desc "Perform migration down (erase all data)"
-    task :down do
-      Sequel::Migrator.run(DB, "db/migrations", :target => 0)
-      puts "<= q:migrate:down executed"
-    end
-  end
-end
+JQuery::Application.load_tasks
