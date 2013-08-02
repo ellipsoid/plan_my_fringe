@@ -60,3 +60,12 @@ Show.prototype.showingDeselected = function(showing) {
     });
   }
 };
+
+Show.prototype.selectableShowingsCount = function() {
+  show = this;
+  selectableShowings = show.showings.filter(function(showing) {
+    return showing.selectable;
+  });
+
+  return selectableShowings.length;
+};

@@ -64,3 +64,4 @@
                     "data-ng-show" => "showing.selectable" }
                   %td.selectable{ "data-ng-class" => "{selected:showing.selected}", "data-ng-click"=>"toggleSelectShowing(showing)"}
                     {{ showing.show.title }} [{{ showing.show.venue.name }}]
+                    %span.badge {{ showing.show.selectableShowingsCount() }}
