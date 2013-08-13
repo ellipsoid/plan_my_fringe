@@ -1,0 +1,1069 @@
+
+
+Started GET "/" for 127.0.0.1 at 2013-08-01 19:31:55 -0500
+Processing by Rails::WelcomeController#index as HTML
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/railties-4.0.0.rc1/lib/rails/templates/rails/welcome/index.html.erb (7.1ms)
+Completed 200 OK in 42ms (Views: 40.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-01 20:38:28 -0500
+
+ActiveRecord::PendingMigrationError (Migrations are pending; run 'rake db:migrate RAILS_ENV=development' to resolve this issue.):
+  activerecord (4.0.0.rc1) lib/active_record/migration.rb:376:in `check_pending!'
+  activerecord (4.0.0.rc1) lib/active_record/migration.rb:364:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/logger_silence.rb:16:in `silence'
+  activerecord (4.0.0.rc1) lib/active_record/migration.rb:363:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/callbacks.rb:392:in `_run__1248435351212707377__call__callbacks'
+  activesupport (4.0.0.rc1) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/reloader.rb:64:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.0.rc1) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.0.0.rc1) lib/rails/engine.rb:511:in `call'
+  railties (4.0.0.rc1) lib/rails/application.rb:96:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_source.erb (1.3ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.6ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (2.1ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (43.7ms)
+  [1m[36m (70.5ms)[0m  [1mCREATE TABLE "schema_migrations" ("version" varchar(255) NOT NULL) [0m
+  [1m[35m (3.6ms)[0m  CREATE UNIQUE INDEX "unique_schema_migrations" ON "schema_migrations" ("version")
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateVenues (20130802003818)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateVenues (20130802003818)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (14.7ms)[0m  [1mCREATE TABLE "venues" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "name" varchar(255), "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.4ms)[0m  CREATE INDEX "index_venues_on_id" ON "venues" ("id")
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20130802003818"]]
+  [1m[35m (6.3ms)[0m  commit transaction
+Migrating to CreateShows (20130802004139)
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateShows (20130802004139)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.2ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateShows (20130802004139)
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36m (2.0ms)[0m  [1mCREATE TABLE "shows" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "title" varchar(255), "venue_id" integer, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.2ms)[0m  CREATE INDEX "index_shows_on_venue_id" ON "shows" ("venue_id")
+  [1m[36m (0.2ms)[0m  [1mCREATE INDEX "index_shows_on_id" ON "shows" ("id")[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20130802004139"]]
+  [1m[36m (42.5ms)[0m  [1mcommit transaction[0m
+Migrating to CreateTimeSlots (20130802013112)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.1ms)[0m  [1mrollback transaction[0m
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+Migrating to CreateTimeSlots (20130802013112)
+  [1m[35m (0.2ms)[0m  begin transaction
+  [1m[36m (0.8ms)[0m  [1mCREATE TABLE "time_slots" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "datetime" datetime, "created_at" datetime, "updated_at" datetime) [0m
+  [1m[35m (0.3ms)[0m  CREATE INDEX "index_time_slots_on_id" ON "time_slots" ("id")
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "schema_migrations" ("version") VALUES (?)[0m  [["version", "20130802013112"]]
+  [1m[35m (5.4ms)[0m  commit transaction
+Migrating to CreateShowings (20130802013240)
+  [1m[36m (0.2ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.9ms)[0m  CREATE TABLE "showings" ("id" INTEGER PRIMARY KEY AUTOINCREMENT NOT NULL, "show_id" integer, "time_slot_id" integer, "created_at" datetime, "updated_at" datetime) 
+  [1m[36m (0.2ms)[0m  [1mCREATE INDEX "index_showings_on_show_id" ON "showings" ("show_id")[0m
+  [1m[35m (0.3ms)[0m  CREATE INDEX "index_showings_on_time_slot_id" ON "showings" ("time_slot_id")
+  [1m[36m (0.2ms)[0m  [1mCREATE INDEX "index_showings_on_id" ON "showings" ("id")[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "schema_migrations" ("version") VALUES (?)  [["version", "20130802013240"]]
+  [1m[36m (5.3ms)[0m  [1mcommit transaction[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.3ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-01 20:54:00 -0500
+
+ActionController::RoutingError (No route matches [GET] "/venues"):
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.0.rc1) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.0.0.rc1) lib/rails/engine.rb:511:in `call'
+  railties (4.0.0.rc1) lib/rails/application.rb:96:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.3ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/routes/_table.html.erb (65.3ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (95.8ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-01 21:04:29 -0500
+
+ActionController::RoutingError (No route matches [GET] "/venues"):
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.0.rc1) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.0.0.rc1) lib/rails/engine.rb:511:in `call'
+  railties (4.0.0.rc1) lib/rails/application.rb:96:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.5ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/routes/_table.html.erb (2.6ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (25.3ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-01 21:05:20 -0500
+Processing by VenuesController#index as HTML
+  [1m[36mVenue Load (0.2ms)[0m  [1mSELECT "venues".* FROM "venues"[0m
+  Rendered venues/index.html.erb within layouts/application (4.1ms)
+Completed 200 OK in 1541ms (Views: 1456.7ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-01 21:05:22 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-01 21:05:22 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-01 21:05:22 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-01 21:05:22 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-01 21:05:22 -0500
+
+
+Started GET "/venues/new" for 127.0.0.1 at 2013-08-01 21:05:29 -0500
+Processing by VenuesController#new as HTML
+  Rendered venues/_form.html.erb (224.4ms)
+  Rendered venues/new.html.erb within layouts/application (228.2ms)
+Completed 200 OK in 237ms (Views: 235.2ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-01 21:05:33 -0500
+Processing by VenuesController#index as HTML
+  [1m[35mVenue Load (0.3ms)[0m  SELECT "venues".* FROM "venues"
+  Rendered venues/index.html.erb within layouts/application (2.9ms)
+Completed 200 OK in 12ms (Views: 10.1ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-01 21:07:47 -0500
+Processing by VenuesController#index as HTML
+Completed 500 Internal Server Error in 6ms
+
+RuntimeError (`attr_accessible` is extracted out of Rails into a gem. Please use new recommended protection model for params(strong_parameters) or add `protected_attributes` to your Gemfile to use old one.):
+  app/models/venue.rb:3:in `<class:Venue>'
+  app/models/venue.rb:1:in `<top (required)>'
+  app/controllers/venues_controller.rb:6:in `index'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_source.erb (1.5ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.8ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (2.3ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (36.9ms)
+  [1m[36mActiveRecord::SchemaMigration Load (0.2ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35mActiveRecord::SchemaMigration Load (0.2ms)[0m  SELECT "schema_migrations".* FROM "schema_migrations"
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-01 21:10:37 -0500
+Processing by VenuesController#index as HTML
+Completed 500 Internal Server Error in 9ms
+
+RuntimeError (`attr_accessible` is extracted out of Rails into a gem. Please use new recommended protection model for params(strong_parameters) or add `protected_attributes` to your Gemfile to use old one.):
+  app/models/venue.rb:3:in `<class:Venue>'
+  app/models/venue.rb:1:in `<top (required)>'
+  app/controllers/venues_controller.rb:6:in `index'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_source.erb (1.6ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.8ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (42.2ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (92.2ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 17:45:07 -0500
+
+ActionController::RoutingError (No route matches [GET] "/venues"):
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/debug_exceptions.rb:21:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.0.rc1) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.0.0.rc1) lib/rails/engine.rb:511:in `call'
+  railties (4.0.0.rc1) lib/rails/application.rb:96:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.6ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/routes/_table.html.erb (188.2ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (227.5ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 17:45:50 -0500
+
+ActionController::RoutingError (uninitialized constant VenuesController):
+  activesupport (4.0.0.rc1) lib/active_support/inflector/methods.rb:226:in `const_get'
+  activesupport (4.0.0.rc1) lib/active_support/inflector/methods.rb:226:in `block in constantize'
+  activesupport (4.0.0.rc1) lib/active_support/inflector/methods.rb:224:in `each'
+  activesupport (4.0.0.rc1) lib/active_support/inflector/methods.rb:224:in `inject'
+  activesupport (4.0.0.rc1) lib/active_support/inflector/methods.rb:224:in `constantize'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:76:in `controller_reference'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:66:in `controller'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:44:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.0.0.rc1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:654:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/flash.rb:241:in `call'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/cookies.rb:486:in `call'
+  activerecord (4.0.0.rc1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.0.0.rc1) lib/active_record/connection_adapters/abstract/connection_pool.rb:626:in `call'
+  activerecord (4.0.0.rc1) lib/active_record/migration.rb:366:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/callbacks.rb:392:in `_run__286821031344293290__call__callbacks'
+  activesupport (4.0.0.rc1) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/reloader.rb:64:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.0.rc1) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.0.0.rc1) lib/rails/engine.rb:511:in `call'
+  railties (4.0.0.rc1) lib/rails/application.rb:96:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.6ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/routes/_route.html.erb (2.6ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/routes/_table.html.erb (2.6ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/routing_error.erb within rescues/layout (70.4ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 17:46:37 -0500
+
+SyntaxError (/Users/andrewnorthrop/Desktop/Programming/JQuery/app/controllers/venues_controller.rb:3: syntax error, unexpected keyword_end, expecting $end):
+  activesupport (4.0.0.rc1) lib/active_support/dependencies.rb:423:in `load'
+  activesupport (4.0.0.rc1) lib/active_support/dependencies.rb:423:in `block in load_file'
+  activesupport (4.0.0.rc1) lib/active_support/dependencies.rb:615:in `new_constants_in'
+  activesupport (4.0.0.rc1) lib/active_support/dependencies.rb:422:in `load_file'
+  activesupport (4.0.0.rc1) lib/active_support/dependencies.rb:323:in `require_or_load'
+  activesupport (4.0.0.rc1) lib/active_support/dependencies.rb:462:in `load_missing_constant'
+  activesupport (4.0.0.rc1) lib/active_support/dependencies.rb:183:in `const_missing'
+  activesupport (4.0.0.rc1) lib/active_support/inflector/methods.rb:226:in `const_get'
+  activesupport (4.0.0.rc1) lib/active_support/inflector/methods.rb:226:in `block in constantize'
+  activesupport (4.0.0.rc1) lib/active_support/inflector/methods.rb:224:in `each'
+  activesupport (4.0.0.rc1) lib/active_support/inflector/methods.rb:224:in `inject'
+  activesupport (4.0.0.rc1) lib/active_support/inflector/methods.rb:224:in `constantize'
+  activesupport (4.0.0.rc1) lib/active_support/dependencies.rb:534:in `get'
+  activesupport (4.0.0.rc1) lib/active_support/dependencies.rb:565:in `constantize'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:76:in `controller_reference'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:66:in `controller'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:44:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.0.0.rc1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:654:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/flash.rb:241:in `call'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/cookies.rb:486:in `call'
+  activerecord (4.0.0.rc1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.0.0.rc1) lib/active_record/connection_adapters/abstract/connection_pool.rb:626:in `call'
+  activerecord (4.0.0.rc1) lib/active_record/migration.rb:366:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/callbacks.rb:392:in `_run__286821031344293290__call__callbacks'
+  activesupport (4.0.0.rc1) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/reloader.rb:64:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.0.rc1) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.0.0.rc1) lib/rails/engine.rb:511:in `call'
+  railties (4.0.0.rc1) lib/rails/application.rb:96:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_source.erb (1.6ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.5ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (84.5ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (118.9ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 17:46:57 -0500
+
+AbstractController::ActionNotFound (The action 'index' could not be found for VenuesController):
+  actionpack (4.0.0.rc1) lib/abstract_controller/base.rb:131:in `process'
+  actionpack (4.0.0.rc1) lib/abstract_controller/rendering.rb:44:in `process'
+  actionpack (4.0.0.rc1) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.0.0.rc1) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.0.0.rc1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:654:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/flash.rb:241:in `call'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/cookies.rb:486:in `call'
+  activerecord (4.0.0.rc1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.0.0.rc1) lib/active_record/connection_adapters/abstract/connection_pool.rb:626:in `call'
+  activerecord (4.0.0.rc1) lib/active_record/migration.rb:366:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/callbacks.rb:392:in `_run__286821031344293290__call__callbacks'
+  activesupport (4.0.0.rc1) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/reloader.rb:64:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.0.rc1) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.0.0.rc1) lib/rails/engine.rb:511:in `call'
+  railties (4.0.0.rc1) lib/rails/application.rb:96:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/unknown_action.erb within rescues/layout (0.9ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 17:47:07 -0500
+Processing by VenuesController#index as HTML
+Completed 500 Internal Server Error in 3ms
+
+ActionView::MissingTemplate (Missing template venues/index, application/index with {:locale=>[:en], :formats=>[:html], :handlers=>[:erb, :builder, :raw, :ruby, :jbuilder, :coffee]}. Searched in:
+  * "/Users/andrewnorthrop/Desktop/Programming/JQuery/app/views"
+):
+  actionpack (4.0.0.rc1) lib/action_view/path_set.rb:46:in `find'
+  actionpack (4.0.0.rc1) lib/action_view/lookup_context.rb:114:in `find'
+  actionpack (4.0.0.rc1) lib/action_view/renderer/abstract_renderer.rb:18:in `find_template'
+  actionpack (4.0.0.rc1) lib/action_view/renderer/template_renderer.rb:35:in `determine_template'
+  actionpack (4.0.0.rc1) lib/action_view/renderer/template_renderer.rb:8:in `render'
+  actionpack (4.0.0.rc1) lib/action_view/renderer/renderer.rb:42:in `render_template'
+  actionpack (4.0.0.rc1) lib/action_view/renderer/renderer.rb:23:in `render'
+  actionpack (4.0.0.rc1) lib/abstract_controller/rendering.rb:127:in `_render_template'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/streaming.rb:219:in `_render_template'
+  actionpack (4.0.0.rc1) lib/abstract_controller/rendering.rb:120:in `render_to_body'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/rendering.rb:33:in `render_to_body'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/renderers.rb:26:in `render_to_body'
+  actionpack (4.0.0.rc1) lib/abstract_controller/rendering.rb:97:in `render'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/rendering.rb:16:in `render'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/instrumentation.rb:41:in `block (2 levels) in render'
+  activesupport (4.0.0.rc1) lib/active_support/core_ext/benchmark.rb:12:in `block in ms'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/benchmark.rb:295:in `realtime'
+  activesupport (4.0.0.rc1) lib/active_support/core_ext/benchmark.rb:12:in `ms'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/instrumentation.rb:41:in `block in render'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/instrumentation.rb:84:in `cleanup_view_runtime'
+  activerecord (4.0.0.rc1) lib/active_record/railties/controller_runtime.rb:25:in `cleanup_view_runtime'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/instrumentation.rb:40:in `render'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/implicit_render.rb:10:in `default_render'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/implicit_render.rb:5:in `send_action'
+  actionpack (4.0.0.rc1) lib/abstract_controller/base.rb:189:in `process_action'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/rendering.rb:10:in `process_action'
+  actionpack (4.0.0.rc1) lib/abstract_controller/callbacks.rb:18:in `block in process_action'
+  activesupport (4.0.0.rc1) lib/active_support/callbacks.rb:422:in `_run__2863740376200812168__process_action__callbacks'
+  activesupport (4.0.0.rc1) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.0.rc1) lib/abstract_controller/callbacks.rb:17:in `process_action'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/rescue.rb:29:in `process_action'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/instrumentation.rb:31:in `block in process_action'
+  activesupport (4.0.0.rc1) lib/active_support/notifications.rb:159:in `block in instrument'
+  activesupport (4.0.0.rc1) lib/active_support/notifications/instrumenter.rb:20:in `instrument'
+  activesupport (4.0.0.rc1) lib/active_support/notifications.rb:159:in `instrument'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/instrumentation.rb:30:in `process_action'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/params_wrapper.rb:245:in `process_action'
+  activerecord (4.0.0.rc1) lib/active_record/railties/controller_runtime.rb:18:in `process_action'
+  actionpack (4.0.0.rc1) lib/abstract_controller/base.rb:136:in `process'
+  actionpack (4.0.0.rc1) lib/abstract_controller/rendering.rb:44:in `process'
+  actionpack (4.0.0.rc1) lib/action_controller/metal.rb:195:in `dispatch'
+  actionpack (4.0.0.rc1) lib/action_controller/metal/rack_delegation.rb:13:in `dispatch'
+  actionpack (4.0.0.rc1) lib/action_controller/metal.rb:231:in `block in action'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:80:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:80:in `dispatch'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:48:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/journey/router.rb:71:in `block in call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/journey/router.rb:59:in `each'
+  actionpack (4.0.0.rc1) lib/action_dispatch/journey/router.rb:59:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/routing/route_set.rb:654:in `call'
+  rack (1.5.2) lib/rack/etag.rb:23:in `call'
+  rack (1.5.2) lib/rack/conditionalget.rb:25:in `call'
+  rack (1.5.2) lib/rack/head.rb:11:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/params_parser.rb:27:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/flash.rb:241:in `call'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:225:in `context'
+  rack (1.5.2) lib/rack/session/abstract/id.rb:220:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/cookies.rb:486:in `call'
+  activerecord (4.0.0.rc1) lib/active_record/query_cache.rb:36:in `call'
+  activerecord (4.0.0.rc1) lib/active_record/connection_adapters/abstract/connection_pool.rb:626:in `call'
+  activerecord (4.0.0.rc1) lib/active_record/migration.rb:366:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/callbacks.rb:29:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/callbacks.rb:392:in `_run__286821031344293290__call__callbacks'
+  activesupport (4.0.0.rc1) lib/active_support/callbacks.rb:80:in `run_callbacks'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/callbacks.rb:27:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/reloader.rb:64:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/remote_ip.rb:76:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/debug_exceptions.rb:17:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/show_exceptions.rb:30:in `call'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:38:in `call_app'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `block in call'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `block in tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:25:in `tagged'
+  activesupport (4.0.0.rc1) lib/active_support/tagged_logging.rb:67:in `tagged'
+  railties (4.0.0.rc1) lib/rails/rack/logger.rb:21:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/request_id.rb:21:in `call'
+  rack (1.5.2) lib/rack/methodoverride.rb:21:in `call'
+  rack (1.5.2) lib/rack/runtime.rb:17:in `call'
+  activesupport (4.0.0.rc1) lib/active_support/cache/strategy/local_cache.rb:83:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  actionpack (4.0.0.rc1) lib/action_dispatch/middleware/static.rb:64:in `call'
+  railties (4.0.0.rc1) lib/rails/engine.rb:511:in `call'
+  railties (4.0.0.rc1) lib/rails/application.rb:96:in `call'
+  rack (1.5.2) lib/rack/lock.rb:17:in `call'
+  rack (1.5.2) lib/rack/content_length.rb:14:in `call'
+  rack (1.5.2) lib/rack/handler/webrick.rb:60:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:138:in `service'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/httpserver.rb:94:in `run'
+  /usr/local/rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/webrick/server.rb:191:in `block in start_thread'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/missing_template.erb within rescues/layout (0.9ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 17:51:18 -0500
+Processing by VenuesController#index as HTML
+  [1m[36mVenue Load (0.2ms)[0m  [1mSELECT "venues".* FROM "venues"[0m
+  Rendered venues/index.html.erb within layouts/application (3.5ms)
+Completed 200 OK in 290ms (Views: 190.1ms | ActiveRecord: 0.6ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 17:51:18 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 17:51:18 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 17:51:18 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 17:51:18 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 17:51:18 -0500
+
+
+Started GET "/venues/new" for 127.0.0.1 at 2013-08-02 17:51:22 -0500
+Processing by VenuesController#new as HTML
+  Rendered venues/_form.html.erb (219.0ms)
+  Rendered venues/new.html.erb within layouts/application (221.9ms)
+Completed 500 Internal Server Error in 231ms
+
+ActionView::Template::Error (undefined method `index' for #<Venue id: nil, name: nil, created_at: nil, updated_at: nil>):
+    13: 
+    14:   <div class="field">
+    15:     <%= f.label :index %><br>
+    16:     <%= f.text_field :index %>
+    17:   </div>
+    18:   <div class="actions">
+    19:     <%= f.submit %>
+  app/views/venues/_form.html.erb:16:in `block in _app_views_venues__form_html_erb___1115355807521590256_70207579367420'
+  app/views/venues/_form.html.erb:1:in `_app_views_venues__form_html_erb___1115355807521590256_70207579367420'
+  app/views/venues/new.html.erb:3:in `_app_views_venues_new_html_erb__2105550068531999651_70207579325860'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.9ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (2.4ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (28.7ms)
+
+
+Started GET "/venues/new" for 127.0.0.1 at 2013-08-02 17:51:23 -0500
+Processing by VenuesController#new as HTML
+  Rendered venues/_form.html.erb (4.9ms)
+  Rendered venues/new.html.erb within layouts/application (7.3ms)
+Completed 500 Internal Server Error in 12ms
+
+ActionView::Template::Error (undefined method `index' for #<Venue id: nil, name: nil, created_at: nil, updated_at: nil>):
+    13: 
+    14:   <div class="field">
+    15:     <%= f.label :index %><br>
+    16:     <%= f.text_field :index %>
+    17:   </div>
+    18:   <div class="actions">
+    19:     <%= f.submit %>
+  app/views/venues/_form.html.erb:16:in `block in _app_views_venues__form_html_erb___1115355807521590256_70207586651520'
+  app/views/venues/_form.html.erb:1:in `_app_views_venues__form_html_erb___1115355807521590256_70207586651520'
+  app/views/venues/new.html.erb:3:in `_app_views_venues_new_html_erb__2105550068531999651_70207586634540'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.8ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (2.3ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (23.3ms)
+
+
+Started GET "/venues/new" for 127.0.0.1 at 2013-08-02 18:12:05 -0500
+Processing by VenuesController#new as HTML
+  Rendered venues/_form.html.erb (6.0ms)
+  Rendered venues/new.html.erb within layouts/application (8.1ms)
+Completed 200 OK in 16ms (Views: 14.5ms | ActiveRecord: 0.0ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 18:12:05 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 18:12:05 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 18:12:05 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 18:12:05 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 18:12:05 -0500
+
+
+Started POST "/venues" for 127.0.0.1 at 2013-08-02 18:12:14 -0500
+Processing by VenuesController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"mFYo5uJb/BHlhbLdX3B++y7tnaqSiumrYmsHo/6mOBI=", "venue"=>{"name"=>"Theater in the Round"}, "commit"=>"Create Venue"}
+Unpermitted parameters: name
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (136.0ms)[0m  [1mINSERT INTO "venues" ("created_at", "updated_at") VALUES (?, ?)[0m  [["created_at", Fri, 02 Aug 2013 23:12:14 UTC +00:00], ["updated_at", Fri, 02 Aug 2013 23:12:14 UTC +00:00]]
+  [1m[35m (7.9ms)[0m  commit transaction
+Redirected to http://localhost:3000/venues/1
+Completed 302 Found in 155ms (ActiveRecord: 144.1ms)
+
+
+Started GET "/venues/1" for 127.0.0.1 at 2013-08-02 18:12:14 -0500
+Processing by VenuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mVenue Load (0.4ms)[0m  [1mSELECT "venues".* FROM "venues" WHERE "venues"."id" = ? LIMIT 1[0m  [["id", "1"]]
+  Rendered venues/show.html.erb within layouts/application (3.5ms)
+Completed 500 Internal Server Error in 14ms
+
+ActionView::Template::Error (undefined method `index' for #<Venue:0x007fb4f5bcaf78>):
+    2: 
+    3: <p>
+    4:   <strong>Index:</strong>
+    5:   <%= @venue.index %>
+    6: </p>
+    7: 
+    8: <%= link_to 'Edit', edit_venue_path(@venue) %> |
+  app/views/venues/show.html.erb:5:in `_app_views_venues_show_html_erb___1386779793138854797_70207595038000'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.8ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (2.2ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (23.8ms)
+
+
+Started GET "/venues/1" for 127.0.0.1 at 2013-08-02 18:12:44 -0500
+Processing by VenuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mVenue Load (0.2ms)[0m  SELECT "venues".* FROM "venues" WHERE "venues"."id" = ? LIMIT 1  [["id", "1"]]
+  Rendered venues/show.html.erb within layouts/application (2.1ms)
+Completed 200 OK in 12ms (Views: 9.0ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 18:12:44 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 18:12:44 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 18:12:44 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 18:12:44 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 18:12:44 -0500
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 18:13:50 -0500
+Processing by VenuesController#index as HTML
+  [1m[36mVenue Load (0.3ms)[0m  [1mSELECT "venues".* FROM "venues"[0m
+  Rendered venues/index.html.erb within layouts/application (5.4ms)
+Completed 500 Internal Server Error in 29ms
+
+ActionView::Template::Error (undefined method `index' for #<Venue:0x007fb4f4886db8>):
+    13:   <tbody>
+    14:     <% @venues.each do |venue| %>
+    15:       <tr>
+    16:         <td><%= venue.index %></td>
+    17:         <td><%= link_to 'Show', venue %></td>
+    18:         <td><%= link_to 'Edit', edit_venue_path(venue) %></td>
+    19:         <td><%= link_to 'Destroy', venue, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  app/views/venues/index.html.erb:16:in `block in _app_views_venues_index_html_erb___4434366419388436668_70207587328560'
+  app/views/venues/index.html.erb:14:in `_app_views_venues_index_html_erb___4434366419388436668_70207587328560'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.7ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (2.3ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (25.8ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 18:13:50 -0500
+Processing by VenuesController#index as HTML
+  [1m[35mVenue Load (0.2ms)[0m  SELECT "venues".* FROM "venues"
+  Rendered venues/index.html.erb within layouts/application (3.1ms)
+Completed 500 Internal Server Error in 7ms
+
+ActionView::Template::Error (undefined method `index' for #<Venue:0x007fb4f3aa6888>):
+    13:   <tbody>
+    14:     <% @venues.each do |venue| %>
+    15:       <tr>
+    16:         <td><%= venue.index %></td>
+    17:         <td><%= link_to 'Show', venue %></td>
+    18:         <td><%= link_to 'Edit', edit_venue_path(venue) %></td>
+    19:         <td><%= link_to 'Destroy', venue, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+  app/views/venues/index.html.erb:16:in `block in _app_views_venues_index_html_erb___4434366419388436668_70207577186260'
+  app/views/venues/index.html.erb:14:in `_app_views_venues_index_html_erb___4434366419388436668_70207577186260'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (2.9ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (2.7ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/template_error.erb within rescues/layout (25.7ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 18:14:25 -0500
+Processing by VenuesController#index as HTML
+  [1m[36mVenue Load (0.3ms)[0m  [1mSELECT "venues".* FROM "venues"[0m
+  Rendered venues/index.html.erb within layouts/application (3.7ms)
+Completed 200 OK in 11ms (Views: 9.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 18:14:25 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 18:14:25 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 18:14:25 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 18:14:25 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 18:14:25 -0500
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 18:14:47 -0500
+Processing by VenuesController#index as HTML
+Completed 500 Internal Server Error in 4ms
+
+RuntimeError (`attr_accessible` is extracted out of Rails into a gem. Please use new recommended protection model for params(strong_parameters) or add `protected_attributes` to your Gemfile to use old one.):
+  app/models/venue.rb:2:in `<class:Venue>'
+  app/models/venue.rb:1:in `<top (required)>'
+  app/controllers/venues_controller.rb:6:in `index'
+
+
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_source.erb (1.6ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_trace.erb (3.3ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/_request_and_response.erb (2.4ms)
+  Rendered /usr/local/rvm/gems/ruby-1.9.3-p194/gems/actionpack-4.0.0.rc1/lib/action_dispatch/middleware/templates/rescues/diagnostics.erb within rescues/layout (35.7ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 19:06:41 -0500
+Processing by VenuesController#index as HTML
+  [1m[35mVenue Load (0.2ms)[0m  SELECT "venues".* FROM "venues"
+  Rendered venues/index.html.erb within layouts/application (22.0ms)
+Completed 200 OK in 90ms (Views: 28.2ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 19:06:41 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 19:06:41 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 19:06:42 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 19:06:42 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 19:06:42 -0500
+
+
+Started GET "/venues/1/edit" for 127.0.0.1 at 2013-08-02 19:06:45 -0500
+Processing by VenuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mVenue Load (0.3ms)[0m  [1mSELECT "venues".* FROM "venues" WHERE "venues"."id" = ? LIMIT 1[0m  [["id", "1"]]
+  Rendered venues/_form.html.erb (21.3ms)
+  Rendered venues/edit.html.erb within layouts/application (25.2ms)
+Completed 200 OK in 35ms (Views: 32.9ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 19:06:48 -0500
+Processing by VenuesController#index as HTML
+  [1m[35mVenue Load (0.3ms)[0m  SELECT "venues".* FROM "venues"
+  Rendered venues/index.html.erb within layouts/application (5.8ms)
+Completed 200 OK in 17ms (Views: 15.8ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/venues/new" for 127.0.0.1 at 2013-08-02 19:06:55 -0500
+Processing by VenuesController#new as HTML
+  Rendered venues/_form.html.erb (5.8ms)
+  Rendered venues/new.html.erb within layouts/application (7.7ms)
+Completed 200 OK in 16ms (Views: 14.7ms | ActiveRecord: 0.0ms)
+
+
+Started POST "/venues" for 127.0.0.1 at 2013-08-02 19:06:57 -0500
+Processing by VenuesController#create as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"mFYo5uJb/BHlhbLdX3B++y7tnaqSiumrYmsHo/6mOBI=", "venue"=>{"name"=>""}, "commit"=>"Create Venue"}
+Unpermitted parameters: name
+  [1m[36m (0.1ms)[0m  [1mbegin transaction[0m
+  [1m[35m (0.2ms)[0m  rollback transaction
+  Rendered venues/_form.html.erb (5.5ms)
+  Rendered venues/new.html.erb within layouts/application (6.9ms)
+Completed 200 OK in 21ms (Views: 14.4ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 19:06:58 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 19:06:58 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 19:06:58 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 19:06:58 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 19:06:58 -0500
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 19:07:00 -0500
+Processing by VenuesController#index as HTML
+  [1m[36mVenue Load (0.3ms)[0m  [1mSELECT "venues".* FROM "venues"[0m
+  Rendered venues/index.html.erb within layouts/application (2.6ms)
+Completed 200 OK in 9ms (Views: 8.5ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 19:07:00 -0500
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 19:07:00 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 19:07:00 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 19:07:00 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 19:07:00 -0500
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 19:09:47 -0500
+Processing by VenuesController#index as HTML
+  [1m[35mVenue Load (0.2ms)[0m  SELECT "venues".* FROM "venues"
+  Rendered venues/index.html.erb within layouts/application (21.6ms)
+Completed 200 OK in 35ms (Views: 27.7ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 19:09:47 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 19:09:47 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 19:09:47 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 19:09:47 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 19:09:47 -0500
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 19:11:51 -0500
+Processing by VenuesController#index as HTML
+  [1m[36mVenue Load (0.2ms)[0m  [1mSELECT "venues".* FROM "venues"[0m
+  Rendered venues/index.html.erb within layouts/application (23.0ms)
+Completed 200 OK in 38ms (Views: 29.6ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 19:11:51 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 19:11:51 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 19:11:51 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 19:11:51 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 19:11:51 -0500
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 19:11:53 -0500
+Processing by VenuesController#index as HTML
+  [1m[35mVenue Load (0.3ms)[0m  SELECT "venues".* FROM "venues"
+  Rendered venues/index.html.erb within layouts/application (2.9ms)
+Completed 200 OK in 10ms (Views: 8.9ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 19:11:53 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 19:11:53 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 19:11:53 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 19:11:53 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 19:11:53 -0500
+
+
+Started GET "/venues/1" for 127.0.0.1 at 2013-08-02 19:11:55 -0500
+Processing by VenuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mVenue Load (0.4ms)[0m  [1mSELECT "venues".* FROM "venues" WHERE "venues"."id" = ? LIMIT 1[0m  [["id", "1"]]
+  Rendered venues/show.html.erb within layouts/application (2.6ms)
+Completed 200 OK in 21ms (Views: 17.0ms | ActiveRecord: 0.4ms)
+
+
+Started GET "/venues/1/edit" for 127.0.0.1 at 2013-08-02 19:11:57 -0500
+Processing by VenuesController#edit as HTML
+  Parameters: {"id"=>"1"}
+  [1m[35mVenue Load (0.2ms)[0m  SELECT "venues".* FROM "venues" WHERE "venues"."id" = ? LIMIT 1  [["id", "1"]]
+  Rendered venues/_form.html.erb (6.4ms)
+  Rendered venues/edit.html.erb within layouts/application (9.3ms)
+Completed 200 OK in 19ms (Views: 17.0ms | ActiveRecord: 0.2ms)
+
+
+Started PATCH "/venues/1" for 127.0.0.1 at 2013-08-02 19:12:02 -0500
+Processing by VenuesController#update as HTML
+  Parameters: {"utf8"=>"✓", "authenticity_token"=>"mFYo5uJb/BHlhbLdX3B++y7tnaqSiumrYmsHo/6mOBI=", "venue"=>{"name"=>"Theater in the Round"}, "commit"=>"Update Venue", "id"=>"1"}
+  [1m[36mVenue Load (0.2ms)[0m  [1mSELECT "venues".* FROM "venues" WHERE "venues"."id" = ? LIMIT 1[0m  [["id", "1"]]
+  [1m[35m (0.1ms)[0m  begin transaction
+  [1m[36mSQL (0.7ms)[0m  [1mUPDATE "venues" SET "name" = ?, "updated_at" = ? WHERE "venues"."id" = 1[0m  [["name", "Theater in the Round"], ["updated_at", Sat, 03 Aug 2013 00:12:02 UTC +00:00]]
+  [1m[35m (11.3ms)[0m  commit transaction
+Redirected to http://localhost:3000/venues/1
+Completed 302 Found in 28ms (ActiveRecord: 12.3ms)
+
+
+Started GET "/venues/1" for 127.0.0.1 at 2013-08-02 19:12:02 -0500
+Processing by VenuesController#show as HTML
+  Parameters: {"id"=>"1"}
+  [1m[36mVenue Load (0.2ms)[0m  [1mSELECT "venues".* FROM "venues" WHERE "venues"."id" = ? LIMIT 1[0m  [["id", "1"]]
+  Rendered venues/show.html.erb within layouts/application (1.1ms)
+Completed 200 OK in 11ms (Views: 7.3ms | ActiveRecord: 0.2ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 19:12:02 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 19:12:02 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 19:12:02 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 19:12:02 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 19:12:02 -0500
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 19:12:04 -0500
+Processing by VenuesController#index as HTML
+  [1m[35mVenue Load (0.3ms)[0m  SELECT "venues".* FROM "venues"
+  Rendered venues/index.html.erb within layouts/application (7.6ms)
+Completed 200 OK in 23ms (Views: 18.7ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 19:14:49 -0500
+Processing by VenuesController#index as HTML
+  [1m[36mVenue Load (0.2ms)[0m  [1mSELECT "venues".* FROM "venues"[0m
+  Rendered venues/index.html.erb within layouts/application (25.8ms)
+Completed 200 OK in 123ms (Views: 113.4ms | ActiveRecord: 0.7ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 19:14:49 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 19:14:49 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 19:14:49 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 19:14:49 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 19:14:49 -0500
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 19:15:49 -0500
+Processing by VenuesController#index as HTML
+  [1m[35mVenue Load (0.3ms)[0m  SELECT "venues".* FROM "venues"
+  Rendered venues/index.html.erb within layouts/application (2.6ms)
+Completed 200 OK in 10ms (Views: 9.2ms | ActiveRecord: 0.3ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 19:15:49 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 19:15:49 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 19:15:49 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 19:15:49 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 19:15:49 -0500
+
+
+Started GET "/venues" for 127.0.0.1 at 2013-08-02 19:33:14 -0500
+Processing by VenuesController#index as HTML
+  [1m[36mVenue Load (0.2ms)[0m  [1mSELECT "venues".* FROM "venues"[0m
+  Rendered venues/index.html.erb within layouts/application (27.2ms)
+Completed 200 OK in 175ms (Views: 162.8ms | ActiveRecord: 0.8ms)
+
+
+Started GET "/assets/application.css?body=1" for 127.0.0.1 at 2013-08-02 19:33:15 -0500
+
+
+Started GET "/assets/jquery.js?body=1" for 127.0.0.1 at 2013-08-02 19:33:15 -0500
+
+
+Started GET "/assets/jquery_ujs.js?body=1" for 127.0.0.1 at 2013-08-02 19:33:15 -0500
+
+
+Started GET "/assets/turbolinks.js?body=1" for 127.0.0.1 at 2013-08-02 19:33:15 -0500
+
+
+Started GET "/assets/application.js?body=1" for 127.0.0.1 at 2013-08-02 19:33:15 -0500

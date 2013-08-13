@@ -17,10 +17,10 @@ Application.Directives = angular.module('application.directives', []);
 angular.module('application', ['application.filters', 'application.services', 'application.directives', 'application.constants', 'application.controllers', 'ngCookies', 'ui.bootstrap']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider
-      .when('/home',
+      .when('/:festivalGroupId/:festivalId',
         {
           controller: 'SchedulerController',
           templateUrl: 'views/home.html'
         })
-      .otherwise({ redirectTo: '/home' });
+      .otherwise({ redirectTo: '/mnfringe/2013' });
 }]);

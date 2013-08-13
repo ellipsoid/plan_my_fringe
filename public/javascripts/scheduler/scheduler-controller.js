@@ -1,12 +1,15 @@
 'use strict'
 
-Application.Controllers.controller('SchedulerController', function ($scope, $http, $cookies, $dialog, $timeout, SchedulerObjects) {
+Application.Controllers.controller('SchedulerController', function ($scope, $http, $cookies, $dialog, $timeout, $routeParams, SchedulerObjects) {
 
   // Properties
 
   $scope.userName = $cookies.user_name;
   $scope.loggedIn = ($cookies.logged_in === "true");
   $scope.hasData = ($cookies.has_data === "true");
+
+  $scope.festivalId = $routeParams.festivalId;
+  $scope.festivalGroupId = $routeParams.festivalGroupId;
 
   var findById = function(list, id) {
     var matchingElements = list.filter(function(element) {

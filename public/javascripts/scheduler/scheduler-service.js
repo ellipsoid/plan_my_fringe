@@ -1,6 +1,8 @@
 'use strict'
 
-Application.Services.factory('SchedulerObjects', function($q, $http) {
+Application.Services.factory('SchedulerObjects', function($q, $http, $routeParams) {
+  var resourcePath = $routeParams.festivalGroupId + "/" + $routeParams.festivalId;
+
   var errorHandler = function(error) {
     return error;
   };
@@ -17,7 +19,7 @@ Application.Services.factory('SchedulerObjects', function($q, $http) {
     }
   };
 
-  var venuesPromise = $http.get('data/2013/venues.json').then(
+  var venuesPromise = $http.get(resourcePath + '/venues.json').then(
     function(result) {
       var venues = result.data.map(function(datum) {
         return new Venue(datum.id, datum.name);
@@ -27,7 +29,7 @@ Application.Services.factory('SchedulerObjects', function($q, $http) {
     errorHandler
   );
 
-  var showsDataPromise = $http.get('data/2013/shows.json').then(
+  var showsDataPromise = $http.get(resourcePath + '/shows.json').then(
     function(result) {
       return result.data;
     },
@@ -47,7 +49,7 @@ Application.Services.factory('SchedulerObjects', function($q, $http) {
     errorHandler
   );
 
-  var timeObjectsPromise = $http.get('data/2013/timeslots.json').then(
+  var timeObjectsPromise = $http.get(resourcePath + '/timeslots.json').then(
     function(result) {
       var days = [];
       var timesOfDay = [];
@@ -96,7 +98,7 @@ Application.Services.factory('SchedulerObjects', function($q, $http) {
     errorHandler
   );
 
-  var showingsDataPromise = $http.get('data/2013/showings.json').then(
+  var showingsDataPromise = $http.get(resourcePath + '/showings.json').then(
     function(result) {
       return result.data;
     },
