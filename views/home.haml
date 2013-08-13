@@ -1,6 +1,4 @@
 %div.container-fluid
-  %h1 {{ festivalId + " " + festivalGroupId }}
-
   .alert{ "data-ng-class" => "{success:'alert-success', error:'alert-error'}[alert.type]", "data-ng-repeat" => "alert in alerts" }
     %button.close{ "type" => "button", "data-dismiss" => "alert", "data-ng-click" => "closeAlert($index)" } &times;
     {{ alert.msg }}
