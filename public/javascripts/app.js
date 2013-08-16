@@ -22,5 +22,10 @@ angular.module('application', ['application.filters', 'application.services', 'a
           controller: 'SchedulerController',
           templateUrl: 'views/home.html'
         })
+      .when('/:festivalGroupId/:festivalId/show-selection',
+        {
+          controller: 'ShowSelectionController',
+          templateUrl: 'views/home.html'
+        })
       .otherwise({ redirectTo: '/mnfringe/2013' });
 }]);
