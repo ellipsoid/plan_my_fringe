@@ -1,6 +1,7 @@
 'use strict'
 
-Application.Controllers.controller('SchedulerController', function ($scope, $http, $cookies, $dialog, $timeout, SchedulerObjects) {
+Application.Controllers.controller('SchedulerController', function ($scope, $http, $cookies, $dialog, $timeout, SchedulerObjects, $routeParams) {
+  var resourcePath = $routeParams.festivalGroupId + "/" + $routeParams.festivalId;
 
   // Properties
 
@@ -45,8 +46,8 @@ Application.Controllers.controller('SchedulerController', function ($scope, $htt
   var tryLoadingSelections = function() {
     if ($scope.loggedIn && $scope.hasData) {
       $scope.loadSelectionsFromServer();
-    } else if (Modernizr.localstorage && localStorage["selectionData"]) {
-      var data = JSON.parse(localStorage["selectionData"]);
+    } else if (Modernizr.localstorage && localStorage[resourcePath + "/selections"]) {
+      var data = JSON.parse(localStorage[resourcePath + "/selections"]);
 
       assignSelectionsFromData(
         data.selectedShowIds,
@@ -57,7 +58,7 @@ Application.Controllers.controller('SchedulerController', function ($scope, $htt
 
   $scope.saveSelectionsToLocalStorage = function() {
     var data = getSelectionsAsDataObject();
-    localStorage["selectionData"] = JSON.stringify(data);
+    localStorage[resourcePath + "/selections"] = JSON.stringify(data);
   };
 
 
