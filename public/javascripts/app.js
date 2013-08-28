@@ -17,6 +17,16 @@ Application.Directives = angular.module('application.directives', []);
 angular.module('application', ['application.filters', 'application.services', 'application.directives', 'application.constants', 'application.controllers', 'ngCookies', 'ui.bootstrap']).
   config(['$routeProvider', function($routeProvider) {
     $routeProvider
+      .when('/',
+	{
+	  controller: 'RootController',
+	  templateUrl: 'views/root.html'
+	})
+      .when('/:festivalGroupId',
+	{
+	  controller: 'FestivalController',
+          templateUrl: 'views/festival.html'
+        })
       .when('/:festivalGroupId/:festivalId',
         {
           controller: 'SchedulerController',
@@ -27,5 +37,5 @@ angular.module('application', ['application.filters', 'application.services', 'a
           controller: 'ShowSelectionController',
           templateUrl: 'views/home.html'
         })
-      .otherwise({ redirectTo: '/mnfringe/2013' });
+      .otherwise({ redirectTo: '/' });
 }]);
