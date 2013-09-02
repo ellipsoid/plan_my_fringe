@@ -1,0 +1,4 @@
+%div.container-fluid
+  %ul
+    %li{ "data-ng-repeat" => "year in years" }
+      %a{ href: "{{ year.url }}" } {{ year.string }}

@@ -1,0 +1,4 @@
+%div.container-fluid
+  %ul
+    %li{ "data-ng-repeat"=>"festival in festivals"}
+      %a{href: "{{ festival.url }}" } {{ festival.name }}
