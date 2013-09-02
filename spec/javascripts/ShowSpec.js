@@ -125,6 +125,17 @@ describe("Show", function() {
     expect(thirdShowing.updateSelectable).toHaveBeenCalled();    
   });
 
+  // active showings
+
+  it("returns the number of selectable showings with 'selectableShowingsCount'", function() {
+    createAndAddMockShowings();
+    firstShowing.selectable = false;
+    secondShowing.selectable = true;
+    thirdShowing.selectable = false;
+
+    expect(show.selectableShowingsCount()).toEqual(1);
+  });
+
   // canSelect
 
   it("returns 'false' for 'canSelect' when 'selected' is false and showing passed as arg is the selected showing", function() {
