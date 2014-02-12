@@ -1,8 +1,8 @@
 plan_my_fringe
 ==============
 
-~~To visit the live site, please visit http://plan-my-fringe.herokuapp.com/ (If the dyno
- is sleeping, this make take a few seconds.)~~ The site is down for the season, please check back again in July.
+To visit the live site, please visit http://plan-my-fringe.herokuapp.com/ (If the dyno
+ is sleeping, this make take a few seconds.)
 
 For more information about the Fringe Festival, please visit http://www.fringefestival.org/
 
