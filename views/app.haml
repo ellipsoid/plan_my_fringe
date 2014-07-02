@@ -24,6 +24,11 @@
     %script{:src => "javascripts/google_analytics.js"}
     %link{:rel=>"stylesheet", :href=>"//netdna.bootstrapcdn.com/twitter-bootstrap/2.3.2/css/bootstrap-combined.min.css"}
     %link{:rel=>"stylesheet", :href=>"stylesheets/default.css"}
+    :javascript
+      // hack to let facebook oauth callbacks go to the right url
+      if (window.location.hash && window.location.hash == '#_=_') {
+          window.location.hash = '';
+      }
   %body
     =haml :header_bar
 

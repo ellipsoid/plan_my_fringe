@@ -45,7 +45,7 @@ class App < Sinatra::Base
   # OAuth
   use OmniAuth::Builder do
     provider :google, ENV["GOOGLE_KEY"], ENV["GOOGLE_SECRET"]
-    provider :facebook, ENV["FACEBOOK_KEY"], ENV["FACEBOOK_SECRET"], :display => 'popup'
+    provider :facebook, ENV["FACEBOOK_KEY"], ENV["FACEBOOK_SECRET"]
   end
 
   # OAuth Callbacks
@@ -57,7 +57,7 @@ class App < Sinatra::Base
 
     uid = provider + "-" + request.env['omniauth.auth'].uid
     session["uid"] = uid
-    redirect('/mnfringe/2014')
+    redirect('/')
   end
 
   # home page - single page app
