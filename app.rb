@@ -45,7 +45,7 @@ class App < Sinatra::Base
   # OAuth
   use OmniAuth::Builder do
     provider :google, ENV["GOOGLE_KEY"], ENV["GOOGLE_SECRET"]
-    provider :facebook, ENV["FACEBOOK_KEY"], ENV["FACEBOOK_SECRET"]
+    provider :facebook, ENV["FACEBOOK_KEY"], ENV["FACEBOOK_SECRET"], :display => 'popup'
   end
 
   # OAuth Callbacks
