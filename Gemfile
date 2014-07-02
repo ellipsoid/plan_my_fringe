@@ -9,7 +9,7 @@ gem 'sequel'
 gem 'rake'
 gem 'pg'
 
-gem 'omniauth', '~>1.0'
+gem 'omniauth'
 gem 'omniauth-google'
 gem 'omniauth-facebook'
 

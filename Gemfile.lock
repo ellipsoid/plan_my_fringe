@@ -62,7 +62,7 @@ DEPENDENCIES
   compass
   haml
   json
-  omniauth (~> 1.0)
+  omniauth
   omniauth-facebook
   omniauth-google
   pg
