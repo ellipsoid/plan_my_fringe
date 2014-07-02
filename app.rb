@@ -57,7 +57,7 @@ class App < Sinatra::Base
 
     uid = provider + "-" + request.env['omniauth.auth'].uid
     session["uid"] = uid
-    redirect('/')
+    redirect('/mnfringe/2014')
   end
 
   # home page - single page app
