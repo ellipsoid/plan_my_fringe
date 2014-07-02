@@ -13,6 +13,6 @@ gem 'omniauth', '~>1.0'
 gem 'omniauth-google'
 gem 'omniauth-facebook'
 
-group :development do
+group :development, :test do
   gem 'sqlite3'
 end
