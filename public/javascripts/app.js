@@ -18,14 +18,14 @@ angular.module('application', ['application.filters', 'application.services', 'a
   config(['$routeProvider', function($routeProvider) {
     $routeProvider
       .when('/',
-	{
-		redirectTo: '/mnfringe/2014'
-	  //controller: 'RootController',
-	  //templateUrl: 'views/root.html'
-	})
-      .when('/:festivalGroupId',
-	{
-	  controller: 'FestivalController',
+				{
+					redirectTo: '/mnfringe/2014'
+					//controller: 'RootController',
+					//templateUrl: 'views/root.html'
+				})
+						.when('/:festivalGroupId',
+				{
+					controller: 'FestivalController',
           templateUrl: 'views/festival.html'
         })
       .when('/:festivalGroupId/:festivalId',
@@ -38,6 +38,5 @@ angular.module('application', ['application.filters', 'application.services', 'a
           controller: 'ShowSelectionController',
           templateUrl: 'views/home.html'
         })
-	}
-    .otherwise({ redirectTo: '/mnfringe/2014' });
-]);
+      .otherwise({ redirectTo: '/mnfringe/2014' });
+}]);
