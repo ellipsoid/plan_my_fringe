@@ -134,6 +134,10 @@ class App < Sinatra::Base
     scss(:"stylesheets/#{params[:name]}", Compass.sass_engine_options )
   end
 
+	get '*' do
+    redirect('/')
+	end
+
   run! if app_file == $0
 
 end
