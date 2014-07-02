@@ -38,5 +38,6 @@ angular.module('application', ['application.filters', 'application.services', 'a
           controller: 'ShowSelectionController',
           templateUrl: 'views/home.html'
         })
-      .otherwise({ redirectTo: '/mnfringe/2014' });
-}]);
+	}
+    .otherwise({ redirectTo: '/mnfringe/2014' });
+]);
