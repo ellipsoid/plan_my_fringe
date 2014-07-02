@@ -19,8 +19,9 @@ angular.module('application', ['application.filters', 'application.services', 'a
     $routeProvider
       .when('/',
 	{
-	  controller: 'RootController',
-	  templateUrl: 'views/root.html'
+		redirectTo: '/mnfringe/2014'
+	  //controller: 'RootController',
+	  //templateUrl: 'views/root.html'
 	})
       .when('/:festivalGroupId',
 	{
@@ -37,5 +38,5 @@ angular.module('application', ['application.filters', 'application.services', 'a
           controller: 'ShowSelectionController',
           templateUrl: 'views/home.html'
         })
-      .otherwise({ redirectTo: '/' });
+      .otherwise({ redirectTo: '/mnfringe/2014' });
 }]);
