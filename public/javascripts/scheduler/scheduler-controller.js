@@ -181,7 +181,7 @@ Application.Controllers.controller('SchedulerController', function ($scope, $htt
   };
 
   $scope.logout = function() {
-    data = new Object();
+    var data = new Object();
     data.uid = userId();
 
     $cookies.user_name = null;
