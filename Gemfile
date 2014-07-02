@@ -9,8 +9,8 @@ gem 'sequel'
 gem 'rake'
 gem 'pg'
 
-gem 'omniauth'
-gem 'omniauth-google'
+gem 'omniauth', '~>1.0'
+gem 'omniauth-google-oauth2'
 gem 'omniauth-facebook'
 
 group :development, :test do
