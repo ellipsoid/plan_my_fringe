@@ -19,7 +19,7 @@ angular.module('application', ['application.filters', 'application.services', 'a
     $routeProvider
       .when('/',
 				{
-					redirectTo: '/mnfringe/2014'
+					redirectTo: '/mnfringe/2015'
 					//controller: 'RootController',
 					//templateUrl: 'views/root.html'
 				})
@@ -38,5 +38,5 @@ angular.module('application', ['application.filters', 'application.services', 'a
           controller: 'ShowSelectionController',
           templateUrl: 'views/home.html'
         })
-      .otherwise({ redirectTo: '/mnfringe/2014' });
+      .otherwise({ redirectTo: '/mnfringe/2015' });
 }]);
