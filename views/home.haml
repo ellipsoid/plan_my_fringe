@@ -39,6 +39,7 @@
 
     %tab{ "heading" => "Step 2: Times"}
       %p.lead Select the times you're available to see shows, then click "Step 3"
+      %input{ "type" => "checkbox", "data-ng-model"=>"selectedAllTimes", "data-ng-click"=>"checkAllTimes" } Select All
 
       %ul.unstyled
         %li{ "data-ng-repeat"=>"day in days | orderBy: 'datetime'" }

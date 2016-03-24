@@ -29,6 +29,7 @@ Application.Controllers.controller('SchedulerController', function ($scope, $htt
 
   // user options
   $scope.groupByVenue = false;
+  $scope.selectedAllTimes = false;
 
   // Get objects from data
   SchedulerObjects.then(function(objects) {
@@ -78,6 +79,16 @@ Application.Controllers.controller('SchedulerController', function ($scope, $htt
     showing.invertSelection();
     $scope.saveSelectionsToLocalStorage();
   };
+
+	$scope.checkAllTimes = function() {
+		angular.forEach($scope.times, function(time) {
+			if ($scope.selectedAllTimes) {
+				time.select();
+			} else {
+				time.deselect();
+			}
+		})
+	};
 
   var userId = function() {
     return $cookies.uid;
