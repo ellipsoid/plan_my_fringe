@@ -2,7 +2,7 @@
   .alert{ "data-ng-class" => "{success:'alert-success', error:'alert-error'}[alert.type]", "data-ng-repeat" => "alert in alerts" }
     %button.close{ "type" => "button", "data-dismiss" => "alert", "data-ng-click" => "closeAlert($index)" } &times;
     {{ alert.msg }}
-  %div.pull-right.spacer-left=haml :account_bar
+  -#%div.pull-right.spacer-left=haml :account_bar
   %div.pull-right
     %button.btn.btn-primary{ "data-ng-click" => "saveSelectionsToServer()", "data-ng-show" => "loggedIn" } Save
     %button.btn.btn-primary{ "data-ng-click" => "loadSelectionsFromServer()", "data-ng-show" => "loggedIn && hasData" } Load
