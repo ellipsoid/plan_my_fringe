@@ -9,10 +9,6 @@ gem 'sequel'
 gem 'rake'
 gem 'pg'
 
-gem 'omniauth', '~>1.0'
-gem 'omniauth-google-oauth2'
-gem 'omniauth-facebook'
-
 group :development, :test do
   gem 'sqlite3'
 end

@@ -1,9 +1,6 @@
 require 'sass'
 require 'compass'
 require 'sinatra/base'
-require 'omniauth'
-require 'omniauth-google-oauth2'
-require 'omniauth-facebook'
 require 'haml'
 require 'json'
 require 'sequel'
@@ -40,24 +37,6 @@ class App < Sinatra::Base
     else
       return rows.first[:json]
     end
-  end
-
-  # OAuth
-  use OmniAuth::Builder do
-    provider :google_oauth2, ENV["GOOGLE_KEY"], ENV["GOOGLE_SECRET"]
-    provider :facebook, ENV["FACEBOOK_KEY"], ENV["FACEBOOK_SECRET"]
-  end
-
-  # OAuth Callbacks
-  get '/auth/:provider/callback' do |provider|
-    session["logged_in"] = true
-
-    user_name = request.env['omniauth.auth'].info.name
-    session["user_name"] = user_name
-
-    uid = provider + "-" + request.env['omniauth.auth'].uid
-    session["uid"] = uid
-    redirect('/')
   end
 
   # home page - single page app
