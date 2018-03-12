@@ -1,6 +1,7 @@
 *.swp
 *.swo
 
+.DS_Store
 env.rb
 user_data/*.*
 db/dev.db
