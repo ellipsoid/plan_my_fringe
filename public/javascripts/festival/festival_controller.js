@@ -7,5 +7,6 @@ Application.Controllers.controller('FestivalController', function ($scope) {
     {string: "2014", url: "#/mnfringe/2014"},
     {string: "2015", url: "#/mnfringe/2015"},
     {string: "2017", url: "#/mnfringe/2017"},
+    {string: "2018", url: "#/mnfringe/2018"},
   ];
 });
