@@ -18,14 +18,14 @@ angular.module('application', ['application.filters', 'application.services', 'a
   config(['$routeProvider', function($routeProvider) {
     $routeProvider
       .when('/',
-				{
-					redirectTo: '/mnfringe/2018'
-					//controller: 'RootController',
-					//templateUrl: 'views/root.html'
-				})
-						.when('/:festivalGroupId',
-				{
-					controller: 'FestivalController',
+        {
+          redirectTo: '/mnfringe/2018'
+          //controller: 'RootController',
+          //templateUrl: 'views/root.html'
+        })
+      .when('/:festivalGroupId',
+        {
+          controller: 'FestivalController',
           templateUrl: 'views/festival.html'
         })
       .when('/:festivalGroupId/:festivalId',
