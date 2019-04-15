@@ -3,7 +3,7 @@ ruby "2.5.1"
 
 gem 'sinatra'
 gem 'haml'
-gem 'sass'
+gem 'sass', '~> 3.2.0'
 gem 'compass'
 gem 'json'
 gem 'sequel'
